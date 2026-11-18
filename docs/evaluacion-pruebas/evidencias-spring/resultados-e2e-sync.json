@@ -1,0 +1,66 @@
+{
+  "prueba": "E2E-SYNC-01",
+  "backend": "http://localhost:8080",
+  "fecha": "2026-11-03T05:06:53.853Z",
+  "duracionMs": 6386,
+  "navegador": "Microsoft Edge (headless)",
+  "estado": "Aprobado",
+  "pasos": [
+    {
+      "id": "S-01",
+      "accion": "Iniciar sesión con el PIN 0000",
+      "esperado": "Entra a Inicio con \"Juan Pérez\"; el login viaja por HTTP al servidor",
+      "real": "Hash #/inicio; token emitido por Spring Boot; mediciones previas de Juan: 5",
+      "estado": "Aprobado",
+      "captura": "S-01.png"
+    },
+    {
+      "id": "S-02",
+      "accion": "Conectar el wearable simulado (escenario reposo)",
+      "esperado": "El wearable reporta signos vitales",
+      "real": "FC 72 bpm, SpO2 98 %, 36.5 °C",
+      "estado": "Aprobado",
+      "captura": "S-02.png"
+    },
+    {
+      "id": "S-03",
+      "accion": "Guardar una lectura desde Movimiento",
+      "esperado": "Mensaje \"Lectura guardada (teléfono + wearable)\"",
+      "real": "Lectura guardada (teléfono + wearable).",
+      "estado": "Aprobado",
+      "captura": "S-03.png"
+    },
+    {
+      "id": "S-04",
+      "accion": "Sin red, pulsar \"Enviar pendientes\" en Historial",
+      "esperado": "Mensaje de error; la lectura sigue Pendiente y el servidor no recibe nada",
+      "real": "\"No fue posible obtener la información.\" · estado: Pendiente · mediciones nuevas en el servidor: 0",
+      "estado": "Aprobado",
+      "captura": "S-04.png"
+    },
+    {
+      "id": "S-05",
+      "accion": "Recuperar la red y pulsar \"Enviar pendientes\"",
+      "esperado": "\"1 enviada(s), 0 rechazada(s)\"; estado Enviada",
+      "real": "\"1 enviada(s), 0 rechazada(s).\" · estado: Enviada",
+      "estado": "Aprobado",
+      "captura": "S-05.png"
+    },
+    {
+      "id": "S-06",
+      "accion": "Comprobar en el servidor la medición recibida",
+      "esperado": "Exactamente 1 medición de Juan Pérez, con su token y los mismos signos que muestra Historial",
+      "real": "Servidor: id 8, FC 72, SpO2 98, 36.5 °C, actividad \"reposo\", usuario Juan Pérez",
+      "estado": "Aprobado",
+      "captura": "S-06.png"
+    },
+    {
+      "id": "S-07",
+      "accion": "Recargar la app y volver a sincronizar",
+      "esperado": "La lectura sigue Enviada (IndexedDB) y no se reenvía",
+      "real": "Estado tras recargar: Enviada · \"No hay lecturas pendientes.\" · mediciones nuevas en el servidor: 1",
+      "estado": "Aprobado",
+      "captura": "S-07.png"
+    }
+  ]
+}

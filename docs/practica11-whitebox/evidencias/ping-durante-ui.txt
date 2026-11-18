@@ -1,0 +1,56 @@
+=== 10.13.63.250 (puerta de enlace Wi-Fi) [durante la prueba de interfaz]
+
+Haciendo ping a 10.13.63.250 con 32 bytes de datos:
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+Tiempo de espera agotado para esta solicitud.
+
+Estad¡sticas de ping para 10.13.63.250:
+    Paquetes: enviados = 20, recibidos = 0, perdidos = 20
+    (100% perdidos),
+=== safemotion-pwa.vercel.app [durante la prueba de interfaz]
+
+Haciendo ping a safemotion-pwa.vercel.app [64.29.17.3] con 32 bytes de datos:
+Respuesta desde 64.29.17.3: bytes=32 tiempo=82ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=92ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=87ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=51ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=111ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=84ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=82ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=145ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=60ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=114ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=299ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=97ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=108ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=137ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=132ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=141ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=131ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=82ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=100ms TTL=242
+Respuesta desde 64.29.17.3: bytes=32 tiempo=75ms TTL=242
+
+Estad¡sticas de ping para 64.29.17.3:
+    Paquetes: enviados = 20, recibidos = 20, perdidos = 0
+    (0% perdidos),
+Tiempos aproximados de ida y vuelta en milisegundos:
+    M¡nimo = 51ms, M ximo = 299ms, Media = 110ms

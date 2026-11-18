@@ -1,0 +1,112 @@
+:root{--bg:#EEF2F6;--ink:#0F1B2D;--mute:#5B6B80;--card:#fff;--line:#D5DDE7;--pri:#1F3FBF;--ok:#157A5B;--bad:#C2294A;--warn-bg:#FCE8EC;
+  font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+@media(prefers-color-scheme:dark){:root{--bg:#0C1422;--ink:#E8EEF7;--mute:#8FA0B6;--card:#142036;--line:#22314A;--pri:#7C9BFF;--ok:#4CCB9F;--bad:#FF6B8B;--warn-bg:#3A1622}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}   /* las clases con display (card, grid) no deben anular el atributo hidden */
+body{margin:0;background:var(--bg);min-height:100dvh}
+#app{max-width:480px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;
+  padding-top:env(safe-area-inset-top)}
+.top{display:flex;justify-content:space-between;align-items:center;padding:16px 20px 8px}
+.top h1,.brand h1{margin:0;font-size:1.5rem;font-weight:700;letter-spacing:-.01em}
+.chip{font-size:.78rem;padding:4px 10px;border-radius:99px;background:var(--card);border:1px solid var(--line);color:var(--mute)}
+.chip[data-s=connected]{color:var(--ok);border-color:var(--ok)}
+.chip[data-s=error]{color:var(--bad);border-color:var(--bad)}
+.screen{flex:1;padding:8px 20px 96px;display:flex;flex-direction:column;gap:16px}
+.screen.auth{justify-content:center;padding-bottom:32px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand svg{width:34px;height:34px;stroke:var(--pri);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.hello{font-size:1.15rem;margin:4px 0 0}
+.muted{color:var(--mute);margin:0}.small{font-size:.85rem}
+.error{color:var(--bad);margin:0}
+.k{display:block;font-size:.8rem;color:var(--mute);margin-bottom:4px}
+.big{font-size:1.4rem;display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile,.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.tile strong{font-size:1.05rem;font-variant-numeric:tabular-nums}
+.card{display:flex;flex-direction:column;gap:10px}
+.stack{display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:6px;font-size:.9rem;color:var(--mute)}
+input,textarea{font:inherit;font-size:1rem;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+textarea{resize:vertical}
+input:disabled,select:disabled,textarea:disabled{opacity:.65}
+.btn{font:inherit;font-weight:600;padding:14px;border:0;border-radius:12px;background:var(--pri);color:#fff;cursor:pointer;min-height:48px}
+.btn.ghost{background:transparent;color:var(--pri);border:1.5px solid var(--pri)}
+.btn:disabled{opacity:.6}
+:focus-visible{outline:3px solid var(--pri);outline-offset:2px}
+canvas{width:100%;height:auto;background:var(--bg);border-radius:10px}
+.xyz{display:flex;justify-content:space-between;font-variant-numeric:tabular-nums;color:var(--mute)}
+.xyz b{color:var(--ink)}
+.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.list li{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.list li>div{flex:1;display:flex;flex-direction:column;gap:2px}
+.tag{font-size:.75rem;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--mute)}
+.tag.ok{color:var(--ok);border-color:var(--ok)}
+.del{border:0;background:none;color:var(--mute);font-size:1.4rem;cursor:pointer;padding:4px 8px}
+.tabs{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;display:flex;
+  background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.tabs a{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 2px;font-size:.7rem;color:var(--mute);text-decoration:none}
+@media(max-width:420px){.tabs a{font-size:.6rem}}   /* el paciente tiene 7 pestañas */
+.tabs svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tabs a.on{color:var(--pri);font-weight:700}
+.chip[data-s=sim]{color:var(--pri);border-color:var(--pri)}
+.tile small{font-size:.75rem;color:var(--mute);font-weight:400}
+.tile.warn{border-color:var(--bad);background:var(--warn-bg)}
+.tile.warn strong{color:var(--bad)}
+.tag.bad{color:var(--bad);border-color:var(--bad)}
+.banner{background:var(--warn-bg);color:var(--bad);border:1px solid var(--bad);border-radius:12px;padding:10px 14px;font-weight:600;font-size:.9rem}
+.beat{display:inline-block;width:10px;height:10px;margin-right:6px;border-radius:50%;background:var(--bad);opacity:.35;vertical-align:middle}
+.beat.on{opacity:1;animation:beat 1s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.45)}30%{transform:scale(1)}}
+.row{flex-direction:row;align-items:center;justify-content:space-between}
+select{font:inherit;font-size:1rem;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+input.pin{letter-spacing:.6em;font-size:1.4rem;text-align:center}
+/* Chat médico, SOS y avisos */
+a.btn{display:block;text-align:center;text-decoration:none}
+.btn.sos{background:var(--bad);color:#fff;font-weight:800;letter-spacing:.04em}
+.btn-link{font:inherit;font-size:.85rem;background:none;border:0;color:var(--pri);cursor:pointer;padding:4px 0;text-decoration:underline;text-align:left}
+.acciones{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+.sos-card{flex-direction:row;align-items:center;justify-content:space-between}
+.sos-card .btn.sos{min-width:96px;min-height:64px;border-radius:50%;font-size:1.1rem}
+.card.urgente,.conv.urgente{border-color:var(--bad);background:var(--warn-bg)}
+.chat{display:flex;flex-direction:column;gap:8px}
+.chat-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.chat-head div{display:flex;flex-direction:column}
+.msgs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;max-height:46dvh;overflow-y:auto}
+.msg{align-self:flex-start;max-width:85%;background:var(--card);border:1px solid var(--line);border-radius:16px 16px 16px 4px;padding:8px 12px;display:flex;flex-direction:column;gap:2px}
+.msg.mio{align-self:flex-end;background:var(--pri);border-color:var(--pri);color:#fff;border-radius:16px 16px 4px 16px}
+.msg.auto{border-style:dashed}
+.msg.sos{border:2px solid var(--bad)}
+.msg .meta{font-size:.7rem;opacity:.75}
+.msg .txt{white-space:pre-wrap;overflow-wrap:anywhere}
+.vacio{padding:12px 0}
+.chat-form{display:grid;grid-template-columns:1fr auto;gap:8px}
+.chat-form .btn{min-width:88px}
+.conv a{display:flex;align-items:center;gap:10px;width:100%;color:inherit;text-decoration:none}
+.conv a>div{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.conv .lado{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.volver{align-self:flex-start}
+/* Abajo (el SOS está arriba) y sin bloquear toques: solo el enlace del aviso es clicable */
+.toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom));width:calc(100% - 32px);max-width:448px;display:flex;flex-direction:column;gap:8px;z-index:20;pointer-events:none}
+.toast{pointer-events:none;background:var(--ink);color:var(--bg);border-radius:12px;padding:12px 14px;font-size:.9rem;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.25);display:flex;justify-content:space-between;gap:12px;align-items:center}
+.toast.alerta{background:var(--bad);color:#fff}
+.toast.ok{background:var(--ok);color:#fff}
+.toast-accion{color:inherit;font-weight:800;white-space:nowrap;pointer-events:auto}
+.sos-dialog{border:0;border-radius:20px;padding:20px;width:calc(100% - 32px);max-width:420px;background:var(--card);color:var(--ink)}
+.sos-dialog::backdrop{background:rgba(12,20,34,.6)}
+.sos-dialog h2{margin:0 0 6px;font-size:1.25rem}
+.sos-dialog p{margin:0 0 12px}
+.sos-dialog .btn{width:100%;margin-bottom:10px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.tag.proc{color:var(--pri);border-color:var(--pri)}
+.tabs a span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Recepción: SOS por canalizar */
+.sos-item{align-items:flex-start!important}
+.sos-item.urgente{border-color:var(--bad);background:var(--warn-bg)}
+.sos-item>div{min-width:0}
+.sos-item .canalizar{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}   /* selector y botón uno bajo otro: caben en pantallas angostas */
+.sos-item .canalizar select{min-width:0;width:100%}
+.sos-item .canalizar .btn{min-height:44px;padding:10px 14px}
+.sos-item .estado{color:var(--ink)}
+/* Ambulancia simulada pedida por el doctor */
+.msg.ambulancia{border:2px solid var(--bad);background:var(--warn-bg);color:var(--ink);font-weight:600}
+#amb .btn.sos{min-width:64px;min-height:64px;border-radius:50%;font-size:1.6rem}

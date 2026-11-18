@@ -1,0 +1,8 @@
+measurement.js:validateMedicionRequest lineas 38/38 = 100.0%  ramas 22/22 = 100.0%  sin cubrir []
+measurement.js:toMedicionRequest lineas 35/35 = 100.0%  ramas 14/16 = 87.5%  sin cubrir []
+activity.js:classify lineas 10/10 = 100.0%  ramas 5/5 = 100.0%  sin cubrir []
+activity.js:ActivityClassifier.push lineas 16/16 = 100.0%  ramas 6/6 = 100.0%  sin cubrir []
+api.js:request lineas 44/44 = 100.0%  ramas 17/18 = 94.4%  sin cubrir []
+api.js:login lineas 17/17 = 100.0%  ramas 8/8 = 100.0%  sin cubrir []
+auth.js:isValidPin lineas 3/3 = 100.0%  ramas 2/2 = 100.0%  sin cubrir []
+sync.js:sincronizar lineas 42/42 = 100.0%  ramas 14/15 = 93.3%  sin cubrir []

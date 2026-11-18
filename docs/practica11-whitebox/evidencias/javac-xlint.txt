@@ -1,0 +1,4 @@
+src\main\java\com\safemotion\backend\error\ApiException.java:6: warning: [serial] serializable class ApiException has no definition of serialVersionUID
+public class ApiException extends RuntimeException {
+       ^
+1 warning

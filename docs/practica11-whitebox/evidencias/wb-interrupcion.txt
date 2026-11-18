@@ -1,0 +1,6 @@
+Mediciones de la paciente en el servidor al inicio: 6
+1. Sin red: sincronizar 3 lecturas [caida] 15.4 ms -> {"ok":false,"error":"Sin conexión con el servidor","status":0} | local {"pendientes":3,"enviadas":0} | filas en servidor 6
+2. Se pierde la respuesta (el servidor ya guardó) [cortar-respuesta] 10.3 ms -> {"ok":false,"error":"Sin conexión con el servidor","status":0} | local {"pendientes":3,"enviadas":0} | filas en servidor 7
+3. Se recupera la red: reintento [normal] 27 ms -> {"ok":true,"valor":{"total":3,"enviadas":3,"rechazadas":0}} | local {"pendientes":0,"enviadas":3} | filas en servidor 9
+4. Segundo reintento (no debe enviar nada) [normal] 0.3 ms -> {"ok":true,"valor":{"total":0,"enviadas":0,"rechazadas":0}} | local {"pendientes":0,"enviadas":3} | filas en servidor 9
+Resumen: {"inicial":6,"final":9,"esperadas":3,"insertadas":3,"duplicadas":0}

@@ -1,0 +1,116 @@
+=== 10.13.63.250
+
+Haciendo ping a 10.13.63.250 con 32 bytes de datos:
+Respuesta desde 10.13.63.250: bytes=32 tiempo=8ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=27ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=78ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=2ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=44ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=120ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=37ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=60ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=7ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=45ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=16ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=19ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=55ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=149ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=27ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=190ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=318ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=1ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=36ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=131ms TTL=64
+
+Estad¡sticas de ping para 10.13.63.250:
+    Paquetes: enviados = 20, recibidos = 20, perdidos = 0
+    (0% perdidos),
+Tiempos aproximados de ida y vuelta en milisegundos:
+    M¡nimo = 1ms, M ximo = 318ms, Media = 68ms
+=== safemotion-backend.onrender.com
+
+Haciendo ping a gcp-us-west1-1.origin.onrender.com.cdn.cloudflare.net [216.24.57.18] con 32 bytes de datos:
+Tiempo de espera agotado para esta solicitud.
+Respuesta desde 216.24.57.18: bytes=32 tiempo=8ms TTL=53
+Respuesta desde 216.24.57.18: bytes=32 tiempo=40ms TTL=53
+Respuesta desde 216.24.57.18: bytes=32 tiempo=702ms TTL=53
+Respuesta desde 216.24.57.18: bytes=32 tiempo=28ms TTL=53
+Respuesta desde 216.24.57.18: bytes=32 tiempo=45ms TTL=53
+Respuesta desde 216.24.57.18: bytes=32 tiempo=58ms TTL=53
+Respuesta desde 216.24.57.18: bytes=32 tiempo=1066ms TTL=53
+Respuesta desde 216.24.57.18: bytes=32 tiempo=28ms TTL=53
+Respuesta desde 216.24.57.18: bytes=32 tiempo=146ms TTL=53
+Respuesta desde 216.24.57.18: bytes=32 tiempo=123ms TTL=53
+Respuesta desde 216.24.57.18: bytes=32 tiempo=77ms TTL=53
+Respuesta desde 216.24.57.18: bytes=32 tiempo=1821ms TTL=53
+Respuesta desde 216.24.57.18: bytes=32 tiempo=87ms TTL=53
+Respuesta desde 216.24.57.18: bytes=32 tiempo=137ms TTL=53
+Respuesta desde 216.24.57.18: bytes=32 tiempo=418ms TTL=53
+Respuesta desde 216.24.57.18: bytes=32 tiempo=226ms TTL=53
+Respuesta desde 216.24.57.18: bytes=32 tiempo=24ms TTL=53
+Respuesta desde 216.24.57.18: bytes=32 tiempo=28ms TTL=53
+Respuesta desde 216.24.57.18: bytes=32 tiempo=11ms TTL=53
+
+Estad¡sticas de ping para 216.24.57.18:
+    Paquetes: enviados = 20, recibidos = 19, perdidos = 1
+    (5% perdidos),
+Tiempos aproximados de ida y vuelta en milisegundos:
+    M¡nimo = 8ms, M ximo = 1821ms, Media = 267ms
+=== safemotion-pwa.vercel.app
+
+Haciendo ping a safemotion-pwa.vercel.app [216.198.79.131] con 32 bytes de datos:
+Respuesta desde 216.198.79.131: bytes=32 tiempo=56ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=55ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=58ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=61ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=71ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=74ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=85ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=64ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=67ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=64ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=63ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=181ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=58ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=124ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=67ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=69ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=268ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=62ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=62ms TTL=240
+Respuesta desde 216.198.79.131: bytes=32 tiempo=250ms TTL=240
+
+Estad¡sticas de ping para 216.198.79.131:
+    Paquetes: enviados = 20, recibidos = 20, perdidos = 0
+    (0% perdidos),
+Tiempos aproximados de ida y vuelta en milisegundos:
+    M¡nimo = 55ms, M ximo = 268ms, Media = 92ms
+=== firestore.googleapis.com
+
+Haciendo ping a firestore.googleapis.com [172.253.135.95] con 32 bytes de datos:
+Respuesta desde 172.253.135.95: bytes=32 tiempo=199ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=94ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=106ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=69ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=96ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=28ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=40ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=32ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=61ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=42ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=53ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=153ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=284ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=95ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=39ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=81ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=127ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=78ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=29ms TTL=103
+Respuesta desde 172.253.135.95: bytes=32 tiempo=56ms TTL=103
+
+Estad¡sticas de ping para 172.253.135.95:
+    Paquetes: enviados = 20, recibidos = 20, perdidos = 0
+    (0% perdidos),
+Tiempos aproximados de ida y vuelta en milisegundos:
+    M¡nimo = 28ms, M ximo = 284ms, Media = 88ms

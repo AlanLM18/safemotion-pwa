@@ -1,0 +1,109 @@
+{
+  "backend": "http://localhost:8080",
+  "resultados": [
+    {
+      "id": "CH-01",
+      "req": "Roles",
+      "descripcion": "Cada dispositivo ve las pantallas de su rol",
+      "estado": "Aprobado",
+      "detalle": "Paciente: Inicio, Wearable, Movimiento, Historial, Doctor, Cuenta · Doctor: Consultas, Cuenta",
+      "captura": "CH-01.png"
+    },
+    {
+      "id": "CH-02",
+      "req": "Alerta",
+      "descripcion": "Una alerta del wearable muestra un aviso con acceso al doctor",
+      "estado": "Aprobado",
+      "detalle": "Saturación de oxígeno bajaHablar con un doctor",
+      "captura": "CH-02.png"
+    },
+    {
+      "id": "CH-03",
+      "req": "P6-4",
+      "descripcion": "Desde el aviso se abre el chat y se envía el mensaje de la alerta",
+      "estado": "Aprobado",
+      "detalle": "Juan Pérez · Paciente · 04:23 p.m. Tengo una alerta: saturación de oxígeno baja. Mis signos ahora: FC 90 bpm, SpO2 89 %, temperatura 37 °C. ¿Qué hago mientras llego a consulta?",
+      "captura": "CH-03.png"
+    },
+    {
+      "id": "CH-04",
+      "req": "P6-6",
+      "descripcion": "Un mensaje vacío no se envía y muestra la validación",
+      "estado": "Aprobado",
+      "detalle": "Escribe un mensaje antes de enviarlo.",
+      "captura": "CH-04.png"
+    },
+    {
+      "id": "CH-05",
+      "req": "P6-1, P6-5",
+      "descripcion": "El doctor ve al paciente en su bandeja y abre la conversación",
+      "estado": "Aprobado",
+      "detalle": "Juan Pérez · Paciente · 04:23 p.m. Tengo una alerta: saturación de oxígeno baja. Mis signos ahora: FC 90 bpm, SpO2 89 %, temperatura 37 °C. ¿Qué hago mientras llego a consulta?",
+      "captura": "CH-05.png"
+    },
+    {
+      "id": "CH-06",
+      "req": "P6-4, P6-7",
+      "descripcion": "El doctor responde y recibe el aviso de \"Mensaje enviado\"",
+      "estado": "Aprobado",
+      "detalle": "Mensaje enviado",
+      "captura": "CH-06.png"
+    },
+    {
+      "id": "CH-07",
+      "req": "P6-5, A1, A2",
+      "descripcion": "El paciente recibe la respuesta con hora y el contador por emisor",
+      "estado": "Aprobado",
+      "detalle": "Dra. Ana Torres · Médico · 04:23 p.m. Siéntate y respira lento. Te reviso tus signos y te digo qué tomar. · contador · Juan Pérez: 1 · Dra. Ana Torres: 1",
+      "captura": "CH-07.png"
+    },
+    {
+      "id": "CH-08",
+      "req": "SOS",
+      "descripcion": "El SOS manda ubicación y signos y confirma al paciente",
+      "estado": "Aprobado",
+      "detalle": "Ayuda solicitada. Ubicación enviada.",
+      "captura": "CH-08.png"
+    },
+    {
+      "id": "CH-09",
+      "req": "SOS",
+      "descripcion": "El doctor ve el SOS primero, con signos y mapa, y lo marca como atendido",
+      "estado": "Aprobado",
+      "detalle": "SOS abierto desde 27/10/26, 4:23:38 p.m. FC 110 bpm · SpO₂ 90 % · 37.6 °C Ver ubicación en el mapa Marcar como atendida",
+      "captura": "CH-09.png"
+    },
+    {
+      "id": "CH-10",
+      "req": "SOS",
+      "descripcion": "El paciente ve que su SOS fue atendido",
+      "estado": "Aprobado",
+      "detalle": "Último SOS: 27/10/26, 4:23:38 p.m. · Atendido por Dra. Ana Torres",
+      "captura": "CH-10.png"
+    },
+    {
+      "id": "CH-11",
+      "req": "TC07",
+      "descripcion": "Sin conexión, el mensaje no se pierde y se avisa",
+      "estado": "Aprobado",
+      "detalle": "Aviso de error y el texto se conserva para reintentar",
+      "captura": "CH-11.png"
+    },
+    {
+      "id": "CH-12",
+      "req": "A3",
+      "descripcion": "Limpiar historial deja la conversación vacía",
+      "estado": "Aprobado",
+      "detalle": "Conversación vacía",
+      "captura": "CH-12.png"
+    },
+    {
+      "id": "CH-13",
+      "req": "Roles",
+      "descripcion": "Las rutas de otro rol redirigen a la pantalla propia",
+      "estado": "Aprobado",
+      "detalle": "Paciente #/consultas -> #/inicio · Doctor #/inicio -> #/consultas",
+      "captura": "CH-13.png"
+    }
+  ]
+}

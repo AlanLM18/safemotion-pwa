@@ -1,0 +1,10 @@
+> safemotion-pwa@0.3.0 test:e2e:sync
+> node tests/e2e.sync.mjs
+✔ S-01 Iniciar sesión con el PIN 0000 -> Hash #/inicio; token emitido por el servidor de contrato; mediciones previas de Juan: 0
+✔ S-02 Conectar el wearable simulado (escenario reposo) -> FC 72 bpm, SpO2 98 %, 36.5 °C
+✔ S-03 Guardar una lectura desde Movimiento -> Lectura guardada (teléfono + wearable).
+✔ S-04 Sin red, pulsar "Enviar pendientes" en Historial -> "No fue posible obtener la información." · estado: Pendiente · mediciones nuevas en el servidor: 0
+✔ S-05 Recuperar la red y pulsar "Enviar pendientes" -> "1 enviada(s), 0 rechazada(s)." · estado: Enviada
+✔ S-06 Comprobar en el servidor la medición recibida -> Servidor: id 1, FC 72, SpO2 98, 36.5 °C, actividad "reposo", usuario Juan Pérez
+✔ S-07 Recargar la app y volver a sincronizar -> Estado tras recargar: Enviada · "No hay lecturas pendientes." · mediciones nuevas en el servidor: 1
+7/7 pasos aprobados · E2E-SYNC-01 Aprobado · 13989 ms

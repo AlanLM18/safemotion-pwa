@@ -1,0 +1,8 @@
+# Vercel compila desde el código fuente: no hace falta subir evidencias, pruebas ni compilaciones locales.
+docs
+tests
+dist
+dev-dist
+.env
+.env.pruebas
+.env.local

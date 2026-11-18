@@ -1,0 +1,46 @@
+
+> safemotion-pwa@0.3.0 test:firebase:real
+> node --test tests/firebase.reglas.test.js
+
+✔ DB-01 paciente, recepción y doctor usan el mismo proyecto y colecciones, cada uno con su sesión (4857.1236ms)
+✔ DB-02/03 el SOS que crea el paciente lo ve recepción (985.6912ms)
+✔ DB-04/05 recepción canaliza con un doctor y el paciente ve el cambio y el aviso en su chat (1098.2772ms)
+✔ DB-06 el doctor atiende y el cambio llega al paciente y a recepción; ve la medición del paciente (1765.1167ms)
+✔ DB-07 dos recepcionistas canalizan el mismo SOS a la vez: gana una y la otra ve con quién quedó (1756.5268ms)
+✔ DB-08 lo confirmado sigue ahí al abrir la app de nuevo; reenviar una medición no la duplica (1423.5586ms)
+✔ SEG-01/02 correo y contraseña válidos entran con su UID y rol; una contraseña incorrecta se rechaza (92.9346ms)
+✔ SEG-03 el SOS y la medición quedan con el UID del paciente autenticado (1227.74ms)
+[2026-11-05T12:36:05.008Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2db8a7e3 error. Code: 7 Message: 7 PERMISSION_DENIED: Missing or insufficient permissions.
+[2026-11-05T12:36:05.220Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2db8a80f error. Code: 7 Message: 7 PERMISSION_DENIED: Missing or insufficient permissions.
+✔ SEG-04 suplantación: Juan no puede crear un SOS ni una medición a nombre de María (310.1097ms)
+✔ SEG-05 lectura ajena: Juan no ve datos de María; recepción no ve mediciones ni chat (676.5964ms)
+[2026-11-05T12:36:06.161Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2db8a810 error. Code: 7 Message: 7 PERMISSION_DENIED: Missing or insufficient permissions.
+[2026-11-05T12:36:06.703Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2db8a7e9 error. Code: 7 Message: 7 PERMISSION_DENIED: Missing or insufficient permissions.
+[2026-11-05T12:36:06.947Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2db8a813 error. Code: 7 Message: 7 PERMISSION_DENIED: Missing or insufficient permissions.
+[2026-11-05T12:36:07.074Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2db8a7ed error. Code: 7 Message: 7 PERMISSION_DENIED: Missing or insufficient permissions.
+✔ SEG-06 actualización ajena o fuera de su rol: denegada (1177.0842ms)
+[2026-11-05T12:36:07.332Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2db8a7e7 error. Code: 7 Message: 7 PERMISSION_DENIED: Missing or insufficient permissions.
+[2026-11-05T12:36:07.435Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2db8a7f1 error. Code: 7 Message: 7 PERMISSION_DENIED: Missing or insufficient permissions.
+[2026-11-05T12:36:07.801Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2db8a814 error. Code: 7 Message: 7 PERMISSION_DENIED: Missing or insufficient permissions.
+[2026-11-05T12:36:08.177Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2db8a815 error. Code: 7 Message: 7 PERMISSION_DENIED: Missing or insufficient permissions.
+✔ SEG-07 eliminación: nadie borra SOS ni mediciones, y Juan no borra el chat de María (1102.9889ms)
+✔ SEG-08 operaciones propias permitidas: medición, cambio de nombre y mensaje en su chat (814.5886ms)
+[2026-11-05T12:36:09.084Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2db8a818 error. Code: 7 Message: 7 PERMISSION_DENIED: Missing or insufficient permissions.
+[2026-11-05T12:36:09.270Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2db8a81b error. Code: 7 Message: 7 PERMISSION_DENIED: Missing or insufficient permissions.
+[2026-11-05T12:36:09.630Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2db8a81c error. Code: 7 Message: 7 PERMISSION_DENIED: Missing or insufficient permissions.
+✔ SEG-09 cambio de propietario o de rol: rechazado (638.462ms)
+[2026-11-05T12:36:10.253Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2db8a81e error. Code: 7 Message: 7 PERMISSION_DENIED: Missing or insufficient permissions.
+✔ SEG-10 sin sesión no se puede leer ni escribir (622.1552ms)
+[2026-11-05T12:36:10.500Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2db8a81f error. Code: 7 Message: 7 PERMISSION_DENIED: Missing or insufficient permissions.
+[2026-11-05T12:36:11.584Z]  @firebase/firestore: Firestore (11.10.0): GrpcConnection RPC 'Write' stream 0x2db8a822 error. Code: 7 Message: 7 PERMISSION_DENIED: Missing or insufficient permissions.
+✔ SEG-11 una cuenta que el administrador deshabilita no puede entrar ni operar, y nadie más la deshabilita (1784.8772ms)
+✔ Ambulancia: el doctor la solicita desde el chat y al paciente le llega el aviso (685.7345ms)
+✔ CP-21 una lectura de wearable BLE sin SpO2 se guarda sin ese dato (no como 0 %) (398.0449ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22225.9213

@@ -1,0 +1,752 @@
+{
+  "fecha": "2026-11-13T00:34:08.253Z",
+  "base": "https://safemotion-pwa.vercel.app",
+  "casos": [
+    {
+      "id": "PROD-01",
+      "descripcion": "Estado del servicio por el dominio de Vercel",
+      "esperado": "200, Firestore real disponible, sin datos de usuarios",
+      "observado": "HTTP 200, Cloud Firestore · proyecto mesaayuda-a631d, latencia interna a Firestore 64.8 ms",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-02",
+      "descripcion": "Login con PIN y sesión",
+      "esperado": "200 con JWT de Firebase y usuario {id,nombre,rol}; /me 200",
+      "observado": "HTTP 200 y 200; Juan Pérez (usuario), UID de Firebase",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-03",
+      "descripcion": "PIN incorrecto y PIN mal formado",
+      "esperado": "401 y 400",
+      "observado": "HTTP 401 \"PIN incorrecto\" · HTTP 400 \"pin: El PIN debe tener exactamente 4 dígitos\"",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-04",
+      "descripcion": "Sin token, token inventado y JWT con el UID cambiado por el del admin",
+      "esperado": "401 en los tres (firma RS256 verificada)",
+      "observado": "HTTP 401 / 401 / 401",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-05",
+      "descripcion": "Permisos por rol (autenticado sin permiso)",
+      "esperado": "403: paciente→bandeja, recepción→bandeja, paciente→usuarios, doctora→pedir SOS",
+      "observado": "HTTP 403 / 403 / 403 / 403",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-06",
+      "descripcion": "Juan intenta leer el chat de María (por la API y directo en Firestore)",
+      "esperado": "403 en ambos caminos",
+      "observado": "API HTTP 403 · Firestore (reglas) HTTP 403",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-07",
+      "descripcion": "Validaciones (se rechazan antes de escribir)",
+      "esperado": "400: FC 300, temperatura ausente, JSON mal formado, limite=0, mensaje vacío",
+      "observado": "HTTP 400 / 400 / 400 / 400 / 400; p. ej. \"frecuenciaCardiaca: debe ser menor que o igual a 220\"",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-08",
+      "descripcion": "Recursos inexistentes y método no permitido",
+      "esperado": "404, 404, 404 y 405 con formato JSON",
+      "observado": "HTTP 404 / 404 / 404 / 405",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-09",
+      "descripcion": "Lecturas por rol",
+      "esperado": "200: admin→usuarios, doctora→bandeja, recepción→doctores y SOS, paciente→historial y alertas",
+      "observado": "HTTP 200 ×6 · 12 cuentas · 2 pacientes en la bandeja · 2 doctores · 31 SOS · 5 lecturas · 0 alertas",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-10",
+      "descripcion": "Mismos datos por la API y directo en Firestore (token de Juan, reglas activas)",
+      "esperado": "Las 5 lecturas más recientes coinciden",
+      "observado": "5 lecturas idénticas en el mismo orden (API y Firestore directo)",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-11",
+      "descripcion": "Datos sensibles en las respuestas",
+      "esperado": "Sin PIN, contraseña, refresh token ni llaves",
+      "observado": "Ningún cuerpo contiene PIN, contraseña, refresh token ni private_key",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-12",
+      "descripcion": "CORS en producción",
+      "esperado": "Origen ajeno sin Allow-Origin; la PWA y el dashboard permitidos",
+      "observado": "ajeno HTTP 403 sin Allow-Origin · PWA 200 · dashboard 200",
+      "estado": "Aprobado"
+    }
+  ],
+  "series": {
+    "historial20_vercel": {
+      "filas": [
+        {
+          "solicitud": 1,
+          "codigo": 200,
+          "ms": 290.5,
+          "bytes": 9227
+        },
+        {
+          "solicitud": 2,
+          "codigo": 200,
+          "ms": 310.6,
+          "bytes": 9227
+        },
+        {
+          "solicitud": 3,
+          "codigo": 200,
+          "ms": 305.5,
+          "bytes": 9227
+        },
+        {
+          "solicitud": 4,
+          "codigo": 200,
+          "ms": 305.3,
+          "bytes": 9227
+        },
+        {
+          "solicitud": 5,
+          "codigo": 200,
+          "ms": 381.2,
+          "bytes": 9227
+        },
+        {
+          "solicitud": 6,
+          "codigo": 200,
+          "ms": 394.5,
+          "bytes": 9227
+        },
+        {
+          "solicitud": 7,
+          "codigo": 200,
+          "ms": 301.4,
+          "bytes": 9227
+        },
+        {
+          "solicitud": 8,
+          "codigo": 200,
+          "ms": 302.8,
+          "bytes": 9227
+        },
+        {
+          "solicitud": 9,
+          "codigo": 200,
+          "ms": 403.7,
+          "bytes": 9227
+        },
+        {
+          "solicitud": 10,
+          "codigo": 200,
+          "ms": 293.7,
+          "bytes": 9227
+        }
+      ],
+      "tiempo": {
+        "n": 10,
+        "min": 290.5,
+        "prom": 328.9,
+        "max": 403.7,
+        "de": 42.7,
+        "p95": 403.7
+      }
+    },
+    "historial20_render": {
+      "filas": [
+        {
+          "solicitud": 1,
+          "codigo": 200,
+          "ms": 194.6,
+          "bytes": 9227
+        },
+        {
+          "solicitud": 2,
+          "codigo": 200,
+          "ms": 227.7,
+          "bytes": 9227
+        },
+        {
+          "solicitud": 3,
+          "codigo": 200,
+          "ms": 272.6,
+          "bytes": 9227
+        },
+        {
+          "solicitud": 4,
+          "codigo": 200,
+          "ms": 226.6,
+          "bytes": 9227
+        },
+        {
+          "solicitud": 5,
+          "codigo": 200,
+          "ms": 272.2,
+          "bytes": 9227
+        },
+        {
+          "solicitud": 6,
+          "codigo": 200,
+          "ms": 252.3,
+          "bytes": 9227
+        },
+        {
+          "solicitud": 7,
+          "codigo": 200,
+          "ms": 194.7,
+          "bytes": 9227
+        },
+        {
+          "solicitud": 8,
+          "codigo": 200,
+          "ms": 243.1,
+          "bytes": 9227
+        },
+        {
+          "solicitud": 9,
+          "codigo": 200,
+          "ms": 209.8,
+          "bytes": 9227
+        },
+        {
+          "solicitud": 10,
+          "codigo": 200,
+          "ms": 170.3,
+          "bytes": 9227
+        }
+      ],
+      "tiempo": {
+        "n": 10,
+        "min": 170.3,
+        "prom": 226.4,
+        "max": 272.6,
+        "de": 32.6,
+        "p95": 272.6
+      }
+    },
+    "historial20_firestore_directo": {
+      "filas": [
+        {
+          "solicitud": 1,
+          "codigo": 200,
+          "ms": 151.9,
+          "bytes": 28724
+        },
+        {
+          "solicitud": 2,
+          "codigo": 200,
+          "ms": 140.4,
+          "bytes": 28724
+        },
+        {
+          "solicitud": 3,
+          "codigo": 200,
+          "ms": 146.6,
+          "bytes": 28724
+        },
+        {
+          "solicitud": 4,
+          "codigo": 200,
+          "ms": 150,
+          "bytes": 28724
+        },
+        {
+          "solicitud": 5,
+          "codigo": 200,
+          "ms": 140.5,
+          "bytes": 28724
+        },
+        {
+          "solicitud": 6,
+          "codigo": 200,
+          "ms": 137.7,
+          "bytes": 28724
+        },
+        {
+          "solicitud": 7,
+          "codigo": 200,
+          "ms": 132.8,
+          "bytes": 28724
+        },
+        {
+          "solicitud": 8,
+          "codigo": 200,
+          "ms": 148.6,
+          "bytes": 28724
+        },
+        {
+          "solicitud": 9,
+          "codigo": 200,
+          "ms": 137.3,
+          "bytes": 28724
+        },
+        {
+          "solicitud": 10,
+          "codigo": 200,
+          "ms": 130,
+          "bytes": 28724
+        }
+      ],
+      "tiempo": {
+        "n": 10,
+        "min": 130,
+        "prom": 141.6,
+        "max": 151.9,
+        "de": 7.1,
+        "p95": 151.9
+      }
+    },
+    "estado_vercel": {
+      "filas": [
+        {
+          "solicitud": 1,
+          "codigo": 200,
+          "ms": 265.7,
+          "bytes": 267
+        },
+        {
+          "solicitud": 2,
+          "codigo": 200,
+          "ms": 264.4,
+          "bytes": 267
+        },
+        {
+          "solicitud": 3,
+          "codigo": 200,
+          "ms": 374.3,
+          "bytes": 268
+        },
+        {
+          "solicitud": 4,
+          "codigo": 200,
+          "ms": 274.8,
+          "bytes": 267
+        },
+        {
+          "solicitud": 5,
+          "codigo": 200,
+          "ms": 301,
+          "bytes": 267
+        },
+        {
+          "solicitud": 6,
+          "codigo": 200,
+          "ms": 291.8,
+          "bytes": 267
+        },
+        {
+          "solicitud": 7,
+          "codigo": 200,
+          "ms": 279.5,
+          "bytes": 267
+        },
+        {
+          "solicitud": 8,
+          "codigo": 200,
+          "ms": 277.1,
+          "bytes": 267
+        },
+        {
+          "solicitud": 9,
+          "codigo": 200,
+          "ms": 382,
+          "bytes": 268
+        },
+        {
+          "solicitud": 10,
+          "codigo": 200,
+          "ms": 295,
+          "bytes": 267
+        }
+      ],
+      "tiempo": {
+        "n": 10,
+        "min": 264.4,
+        "prom": 300.6,
+        "max": 382,
+        "de": 40.4,
+        "p95": 382
+      }
+    },
+    "me_vercel": {
+      "filas": [
+        {
+          "solicitud": 1,
+          "codigo": 200,
+          "ms": 222.6,
+          "bytes": 76
+        },
+        {
+          "solicitud": 2,
+          "codigo": 200,
+          "ms": 186.2,
+          "bytes": 76
+        },
+        {
+          "solicitud": 3,
+          "codigo": 200,
+          "ms": 208.4,
+          "bytes": 76
+        },
+        {
+          "solicitud": 4,
+          "codigo": 200,
+          "ms": 200.2,
+          "bytes": 76
+        },
+        {
+          "solicitud": 5,
+          "codigo": 200,
+          "ms": 183,
+          "bytes": 76
+        },
+        {
+          "solicitud": 6,
+          "codigo": 200,
+          "ms": 184,
+          "bytes": 76
+        },
+        {
+          "solicitud": 7,
+          "codigo": 200,
+          "ms": 211.1,
+          "bytes": 76
+        },
+        {
+          "solicitud": 8,
+          "codigo": 200,
+          "ms": 182.7,
+          "bytes": 76
+        },
+        {
+          "solicitud": 9,
+          "codigo": 200,
+          "ms": 180.4,
+          "bytes": 76
+        },
+        {
+          "solicitud": 10,
+          "codigo": 200,
+          "ms": 247,
+          "bytes": 76
+        }
+      ],
+      "tiempo": {
+        "n": 10,
+        "min": 180.4,
+        "prom": 200.6,
+        "max": 247,
+        "de": 20.8,
+        "p95": 247
+      }
+    },
+    "perfil_firestore_directo": {
+      "filas": [
+        {
+          "solicitud": 1,
+          "codigo": 200,
+          "ms": 120.2,
+          "bytes": 470
+        },
+        {
+          "solicitud": 2,
+          "codigo": 200,
+          "ms": 113,
+          "bytes": 470
+        },
+        {
+          "solicitud": 3,
+          "codigo": 200,
+          "ms": 118.5,
+          "bytes": 470
+        },
+        {
+          "solicitud": 4,
+          "codigo": 200,
+          "ms": 116.5,
+          "bytes": 470
+        },
+        {
+          "solicitud": 5,
+          "codigo": 200,
+          "ms": 110.4,
+          "bytes": 470
+        },
+        {
+          "solicitud": 6,
+          "codigo": 200,
+          "ms": 116.2,
+          "bytes": 470
+        },
+        {
+          "solicitud": 7,
+          "codigo": 200,
+          "ms": 110.6,
+          "bytes": 470
+        },
+        {
+          "solicitud": 8,
+          "codigo": 200,
+          "ms": 110.2,
+          "bytes": 470
+        },
+        {
+          "solicitud": 9,
+          "codigo": 200,
+          "ms": 97.2,
+          "bytes": 470
+        },
+        {
+          "solicitud": 10,
+          "codigo": 200,
+          "ms": 123.8,
+          "bytes": 470
+        }
+      ],
+      "tiempo": {
+        "n": 10,
+        "min": 97.2,
+        "prom": 113.7,
+        "max": 123.8,
+        "de": 7,
+        "p95": 123.8
+      }
+    },
+    "emergencias_vercel": {
+      "filas": [
+        {
+          "solicitud": 1,
+          "codigo": 200,
+          "ms": 290.3,
+          "bytes": 1183
+        },
+        {
+          "solicitud": 2,
+          "codigo": 200,
+          "ms": 270.9,
+          "bytes": 1183
+        },
+        {
+          "solicitud": 3,
+          "codigo": 200,
+          "ms": 280.1,
+          "bytes": 1183
+        },
+        {
+          "solicitud": 4,
+          "codigo": 200,
+          "ms": 302.1,
+          "bytes": 1183
+        },
+        {
+          "solicitud": 5,
+          "codigo": 200,
+          "ms": 254.7,
+          "bytes": 1183
+        },
+        {
+          "solicitud": 6,
+          "codigo": 200,
+          "ms": 293.2,
+          "bytes": 1183
+        },
+        {
+          "solicitud": 7,
+          "codigo": 200,
+          "ms": 270.5,
+          "bytes": 1183
+        },
+        {
+          "solicitud": 8,
+          "codigo": 200,
+          "ms": 272.6,
+          "bytes": 1183
+        },
+        {
+          "solicitud": 9,
+          "codigo": 200,
+          "ms": 281.5,
+          "bytes": 1183
+        },
+        {
+          "solicitud": 10,
+          "codigo": 200,
+          "ms": 270,
+          "bytes": 1183
+        }
+      ],
+      "tiempo": {
+        "n": 10,
+        "min": 254.7,
+        "prom": 278.6,
+        "max": 302.1,
+        "de": 13.1,
+        "p95": 302.1
+      }
+    }
+  },
+  "transferencia": {
+    "descargas": [
+      {
+        "codigo": 200,
+        "bytes": 13383,
+        "ms": 331.5,
+        "mbps": 0.32
+      },
+      {
+        "codigo": 200,
+        "bytes": 13383,
+        "ms": 393.6,
+        "mbps": 0.27
+      },
+      {
+        "codigo": 200,
+        "bytes": 13383,
+        "ms": 331,
+        "mbps": 0.32
+      }
+    ],
+    "subidas": [
+      {
+        "codigo": 400,
+        "bytes": 1048691,
+        "ms": 964.3,
+        "mbps": 8.7
+      },
+      {
+        "codigo": 400,
+        "bytes": 1048691,
+        "ms": 1110.3,
+        "mbps": 7.56
+      },
+      {
+        "codigo": 400,
+        "bytes": 1048691,
+        "ms": 1019.6,
+        "mbps": 8.23
+      }
+    ]
+  },
+  "carga": [
+    {
+      "escenario": "Lectura GET /api/mediciones/historial?limite=20",
+      "usuarios": 1,
+      "solicitudes": 40,
+      "exitosas": 40,
+      "fallidas": 0,
+      "codigos": {
+        "200": 40
+      },
+      "n": 40,
+      "min": 270.3,
+      "prom": 340.7,
+      "max": 805.6,
+      "de": 89,
+      "p95": 457.8,
+      "rps": 2.9,
+      "mbps": 0.22
+    },
+    {
+      "escenario": "Lectura GET /api/mediciones/historial?limite=20",
+      "usuarios": 5,
+      "solicitudes": 40,
+      "exitosas": 40,
+      "fallidas": 0,
+      "codigos": {
+        "200": 40
+      },
+      "n": 40,
+      "min": 226.7,
+      "prom": 317.9,
+      "max": 497.5,
+      "de": 67.7,
+      "p95": 415.7,
+      "rps": 15.2,
+      "mbps": 1.12
+    },
+    {
+      "escenario": "Lectura GET /api/mediciones/historial?limite=20",
+      "usuarios": 10,
+      "solicitudes": 40,
+      "exitosas": 40,
+      "fallidas": 0,
+      "codigos": {
+        "200": 40
+      },
+      "n": 40,
+      "min": 213.5,
+      "prom": 444.6,
+      "max": 707.8,
+      "de": 120.3,
+      "p95": 644.6,
+      "rps": 20.1,
+      "mbps": 1.48
+    },
+    {
+      "escenario": "Lectura GET /api/sistema/estado",
+      "usuarios": 1,
+      "solicitudes": 40,
+      "exitosas": 40,
+      "fallidas": 0,
+      "codigos": {
+        "200": 40
+      },
+      "n": 40,
+      "min": 245,
+      "prom": 297.3,
+      "max": 410.4,
+      "de": 33.1,
+      "p95": 347.4,
+      "rps": 3.4,
+      "mbps": 0.01
+    },
+    {
+      "escenario": "Lectura GET /api/sistema/estado",
+      "usuarios": 5,
+      "solicitudes": 40,
+      "exitosas": 40,
+      "fallidas": 0,
+      "codigos": {
+        "200": 40
+      },
+      "n": 40,
+      "min": 249.2,
+      "prom": 332.4,
+      "max": 506.5,
+      "de": 64.3,
+      "p95": 472.8,
+      "rps": 14,
+      "mbps": 0.03
+    },
+    {
+      "escenario": "Lectura GET /api/sistema/estado",
+      "usuarios": 10,
+      "solicitudes": 40,
+      "exitosas": 40,
+      "fallidas": 0,
+      "codigos": {
+        "200": 40
+      },
+      "n": 40,
+      "min": 268.5,
+      "prom": 352.3,
+      "max": 576,
+      "de": 72.6,
+      "p95": 510.9,
+      "rps": 25.8,
+      "mbps": 0.06
+    }
+  ],
+  "arranque": {
+    "status": 200,
+    "ms": 611
+  }
+}

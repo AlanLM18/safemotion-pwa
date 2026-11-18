@@ -1,0 +1,39 @@
+
+> safemotion-pwa@0.3.0 test:sync:int
+> node --test tests/sync.integration.test.js
+
+✔ I-01 flujo correcto: las lecturas de IndexedDB llegan al servidor y quedan Enviadas con su id del servidor (91.9693ms)
+✔ I-02 error: el servidor falla (503) a mitad de la cola; al recuperarse se envía solo lo pendiente (21.737ms)
+✔ I-03 error: un 400 real del servidor marca la lectura como Rechazada y no se reintenta (9.8169ms)
+✔ I-04 error: el servidor se reinicia y pierde las sesiones (401): se cierra la sesión y nada se pierde (8.1489ms)
+✔ I-05 error: el servidor no responde; el tiempo de espera corta la petición y la lectura sigue Pendiente (826.3195ms)
+⚠ I-06 [D-02] si el servidor guarda pero la respuesta se pierde, el reintento no debe duplicar la medición (817.8931ms) # Defecto D-02 abierto: POST /api/mediciones no es idempotente
+﹣ I-07 Spring Boot real: las lecturas de IndexedDB quedan en el historial del servidor con el mismo id (2.1111ms) # Define API_URL para probar contra Spring Boot
+﹣ I-08 [D-03] Spring Boot real: una medición sin SpO2 debe rechazarse, no guardarse como 0 % (0.1172ms) # Define API_URL para probar contra Spring Boot
+ℹ tests 8
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 2
+ℹ todo 1
+ℹ duration_ms 2044.8623
+
+✖ failing tests:
+
+test at tests\sync.integration.test.js:98:1
+⚠ I-06 [D-02] si el servidor guarda pero la respuesta se pierde, el reintento no debe duplicar la medición (817.8931ms) # Defecto D-02 abierto: POST /api/mediciones no es idempotente
+  AssertionError [ERR_ASSERTION]: el servidor tiene 2 copias de la misma lectura
+  
+  2 !== 1
+  
+      at TestContext.<anonymous> (file:///C:/Users/ASUS/Downloads/safemotion-pwa/tests/sync.integration.test.js:103:10)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

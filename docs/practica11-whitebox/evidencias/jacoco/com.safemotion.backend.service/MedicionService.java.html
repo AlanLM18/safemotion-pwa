@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MedicionService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">com.safemotion.backend.service</a> &gt; <span class="el_source">MedicionService.java</span></div><h1>MedicionService.java</h1><pre class="source lang-java linenums">package com.safemotion.backend.service;
+
+import com.google.cloud.firestore.*;
+import com.safemotion.backend.dto.Solicitudes;
+import com.safemotion.backend.error.ApiException;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.*;
+
+import static com.safemotion.backend.service.FirestoreUtil.*;
+
+/**
+ * Lecturas del wearable en usuarios/{uid}/mediciones/{idLocal} (misma ruta y campos que la PWA y el reloj).
+ * El id del documento es el idLocal que genera la app: reenviar la misma lectura no crea otra (idempotencia).
+ */
+@Service
+public class MedicionService {
+
+    private final Firestore db;
+
+<span class="fc" id="L23">    public MedicionService(Firestore db) {</span>
+<span class="fc" id="L24">        this.db = db;</span>
+<span class="fc" id="L25">    }</span>
+
+<span class="fc" id="L27">    public record Resultado(Map&lt;String, Object&gt; medicion, boolean creada) { }</span>
+
+    private CollectionReference mediciones(String uid) {
+<span class="fc" id="L30">        return db.collection(&quot;usuarios&quot;).document(uid).collection(&quot;mediciones&quot;);</span>
+    }
+
+    public Resultado registrar(Sesion s, Solicitudes.Medicion r) {
+<span class="pc bpc" id="L34" title="3 of 4 branches missed.">        if (!Reglas.PACIENTE.equals(s.rol()) &amp;&amp; !Reglas.ADMIN.equals(s.rol())) throw ApiException.sinPermiso();</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        DocumentReference ref = r.idLocal() != null ? mediciones(s.uid()).document(r.idLocal()) : mediciones(s.uid()).document();</span>
+
+<span class="fc" id="L37">        Map&lt;String, Object&gt; doc = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L38">        doc.put(&quot;frecuenciaCardiaca&quot;, r.frecuenciaCardiaca());</span>
+<span class="fc" id="L39">        doc.put(&quot;temperatura&quot;, r.temperatura());</span>
+<span class="fc" id="L40">        doc.put(&quot;spo2&quot;, r.spo2());   // null si el wearable no lo mide (nunca 0)</span>
+<span class="fc" id="L41">        doc.put(&quot;pasos&quot;, r.pasos());</span>
+<span class="fc" id="L42">        doc.put(&quot;calorias&quot;, r.calorias());</span>
+<span class="fc" id="L43">        doc.put(&quot;actividad&quot;, r.actividad().trim());</span>
+<span class="fc" id="L44">        doc.put(&quot;bateria&quot;, r.bateria());</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (r.giroscopioX() != null) doc.put(&quot;giroscopioX&quot;, r.giroscopioX());</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (r.giroscopioY() != null) doc.put(&quot;giroscopioY&quot;, r.giroscopioY());</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        if (r.giroscopioZ() != null) doc.put(&quot;giroscopioZ&quot;, r.giroscopioZ());</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        if (r.fuente() != null) doc.put(&quot;fuente&quot;, r.fuente());</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if (r.fechaCaptura() != null) doc.put(&quot;fechaCaptura&quot;, r.fechaCaptura());</span>
+<span class="fc" id="L50">        doc.put(&quot;idLocal&quot;, ref.getId());</span>
+<span class="fc" id="L51">        doc.put(&quot;pacienteId&quot;, s.uid());</span>
+<span class="fc" id="L52">        doc.put(&quot;alertas&quot;, Reglas.alertas(r.frecuenciaCardiaca(), r.temperatura(), r.spo2()));</span>
+<span class="fc" id="L53">        doc.put(&quot;fecha&quot;, FieldValue.serverTimestamp());</span>
+
+<span class="fc" id="L55">        return esperar(db.runTransaction(tx -&gt; {</span>
+<span class="fc" id="L56">            DocumentSnapshot previa = tx.get(ref).get();</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">            if (previa.exists()) return new Resultado(json(previa), false);   // reintento: ya estaba guardada</span>
+<span class="fc" id="L58">            tx.set(ref, doc);</span>
+<span class="fc" id="L59">            Map&lt;String, Object&gt; salida = new HashMap&lt;&gt;(doc);</span>
+<span class="fc" id="L60">            salida.put(&quot;id&quot;, ref.getId());</span>
+<span class="fc" id="L61">            salida.put(&quot;fecha&quot;, Instant.now().toString());</span>
+<span class="fc" id="L62">            return new Resultado(salida, true);</span>
+        }));
+    }
+
+    public List&lt;Map&lt;String, Object&gt;&gt; historial(String uid, int limite) {
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        if (!Reglas.limiteValido(limite)) throw new ApiException(HttpStatus.BAD_REQUEST, &quot;limite debe estar entre 1 y 500&quot;);</span>
+<span class="fc" id="L68">        return get(mediciones(uid).orderBy(&quot;fecha&quot;, Query.Direction.DESCENDING).limit(limite))</span>
+<span class="fc" id="L69">                .getDocuments().stream().map(FirestoreUtil::json).toList();</span>
+    }
+
+    public Map&lt;String, Object&gt; ultima(String uid) {
+<span class="fc" id="L73">        List&lt;QueryDocumentSnapshot&gt; d = get(mediciones(uid).orderBy(&quot;fecha&quot;, Query.Direction.DESCENDING).limit(1)).getDocuments();</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        return d.isEmpty() ? null : json(d.get(0));</span>
+    }
+
+    /** Última lectura de un paciente: solo doctor y admin (recepción no ve datos clínicos). */
+    public Map&lt;String, Object&gt; ultimaDePaciente(Sesion s, String pacienteId) {
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        if (!Reglas.esClinico(s.rol())) throw ApiException.sinPermiso();</span>
+<span class="fc" id="L80">        return ultima(pacienteId);</span>
+    }
+
+    /** Alertas del usuario: una por tipo y lectura, a partir de sus últimas lecturas. */
+    public List&lt;Map&lt;String, Object&gt;&gt; alertas(String uid, int ultimas) {
+<span class="fc" id="L85">        List&lt;Map&lt;String, Object&gt;&gt; out = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        for (Map&lt;String, Object&gt; m : historial(uid, ultimas)) {</span>
+<span class="fc" id="L87">            Object a = m.get(&quot;alertas&quot;);</span>
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">            if (a instanceof List&lt;?&gt; lista) {</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">                for (Object tipo : lista) {</span>
+<span class="fc" id="L90">                    Map&lt;String, Object&gt; x = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L91">                    x.put(&quot;tipo&quot;, tipo);</span>
+<span class="fc" id="L92">                    x.put(&quot;medicionId&quot;, m.get(&quot;id&quot;));</span>
+<span class="fc" id="L93">                    x.put(&quot;fecha&quot;, m.get(&quot;fecha&quot;));</span>
+<span class="fc" id="L94">                    x.put(&quot;frecuenciaCardiaca&quot;, m.get(&quot;frecuenciaCardiaca&quot;));</span>
+<span class="fc" id="L95">                    x.put(&quot;temperatura&quot;, m.get(&quot;temperatura&quot;));</span>
+<span class="fc" id="L96">                    x.put(&quot;spo2&quot;, m.get(&quot;spo2&quot;));</span>
+<span class="fc" id="L97">                    out.add(x);</span>
+<span class="fc" id="L98">                }</span>
+            }
+<span class="fc" id="L100">        }</span>
+<span class="fc" id="L101">        return out;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

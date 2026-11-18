@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChatController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">com.safemotion.backend.controller</a> &gt; <span class="el_source">ChatController.java</span></div><h1>ChatController.java</h1><pre class="source lang-java linenums">package com.safemotion.backend.controller;
+
+import com.safemotion.backend.dto.Solicitudes;
+import com.safemotion.backend.service.AtencionService;
+import com.safemotion.backend.service.AuthService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+
+/** Chat paciente-médico. La conversación se identifica por el UID del paciente. */
+@RestController
+@RequestMapping(&quot;/api/chat&quot;)
+public class ChatController {
+
+    private final AtencionService atencion;
+    private final AuthService auth;
+
+<span class="fc" id="L22">    public ChatController(AtencionService atencion, AuthService auth) {</span>
+<span class="fc" id="L23">        this.atencion = atencion;</span>
+<span class="fc" id="L24">        this.auth = auth;</span>
+<span class="fc" id="L25">    }</span>
+
+    @GetMapping(&quot;/conversaciones&quot;)
+    public List&lt;Map&lt;String, Object&gt;&gt; conversaciones(@RequestHeader(value = &quot;Authorization&quot;, required = false) String token) {
+<span class="fc" id="L29">        return atencion.conversaciones(auth.autenticar(token));</span>
+    }
+
+    @GetMapping(&quot;/{pacienteId}/mensajes&quot;)
+    public List&lt;Map&lt;String, Object&gt;&gt; mensajes(@RequestHeader(value = &quot;Authorization&quot;, required = false) String token,
+                                              @PathVariable String pacienteId) {
+<span class="fc" id="L35">        return atencion.mensajes(auth.autenticar(token), pacienteId);</span>
+    }
+
+    @PostMapping(&quot;/{pacienteId}/mensajes&quot;)
+    @ResponseStatus(HttpStatus.CREATED)
+    public Map&lt;String, Object&gt; enviar(@RequestHeader(value = &quot;Authorization&quot;, required = false) String token,
+                                      @PathVariable String pacienteId,
+                                      @Valid @RequestBody Solicitudes.Mensaje req) {
+<span class="fc" id="L43">        return atencion.enviar(auth.autenticar(token), pacienteId, req.texto());</span>
+    }
+
+    @DeleteMapping(&quot;/{pacienteId}/mensajes&quot;)
+    public ResponseEntity&lt;Void&gt; limpiar(@RequestHeader(value = &quot;Authorization&quot;, required = false) String token,
+                                        @PathVariable String pacienteId) {
+<span class="fc" id="L49">        atencion.limpiar(auth.autenticar(token), pacienteId);</span>
+<span class="fc" id="L50">        return ResponseEntity.noContent().build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

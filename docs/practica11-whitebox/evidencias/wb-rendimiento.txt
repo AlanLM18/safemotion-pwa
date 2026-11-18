@@ -1,0 +1,13 @@
+Diez solicitudes: {"n":10,"min":9.8,"prom":11.17,"max":14.58,"de":1.5,"p95":14.58} bytes 6843
+Descarga: 129839 B 24.81 ms 41.86 Mbps | 129839 B 25.19 ms 41.23 Mbps | 129839 B 25.04 ms 41.47 Mbps
+Subida  : 1048701 B 35.34 ms 237.39 Mbps (HTTP 201) | 1048701 B 21.8 ms 384.86 Mbps (HTTP 201) | 1048701 B 12.77 ms 656.97 Mbps (HTTP 201)
+Tamaños: 1->267B/9.78ms 20->6777B/10.27ms 100->28123B/13.24ms 250->68146B/17.57ms 500->129896B/25.89ms
+Lectura GET /api/mediciones/historial?limite=20 x1: prom 10.09 ms, p95 12.18 ms, ok 40/40, 99 req/s, CPU 85.1%, mem 396 MB
+Lectura GET /api/mediciones/historial?limite=20 x5: prom 15.03 ms, p95 17.82 ms, ok 40/40, 329.5 req/s, CPU 424.8%, mem 381 MB
+Lectura GET /api/mediciones/historial?limite=20 x10: prom 24.57 ms, p95 32.49 ms, ok 40/40, 375 req/s, CPU 249%, mem 383 MB
+Escritura POST /api/mediciones x1: prom 6.95 ms, p95 8.24 ms, ok 40/40, 143.8 req/s, CPU 134.8%, mem 386 MB
+Escritura POST /api/mediciones x5: prom 10.65 ms, p95 12.78 ms, ok 40/40, 448.4 req/s, CPU 630.5%, mem 393 MB
+Escritura POST /api/mediciones x10: prom 16.37 ms, p95 20.68 ms, ok 40/40, 544.2 req/s, CPU 637.7%, mem 396 MB
+Lectura GET /api/sistema/estado x1: prom 2.4 ms, p95 2.86 ms, ok 40/40, 415.1 req/s, CPU 81.1%, mem 396 MB
+Lectura GET /api/sistema/estado x5: prom 3.54 ms, p95 4.61 ms, ok 40/40, 1366.5 req/s, CPU 480.4%, mem 397 MB
+Lectura GET /api/sistema/estado x10: prom 5.2 ms, p95 7.07 ms, ok 40/40, 1735.9 req/s, CPU 474.7%, mem 397 MB

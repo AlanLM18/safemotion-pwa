@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EmergenciaController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">com.safemotion.backend.controller</a> &gt; <span class="el_source">EmergenciaController.java</span></div><h1>EmergenciaController.java</h1><pre class="source lang-java linenums">package com.safemotion.backend.controller;
+
+import com.safemotion.backend.dto.Solicitudes;
+import com.safemotion.backend.service.AtencionService;
+import com.safemotion.backend.service.AuthService;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+/** SOS: el paciente lo crea, recepción lo canaliza a un doctor y el doctor lo atiende. */
+@RestController
+@RequestMapping(&quot;/api/emergencias&quot;)
+public class EmergenciaController {
+
+    private final AtencionService atencion;
+    private final AuthService auth;
+
+<span class="fc" id="L22">    public EmergenciaController(AtencionService atencion, AuthService auth) {</span>
+<span class="fc" id="L23">        this.atencion = atencion;</span>
+<span class="fc" id="L24">        this.auth = auth;</span>
+<span class="fc" id="L25">    }</span>
+
+    /** 201 si se creó; 200 con duplicada=true si el paciente ya tenía uno activo. */
+    @PostMapping
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; crear(@RequestHeader(value = &quot;Authorization&quot;, required = false) String token,
+                                                     @Valid @RequestBody Solicitudes.Emergencia req) {
+<span class="fc" id="L31">        AtencionService.ResultadoSos r = atencion.crearEmergencia(auth.autenticar(token), req);</span>
+<span class="fc" id="L32">        Map&lt;String, Object&gt; body = new LinkedHashMap&lt;&gt;(r.emergencia());</span>
+<span class="fc" id="L33">        body.put(&quot;duplicada&quot;, r.duplicada());</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        return ResponseEntity.status(r.duplicada() ? 200 : 201).body(body);</span>
+    }
+
+    @GetMapping
+    public List&lt;Map&lt;String, Object&gt;&gt; listar(@RequestHeader(value = &quot;Authorization&quot;, required = false) String token) {
+<span class="fc" id="L39">        return atencion.emergencias(auth.autenticar(token));</span>
+    }
+
+    @GetMapping(&quot;/doctores&quot;)
+    public List&lt;Map&lt;String, Object&gt;&gt; doctores(@RequestHeader(value = &quot;Authorization&quot;, required = false) String token) {
+<span class="fc" id="L44">        return atencion.doctores(auth.autenticar(token));</span>
+    }
+
+    /** 409 con {&quot;actual&quot;: ...} si otra recepcionista ya la canalizó. */
+    @PatchMapping(&quot;/{id}/canalizar&quot;)
+    public Map&lt;String, Object&gt; canalizar(@RequestHeader(value = &quot;Authorization&quot;, required = false) String token,
+                                         @PathVariable String id, @Valid @RequestBody Solicitudes.Canalizar req) {
+<span class="fc" id="L51">        return atencion.canalizar(auth.autenticar(token), id, req.doctorId());</span>
+    }
+
+    @PatchMapping(&quot;/{id}/atender&quot;)
+    public Map&lt;String, Object&gt; atender(@RequestHeader(value = &quot;Authorization&quot;, required = false) String token,
+                                       @PathVariable String id) {
+<span class="fc" id="L57">        return atencion.atender(auth.autenticar(token), id);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

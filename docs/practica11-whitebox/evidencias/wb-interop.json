@@ -1,0 +1,59 @@
+{
+  "fecha": "2026-11-11T00:34:40.053Z",
+  "resultados": [
+    {
+      "id": "INT-01",
+      "descripcion": "Mismo usuario: login de la app (Firebase SDK) y de Spring con el PIN 0000",
+      "observado": "UID ZTPHJpxwkbDENLqPNWC8itZjY36H en ambos · rol usuario/usuario",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "INT-02",
+      "descripcion": "La app guarda una lectura (reglas activas) y Spring la devuelve en el historial",
+      "observado": "id 45aa1a00-065f-497c-8bf2-27c13950d406 visible en GET /api/mediciones/historial con FC 77",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "INT-03",
+      "descripcion": "Spring guarda una lectura y la app la lee; los campos cumplen el esquema de firestore.rules",
+      "observado": "HTTP 201; la app la lee con FC 81; 0 campos fuera de medicionValida()",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "INT-04",
+      "descripcion": "La misma lectura enviada por la app y luego por Spring (mismo idLocal) no se duplica",
+      "observado": "Spring responde HTTP 200 (ya existía) y hay 1 documento",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "INT-05",
+      "descripcion": "María pide SOS desde la app y recepción lo ve por la API de Spring",
+      "observado": "SOS e9bmE7M2Aidou2UQGTui ABIERTA, version 0, visible para recepción vía Spring",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "INT-06",
+      "descripcion": "Recepción canaliza por Spring y la app de María lo ve CANALIZADA (con aviso en su chat)",
+      "observado": "HTTP 200; la app ve CANALIZADA (version 1) y el aviso \"Recepción canalizó tu solicitud de ayuda con …\"",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "INT-07",
+      "descripcion": "La doctora atiende desde la app (las reglas exigen version + 1 sobre lo que escribió Spring)",
+      "observado": "Reglas aceptan el cambio; Spring ve ATENDIDA, version 2, atendidaPor Dra. Ana Torres",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "INT-08",
+      "descripcion": "Chat cruzado: la doctora escribe por Spring y María lo lee en la app; María responde y Spring lo ve",
+      "observado": "251 mensajes en la app = 251 en Spring",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "INT-09",
+      "descripcion": "Reglas: la app de Juan NO puede leer el chat de María (Spring tampoco se lo permite)",
+      "observado": "Firestore rules: 403 · Spring: HTTP 403 (misma política)",
+      "estado": "Aprobado"
+    }
+  ]
+}

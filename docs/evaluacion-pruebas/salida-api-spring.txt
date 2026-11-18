@@ -1,0 +1,36 @@
+
+> safemotion-pwa@0.3.0 test:api
+> node --test tests/integration.test.js tests/atencion.integration.test.js
+
+✔ R-01: cuatro dispositivos con sesión propia y su rol (244.7447ms)
+✔ R-02: mensajes entre el paciente y el doctor (dos dispositivos) (53.8138ms)
+✔ R-03: el paciente no ve la bandeja ni el chat de otro paciente (18.4665ms)
+✔ R-04: el administrador supervisa todas las conversaciones (27.7709ms)
+✔ TC01 alta válida: el paciente pide SOS y el doctor lo puede consultar (49.3425ms)
+✔ TC02 campos inválidos: mensaje vacío y coordenadas fuera de rango se rechazan (55.5114ms)
+✔ TC03 identificador repetido: un segundo SOS no crea otra emergencia (27.4512ms)
+✔ TC04 actualización: el doctor atiende el SOS y el cambio se conserva (42.3731ms)
+✔ TC05 eliminación: limpiar el historial deja la conversación vacía (22.4211ms)
+✔ TC06 inexistente: conversación y emergencia que no existen responden 404 (14.0176ms)
+✔ TC07 pérdida de conexión: enviar sin servidor da un error controlado (0.9396ms)
+✔ TC08 persistencia: los mensajes siguen ahí con una sesión nueva (19.5973ms)
+✔ R-06: ninguna respuesta expone el PIN del usuario (24.5173ms)
+✔ R-05: el doctor y el admin no pueden pedir SOS (solo pacientes) (10.0985ms)
+✔ P1: GET /api/sistema/estado responde (142.2499ms)
+✔ P2: login con PIN incorrecto devuelve 401 (108.3675ms)
+✔ P3: login con PIN válido devuelve token y usuario (17.9439ms)
+✔ P4: enviar medición sin token devuelve 401 (59.5497ms)
+✔ P5: enviar medición fuera de rango devuelve 400 (74.5752ms)
+✔ P6: enviar medición válida (caminando) la guarda (20.7568ms)
+✔ P7: medición del escenario "alerta" se guarda (el backend genera alertas) (19.2101ms)
+✔ P8: el historial devuelve las mediciones enviadas por el usuario (15.1422ms)
+✔ P9: servidor inexistente produce error de conexión controlado (0.8944ms)
+✔ P10: logout invalida el token en el servidor (7.7392ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 869.408

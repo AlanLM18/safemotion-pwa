@@ -1,0 +1,46 @@
+✔ DB-01 paciente, recepción y doctor usan el mismo proyecto y colecciones, cada uno con su sesión (1802.173ms)
+✔ DB-02/03 el SOS que crea el paciente lo ve recepción (272.5044ms)
+✔ DB-04/05 recepción canaliza con un doctor y el paciente ve el cambio y el aviso en su chat (138.6732ms)
+✔ DB-06 el doctor atiende y el cambio llega al paciente y a recepción; ve la medición del paciente (173.5085ms)
+✔ DB-07 dos recepcionistas canalizan el mismo SOS a la vez: gana una y la otra ve con quién quedó (212.0946ms)
+✔ DB-08 lo confirmado sigue ahí al abrir la app de nuevo; reenviar una medición no la duplica (117.7953ms)
+✔ SEG-01/02 correo y contraseña válidos entran con su UID y rol; una contraseña incorrecta se rechaza (5.1768ms)
+✔ SEG-03 el SOS y la medición quedan con el UID del paciente autenticado (134.5309ms)
+  Firestore → PERMISSION_DENIED: 
+evaluation error at L118:24 for 'create' @ L118, false for 'create' @ L145, evaluation error at L125:24 for 'update' @ L125, false for 'update' @ L145, false for 'create' @ L118, false for 'create' @ L145
+  Firestore → PERMISSION_DENIED: 
+✔ SEG-04 suplantación: Juan no puede crear un SOS ni una medición a nombre de María (39.7694ms)
+✔ SEG-05 lectura ajena: Juan no ve datos de María; recepción no ve mediciones ni chat (101.474ms)
+  Firestore → PERMISSION_DENIED: 
+evaluation error at L125:24 for 'update' @ L125, false for 'update' @ L145, false for 'update' @ L125, false for 'update' @ L145
+  Firestore → PERMISSION_DENIED: 
+evaluation error at L125:24 for 'update' @ L125, false for 'update' @ L145, false for 'update' @ L125, false for 'update' @ L145
+  Firestore → PERMISSION_DENIED: 
+evaluation error at L125:24 for 'update' @ L125, false for 'update' @ L145, false for 'update' @ L125, false for 'update' @ L145
+  Firestore → PERMISSION_DENIED: 
+evaluation error at L125:24 for 'update' @ L125, false for 'update' @ L145, false for 'update' @ L125, false for 'update' @ L145
+✔ SEG-06 actualización ajena o fuera de su rol: denegada (103.9041ms)
+  Firestore → PERMISSION_DENIED: 
+  Firestore → PERMISSION_DENIED: 
+  Firestore → PERMISSION_DENIED: 
+  Firestore → PERMISSION_DENIED: 
+evaluation error at L107:24 for 'delete' @ L107, false for 'delete' @ L145, false for 'delete' @ L107, false for 'delete' @ L145
+✔ SEG-07 eliminación: nadie borra SOS ni mediciones, y Juan no borra el chat de María (75.7919ms)
+✔ SEG-08 operaciones propias permitidas: medición, cambio de nombre y mensaje en su chat (51.1733ms)
+  Firestore → PERMISSION_DENIED: 
+evaluation error at L70:24 for 'update' @ L70, false for 'update' @ L145, false for 'update' @ L70, false for 'update' @ L145
+  Firestore → PERMISSION_DENIED: 
+false for 'create' @ L66, false for 'create' @ L145, evaluation error at L70:24 for 'update' @ L70, false for 'update' @ L145, false for 'update' @ L70, false for 'update' @ L145
+  Firestore → PERMISSION_DENIED: 
+evaluation error at L125:24 for 'update' @ L125, false for 'update' @ L145, false for 'update' @ L125, false for 'update' @ L145
+✔ SEG-09 cambio de propietario o de rol: rechazado (63.1362ms)
+  Firestore → PERMISSION_DENIED: 
+✔ SEG-10 sin sesión no se puede leer ni escribir (54.9477ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3903.4522

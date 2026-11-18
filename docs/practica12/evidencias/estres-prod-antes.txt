@@ -1,0 +1,4 @@
+Lectura · GET /api/mediciones/historial?limite=20 · 1 usuarios: 28 solic · 1.4 RPS · prom 720.1 · P90 927.4 · P95 999.7 · máx 1107.2 ms · errores 0% {"200":28}
+Lectura · GET /api/mediciones/historial?limite=20 · 5 usuarios: 99 solic · 4.8 RPS · prom 1038.6 · P90 1399.1 · P95 1644.6 · máx 1835.8 ms · errores 0% {"200":99}
+Lectura · GET /api/mediciones/historial?limite=20 · 10 usuarios: 154 solic · 7.5 RPS · prom 1326.1 · P90 1823.1 · P95 2090.8 · máx 2515.1 ms · errores 0% {"200":154}
+Lectura · GET /api/mediciones/historial?limite=20 · 20 usuarios: 208 solic · 9.8 RPS · prom 1991.7 · P90 3189.4 · P95 3596.2 · máx 4575.2 ms · errores 0% {"200":208}

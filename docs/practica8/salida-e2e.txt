@@ -1,0 +1,21 @@
+✔ E2E-01 [RN-01] Sin sesión, cualquier pantalla protegida redirige a Login -> De #/historial a #/login
+✔ E2E-02 [RV-01] El campo PIN descarta letras y limita a 4 dígitos -> Escrito "ab12cd345", queda "1234"
+✔ E2E-03 [RV-01] PIN incompleto muestra mensaje genérico y no inicia sesión -> Datos de acceso no válidos.
+✔ E2E-04 [RV-01] PIN con formato válido pero incorrecto muestra el mismo mensaje genérico -> Mensaje genérico, campo limpio
+✔ E2E-05 [RF-01] Login correcto (0000) abre Inicio con el nombre del usuario -> Hola, Juan Pérez; pestañas: Inicio, Wearable, Movimiento, Historial, Cuenta
+✔ E2E-06 [RN-01] Con sesión, Login y rutas desconocidas redirigen a Inicio -> #/login y #/no-existe -> #/inicio
+✔ E2E-07 [RP-01] La sesión se conserva al recargar la página -> Hola, Juan Pérez (sigue en Inicio tras recargar)
+✔ E2E-08 [RV-03] Guardar lectura sin sensores ni wearable muestra un aviso y no guarda -> Inicia los sensores o conecta un wearable primero.
+✔ E2E-09 [RF-04] Wearable simulado en escenario "alerta" resalta los valores fuera de rango -> FC 120 bpm, 3 mosaico(s) en alerta
+✔ E2E-10 [RF-04] Inicio muestra el banner de alertas del wearable -> Frecuencia cardiaca alta · Temperatura elevada · Saturación de oxígeno baja
+✔ E2E-11 [RF-02] Guardar lectura con wearable simulado confirma el guardado -> Lectura guardada (teléfono + wearable).
+✔ E2E-12 [RF-03, RF-05] Historial muestra la lectura Pendiente y "Enviar pendientes" la marca Enviada -> 1 enviada(s), 0 rechazada(s). Estados: Enviada
+✔ E2E-13 [RP-02] Enviar de nuevo no reenvía lo ya enviado -> No hay lecturas pendientes.
+✔ E2E-14 [RE-01] Sin red, el monitoreo automático guarda la lectura en el teléfono -> Sin red: lectura guardada en el teléfono
+✔ E2E-15 [RP-01] Eliminar una lectura la quita de la lista y del contador de Inicio -> 2 -> 1 lecturas; contador de Inicio = 1; confirmación previa: no
+✔ E2E-16 [RN-02] Cuenta muestra el rol y "Cerrar sesión" vuelve a Login -> Rol: usuario; tras cerrar sesión #/inicio -> #/login
+✖ E2E-17 [RN-02] Al cambiar de usuario en el mismo teléfono, el historial no muestra lecturas del anterior -> el Administrador ve 2 lectura(s); 2 pertenecen a Juan Pérez
+✔ E2E-18 [RV-02] Tras 5 PIN incorrectos, el sexto intento se bloquea -> Demasiados intentos. Espera 30 s.
+✖ E2E-19 [RV-02] El bloqueo se mantiene al recargar la página -> al recargar se reinicia el bloqueo y el PIN correcto entra de inmediato
+✔ E2E-20 [RN-01, RE-02] Una sesión vencida (más de 8 h) obliga a iniciar sesión otra vez -> Redirige a #/login
+20 casos · 18 aprobados · 2 fallidos

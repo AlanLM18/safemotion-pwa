@@ -1,0 +1,345 @@
+{
+  "fecha": "2026-11-11T00:34:48.388Z",
+  "api": "http://localhost:8080",
+  "diezSolicitudes": {
+    "endpoint": "GET /api/mediciones/historial?limite=20",
+    "filas": [
+      {
+        "solicitud": 1,
+        "codigo": 200,
+        "ms": 14.58,
+        "bytes": 6843
+      },
+      {
+        "solicitud": 2,
+        "codigo": 200,
+        "ms": 13.42,
+        "bytes": 6843
+      },
+      {
+        "solicitud": 3,
+        "codigo": 200,
+        "ms": 11.38,
+        "bytes": 6843
+      },
+      {
+        "solicitud": 4,
+        "codigo": 200,
+        "ms": 10.88,
+        "bytes": 6843
+      },
+      {
+        "solicitud": 5,
+        "codigo": 200,
+        "ms": 10.01,
+        "bytes": 6843
+      },
+      {
+        "solicitud": 6,
+        "codigo": 200,
+        "ms": 10.21,
+        "bytes": 6843
+      },
+      {
+        "solicitud": 7,
+        "codigo": 200,
+        "ms": 10.5,
+        "bytes": 6843
+      },
+      {
+        "solicitud": 8,
+        "codigo": 200,
+        "ms": 10.46,
+        "bytes": 6843
+      },
+      {
+        "solicitud": 9,
+        "codigo": 200,
+        "ms": 10.44,
+        "bytes": 6843
+      },
+      {
+        "solicitud": 10,
+        "codigo": 200,
+        "ms": 9.8,
+        "bytes": 6843
+      }
+    ],
+    "tiempo": {
+      "n": 10,
+      "min": 9.8,
+      "prom": 11.17,
+      "max": 14.58,
+      "de": 1.5,
+      "p95": 14.58
+    },
+    "bytes": {
+      "n": 10,
+      "min": 6843,
+      "prom": 6843,
+      "max": 6843,
+      "de": 0,
+      "p95": 6843
+    }
+  },
+  "transferencia": {
+    "descargas": [
+      {
+        "codigo": 200,
+        "bytes": 129839,
+        "ms": 24.81,
+        "mbps": 41.86
+      },
+      {
+        "codigo": 200,
+        "bytes": 129839,
+        "ms": 25.19,
+        "mbps": 41.23
+      },
+      {
+        "codigo": 200,
+        "bytes": 129839,
+        "ms": 25.04,
+        "mbps": 41.47
+      }
+    ],
+    "subidas": [
+      {
+        "codigo": 201,
+        "bytes": 1048701,
+        "ms": 35.34,
+        "mbps": 237.39
+      },
+      {
+        "codigo": 201,
+        "bytes": 1048701,
+        "ms": 21.8,
+        "mbps": 384.86
+      },
+      {
+        "codigo": 201,
+        "bytes": 1048701,
+        "ms": 12.77,
+        "mbps": 656.97
+      }
+    ]
+  },
+  "tamanos": [
+    {
+      "limite": 1,
+      "bytes": 267,
+      "ms": 9.78
+    },
+    {
+      "limite": 20,
+      "bytes": 6777,
+      "ms": 10.27
+    },
+    {
+      "limite": 100,
+      "bytes": 28123,
+      "ms": 13.24
+    },
+    {
+      "limite": 250,
+      "bytes": 68146,
+      "ms": 17.57
+    },
+    {
+      "limite": 500,
+      "bytes": 129896,
+      "ms": 25.89
+    }
+  ],
+  "carga": [
+    {
+      "escenario": "Lectura GET /api/mediciones/historial?limite=20",
+      "usuarios": 1,
+      "solicitudes": 40,
+      "exitosas": 40,
+      "fallidas": 0,
+      "codigos": {
+        "200": 40
+      },
+      "n": 40,
+      "min": 9.12,
+      "prom": 10.09,
+      "max": 12.73,
+      "de": 0.79,
+      "p95": 12.18,
+      "duracionMs": 404,
+      "rps": 99,
+      "mbps": 5.37,
+      "cpuPct": 85.1,
+      "memMB": 396
+    },
+    {
+      "escenario": "Lectura GET /api/mediciones/historial?limite=20",
+      "usuarios": 5,
+      "solicitudes": 40,
+      "exitosas": 40,
+      "fallidas": 0,
+      "codigos": {
+        "200": 40
+      },
+      "n": 40,
+      "min": 11.63,
+      "prom": 15.03,
+      "max": 20.01,
+      "de": 1.99,
+      "p95": 17.82,
+      "duracionMs": 121,
+      "rps": 329.5,
+      "mbps": 17.87,
+      "cpuPct": 424.8,
+      "memMB": 381
+    },
+    {
+      "escenario": "Lectura GET /api/mediciones/historial?limite=20",
+      "usuarios": 10,
+      "solicitudes": 40,
+      "exitosas": 40,
+      "fallidas": 0,
+      "codigos": {
+        "200": 40
+      },
+      "n": 40,
+      "min": 17.48,
+      "prom": 24.57,
+      "max": 33.49,
+      "de": 4.67,
+      "p95": 32.49,
+      "duracionMs": 107,
+      "rps": 375,
+      "mbps": 20.33,
+      "cpuPct": 249,
+      "memMB": 383
+    },
+    {
+      "escenario": "Escritura POST /api/mediciones",
+      "usuarios": 1,
+      "solicitudes": 40,
+      "exitosas": 40,
+      "fallidas": 0,
+      "codigos": {
+        "201": 40
+      },
+      "n": 40,
+      "min": 6.26,
+      "prom": 6.95,
+      "max": 9.63,
+      "de": 0.66,
+      "p95": 8.24,
+      "duracionMs": 278,
+      "rps": 143.8,
+      "mbps": 0.31,
+      "cpuPct": 134.8,
+      "memMB": 386
+    },
+    {
+      "escenario": "Escritura POST /api/mediciones",
+      "usuarios": 5,
+      "solicitudes": 40,
+      "exitosas": 40,
+      "fallidas": 0,
+      "codigos": {
+        "201": 40
+      },
+      "n": 40,
+      "min": 7.89,
+      "prom": 10.65,
+      "max": 13.82,
+      "de": 1.6,
+      "p95": 12.78,
+      "duracionMs": 89,
+      "rps": 448.4,
+      "mbps": 0.97,
+      "cpuPct": 630.5,
+      "memMB": 393
+    },
+    {
+      "escenario": "Escritura POST /api/mediciones",
+      "usuarios": 10,
+      "solicitudes": 40,
+      "exitosas": 40,
+      "fallidas": 0,
+      "codigos": {
+        "201": 40
+      },
+      "n": 40,
+      "min": 9.73,
+      "prom": 16.37,
+      "max": 25.27,
+      "de": 2.62,
+      "p95": 20.68,
+      "duracionMs": 74,
+      "rps": 544.2,
+      "mbps": 1.18,
+      "cpuPct": 637.7,
+      "memMB": 396
+    },
+    {
+      "escenario": "Lectura GET /api/sistema/estado",
+      "usuarios": 1,
+      "solicitudes": 40,
+      "exitosas": 40,
+      "fallidas": 0,
+      "codigos": {
+        "200": 40
+      },
+      "n": 40,
+      "min": 1.92,
+      "prom": 2.4,
+      "max": 3.91,
+      "de": 0.36,
+      "p95": 2.86,
+      "duracionMs": 96,
+      "rps": 415.1,
+      "mbps": 0.52,
+      "cpuPct": 81.1,
+      "memMB": 396
+    },
+    {
+      "escenario": "Lectura GET /api/sistema/estado",
+      "usuarios": 5,
+      "solicitudes": 40,
+      "exitosas": 40,
+      "fallidas": 0,
+      "codigos": {
+        "200": 40
+      },
+      "n": 40,
+      "min": 2.06,
+      "prom": 3.54,
+      "max": 4.9,
+      "de": 0.69,
+      "p95": 4.61,
+      "duracionMs": 29,
+      "rps": 1366.5,
+      "mbps": 1.73,
+      "cpuPct": 480.4,
+      "memMB": 397
+    },
+    {
+      "escenario": "Lectura GET /api/sistema/estado",
+      "usuarios": 10,
+      "solicitudes": 40,
+      "exitosas": 40,
+      "fallidas": 0,
+      "codigos": {
+        "200": 40
+      },
+      "n": 40,
+      "min": 3.54,
+      "prom": 5.2,
+      "max": 7.24,
+      "de": 1.04,
+      "p95": 7.07,
+      "duracionMs": 23,
+      "rps": 1735.9,
+      "mbps": 2.19,
+      "cpuPct": 474.7,
+      "memMB": 397
+    }
+  ]
+}

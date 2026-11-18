@@ -1,0 +1,18 @@
+node_modules
+dist
+.env
+
+.vercel
+.env.pruebas
+.env.local
+
+# Generados por pruebas, emuladores y CI (Prácticas 11-14)
+dev-dist
+*.log
+NUL
+resultados-*.xml
+coverage
+.firebase
+# Llaves de cuentas de servicio: nunca en git
+*-firebase-adminsdk-*.json
+service-account*.json

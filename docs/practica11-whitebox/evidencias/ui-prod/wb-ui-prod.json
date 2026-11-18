@@ -1,0 +1,62 @@
+{
+  "fecha": "2026-11-12T01:40:19.068Z",
+  "url": "https://safemotion-pwa.vercel.app/",
+  "cargas": [
+    {
+      "etiqueta": "Producción carga 1 (Wi-Fi, sin caché)",
+      "ttfb": 140.2,
+      "dcl": 1273.6,
+      "fcp": 1340,
+      "recursos": 5,
+      "bytes": 27919,
+      "hastaRedInactiva": 2029,
+      "heapMB": 1.61,
+      "nodosDOM": 91
+    },
+    {
+      "etiqueta": "Producción carga 2 (Wi-Fi, sin caché)",
+      "ttfb": 89.2,
+      "dcl": 397.9,
+      "fcp": 456,
+      "recursos": 5,
+      "bytes": 27919,
+      "hastaRedInactiva": 1149,
+      "heapMB": 1.61,
+      "nodosDOM": 91
+    },
+    {
+      "etiqueta": "Producción carga 3 (Wi-Fi, sin caché)",
+      "ttfb": 78.9,
+      "dcl": 378.6,
+      "fcp": 424,
+      "recursos": 5,
+      "bytes": 27919,
+      "hastaRedInactiva": 1127,
+      "heapMB": 1.61,
+      "nodosDOM": 91
+    },
+    {
+      "etiqueta": "Producción con 4G lenta (1,6 Mbps, 150 ms) y CPU 4x",
+      "ttfb": 206.3,
+      "dcl": 864.8,
+      "fcp": 1156,
+      "recursos": 5,
+      "bytes": 27919,
+      "hastaRedInactiva": 1978,
+      "heapMB": 1.61,
+      "nodosDOM": 91
+    }
+  ],
+  "pasos": [],
+  "navegador": "Edg/157.0.4341.46",
+  "loginMs": 1879.7,
+  "historialMs": 19.9,
+  "sosSinRed": {
+    "ms": 107.1,
+    "texto": "No fue posible obtener la información. Si es una emergencia, llama al 911.",
+    "clase": "error small",
+    "boton": "Enviar SOS",
+    "sosAntes": 8,
+    "sosDespues": 8
+  }
+}

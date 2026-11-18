@@ -1,0 +1,42 @@
+Primera petición (posible arranque en frío): HTTP 200 en 1273 ms
+✔ PROD-01 Estado del servicio por el dominio de Vercel
+     HTTP 200, Cloud Firestore · proyecto mesaayuda-a631d, latencia interna a Firestore 98.1 ms
+✔ PROD-02 Login con PIN y sesión
+     HTTP 200 y 200; Juan Pérez (usuario), UID de Firebase
+✔ PROD-03 PIN incorrecto y PIN mal formado
+     HTTP 401 "PIN incorrecto" · HTTP 400 "pin: El PIN debe tener exactamente 4 dígitos"
+✔ PROD-04 Sin token, token inventado y JWT con el UID cambiado por el del admin
+     HTTP 401 / 401 / 401
+✔ PROD-05 Permisos por rol (autenticado sin permiso)
+     HTTP 403 / 403 / 403 / 403
+✔ PROD-06 Juan intenta leer el chat de María (por la API y directo en Firestore)
+     API HTTP 403 · Firestore (reglas) HTTP 403
+✔ PROD-07 Validaciones (se rechazan antes de escribir)
+     HTTP 400 / 400 / 400 / 400 / 400; p. ej. "frecuenciaCardiaca: debe ser menor que o igual a 220"
+✔ PROD-08 Recursos inexistentes y método no permitido
+     HTTP 404 / 404 / 404 / 405
+✔ PROD-09 Lecturas por rol
+     HTTP 200 ×6 · 12 cuentas · 2 pacientes en la bandeja · 2 doctores · 31 SOS · 5 lecturas · 0 alertas
+✔ PROD-10 Mismos datos por la API y directo en Firestore (token de Juan, reglas activas)
+     5 lecturas idénticas en el mismo orden (API y Firestore directo)
+✔ PROD-11 Datos sensibles en las respuestas
+     Ningún cuerpo contiene PIN, contraseña, refresh token ni private_key
+✔ PROD-12 CORS en producción
+     ajeno HTTP 403 sin Allow-Origin · PWA 200 · dashboard 200
+⏱ historial20_vercel: {"n":10,"min":563,"prom":678.8,"max":860.9,"de":84.3,"p95":860.9} · 9227 B · códigos 200
+⏱ historial20_render: {"n":10,"min":500.1,"prom":630.6,"max":739.6,"de":82.6,"p95":739.6} · 9227 B · códigos 200
+⏱ historial20_firestore_directo: {"n":10,"min":113,"prom":176.1,"max":260.2,"de":40.9,"p95":260.2} · 28724 B · códigos 200
+⏱ estado_vercel: {"n":10,"min":367.2,"prom":528.4,"max":774,"de":152,"p95":774} · 160 B · códigos 200
+⏱ me_vercel: {"n":10,"min":369.9,"prom":515.2,"max":830.5,"de":153.7,"p95":830.5} · 76 B · códigos 200
+⏱ perfil_firestore_directo: {"n":10,"min":90.1,"prom":171.8,"max":377.8,"de":78.2,"p95":377.8} · 470 B · códigos 200
+⏱ emergencias_vercel: {"n":10,"min":406.7,"prom":672.8,"max":1280.9,"de":274.6,"p95":1280.9} · 1183 B · códigos 200
+Descarga: 13383 B 1565.8 ms 0.07 Mbps (HTTP 200) | 13383 B 762.5 ms 0.14 Mbps (HTTP 200) | 13383 B 734.6 ms 0.15 Mbps (HTTP 200)
+Subida  : 1048691 B 2679.8 ms 3.13 Mbps (HTTP 400) | 1048691 B 1922.3 ms 4.36 Mbps (HTTP 400) | 1048691 B 1103.7 ms 7.6 Mbps (HTTP 400)
+Lectura GET /api/mediciones/historial?limite=20 x1: prom 1312.5 ms, p95 3001.2 ms, ok 40/40, 0.8 req/s, códigos {"200":40}
+Lectura GET /api/mediciones/historial?limite=20 x5: prom 1497.3 ms, p95 5410.6 ms, ok 40/40, 3.3 req/s, códigos {"200":40}
+Lectura GET /api/mediciones/historial?limite=20 x10: prom 1522.4 ms, p95 2273.5 ms, ok 40/40, 6 req/s, códigos {"200":40}
+Lectura GET /api/sistema/estado x1: prom 500.6 ms, p95 945.4 ms, ok 40/40, 2 req/s, códigos {"200":40}
+Lectura GET /api/sistema/estado x5: prom 471.6 ms, p95 1044.5 ms, ok 40/40, 10.1 req/s, códigos {"200":40}
+Lectura GET /api/sistema/estado x10: prom 955.1 ms, p95 2063.7 ms, ok 40/40, 10 req/s, códigos {"200":40}
+
+12/12 casos aprobados en producción · 2026-11-12T01:35:19.355Z

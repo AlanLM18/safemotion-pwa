@@ -1,0 +1,44 @@
+
+> safemotion-pwa@0.3.0 test:sync
+> node --test tests/sync.unit.test.js
+
+✔ U-01 válido: dos lecturas pendientes se envían con el token de la sesión y se marcan Enviadas (7.0073ms)
+✔ U-02 límite: con la cola vacía no se llama al servidor ni se modifica la base local (0.462ms)
+✔ U-03 límite: FC 30 y 220 se envían; FC 221 se rechaza localmente sin llamar al servidor (0.7263ms)
+✔ U-04 inválido: sin sesión activa la sincronización se rechaza y no consulta la cola (1.4942ms)
+✔ U-05 error: un 400 del servidor marca esa lectura como Rechazada y continúa con las demás (1.0307ms)
+✔ U-06 error: sin conexión a mitad de la cola se detiene y lo no enviado queda Pendiente (0.8955ms)
+✔ U-07 error: un 401 cierra la sesión local, redirige a Login y no marca ninguna lectura (0.6963ms)
+✔ U-08 concurrencia: dos llamadas simultáneas comparten la misma sincronización (sin envíos dobles) (0.3435ms)
+⚠ U-09 [D-01] una lectura de otro usuario en la cola no debe enviarse con el token de la sesión actual (1.4479ms) # Defecto D-01 abierto: sync.js no filtra por userId
+ℹ tests 9
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 1
+ℹ duration_ms 130.1589
+
+✖ failing tests:
+
+test at tests\sync.unit.test.js:112:1
+⚠ U-09 [D-01] una lectura de otro usuario en la cola no debe enviarse con el token de la sesión actual (1.4479ms) # Defecto D-01 abierto: sync.js no filtra por userId
+  AssertionError [ERR_ASSERTION]: se enviaron con el token de Juan las FC 80, 85
+  + actual - expected
+  
+    [
+      80,
+  +   85
+    ]
+  
+      at TestContext.<anonymous> (file:///C:/Users/ASUS/Downloads/safemotion-pwa/tests/sync.unit.test.js:116:10)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 80, 85 ],
+    expected: [ 80 ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

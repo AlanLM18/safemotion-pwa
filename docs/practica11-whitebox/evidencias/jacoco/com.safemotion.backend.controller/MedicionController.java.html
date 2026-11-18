@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MedicionController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">com.safemotion.backend.controller</a> &gt; <span class="el_source">MedicionController.java</span></div><h1>MedicionController.java</h1><pre class="source lang-java linenums">package com.safemotion.backend.controller;
+
+import com.safemotion.backend.dto.Solicitudes;
+import com.safemotion.backend.service.AuthService;
+import com.safemotion.backend.service.MedicionService;
+import com.safemotion.backend.service.Sesion;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping(&quot;/api&quot;)
+public class MedicionController {
+
+    private final MedicionService mediciones;
+    private final AuthService auth;
+
+<span class="fc" id="L22">    public MedicionController(MedicionService mediciones, AuthService auth) {</span>
+<span class="fc" id="L23">        this.mediciones = mediciones;</span>
+<span class="fc" id="L24">        this.auth = auth;</span>
+<span class="fc" id="L25">    }</span>
+
+    /** 201 si se guardó; 200 si esa lectura (mismo idLocal) ya estaba guardada. */
+    @PostMapping(&quot;/mediciones&quot;)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; registrar(@RequestHeader(value = &quot;Authorization&quot;, required = false) String token,
+                                                         @Valid @RequestBody Solicitudes.Medicion req) {
+<span class="fc" id="L31">        Sesion s = auth.autenticar(token);</span>
+<span class="fc" id="L32">        MedicionService.Resultado r = mediciones.registrar(s, req);</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        return r.creada()</span>
+<span class="fc" id="L34">                ? ResponseEntity.created(URI.create(&quot;/api/mediciones/&quot; + r.medicion().get(&quot;id&quot;))).body(r.medicion())</span>
+<span class="fc" id="L35">                : ResponseEntity.ok(r.medicion());</span>
+    }
+
+    @GetMapping(&quot;/mediciones/historial&quot;)
+    public List&lt;Map&lt;String, Object&gt;&gt; historial(@RequestHeader(value = &quot;Authorization&quot;, required = false) String token,
+                                               @RequestParam(defaultValue = &quot;20&quot;) int limite) {
+<span class="fc" id="L41">        Sesion s = auth.autenticar(token);</span>
+<span class="fc" id="L42">        return mediciones.historial(s.uid(), limite);</span>
+    }
+
+    /** 204 si el usuario aún no tiene lecturas. */
+    @GetMapping(&quot;/mediciones/actual&quot;)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; actual(@RequestHeader(value = &quot;Authorization&quot;, required = false) String token) {
+<span class="fc" id="L48">        Map&lt;String, Object&gt; m = mediciones.ultima(auth.autenticar(token).uid());</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        return m == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(m);</span>
+    }
+
+    /** Doctor/admin: última lectura de un paciente. */
+    @GetMapping(&quot;/pacientes/{pacienteId}/mediciones/ultima&quot;)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; ultimaDePaciente(@RequestHeader(value = &quot;Authorization&quot;, required = false) String token,
+                                                                @PathVariable String pacienteId) {
+<span class="fc" id="L56">        Map&lt;String, Object&gt; m = mediciones.ultimaDePaciente(auth.autenticar(token), pacienteId);</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        return m == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(m);</span>
+    }
+
+    /** Alertas generadas a partir de las últimas 100 lecturas del usuario. */
+    @GetMapping(&quot;/alertas&quot;)
+    public List&lt;Map&lt;String, Object&gt;&gt; alertas(@RequestHeader(value = &quot;Authorization&quot;, required = false) String token) {
+<span class="fc" id="L63">        return mediciones.alertas(auth.autenticar(token).uid(), 100);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,124 @@
+{
+  "fuente": "Firebase (Authentication + Cloud Firestore)",
+  "proyecto": "mesaayuda-a631d",
+  "modo": "proyecto real",
+  "fecha": "2026-11-05T12:36:15.879Z",
+  "dispositivos": {
+    "A": "Pixel 5 · paciente",
+    "B": "Galaxy S9+ · recepción",
+    "B2": "Galaxy S8 · recepción",
+    "D": "Pixel 4 · doctora"
+  },
+  "tiempos": {
+    "sos": 1793882197957,
+    "sosEnRecepcion": 955,
+    "canalizado": 1793882199361,
+    "pacienteVeCanalizado": 2201,
+    "atendidoVisto": 5233
+  },
+  "matriz": [
+    {
+      "id": "DB-01",
+      "nombre": "Conexión compartida",
+      "esperado": "Ambos dispositivos acceden al mismo proyecto y colección.",
+      "resultado": "Aprobado",
+      "observacion": "Paciente (Juan, Pixel 5), recepción (Laura, Galaxy S9+) y doctora (Ana, Pixel 4) iniciaron sesión con su PIN; cada uno entró a su pantalla (Inicio, Recepción, Consultas) y todos muestran \"Cloud Firestore · proyecto mesaayuda-a631d\".",
+      "evidencias": [
+        "F1-cuenta-A.png",
+        "F1-cuenta-B.png",
+        "F1-cuenta-D.png"
+      ]
+    },
+    {
+      "id": "DB-02",
+      "nombre": "Escritura desde A",
+      "esperado": "La incidencia creada por A aparece en la base remota.",
+      "resultado": "Aprobado",
+      "observacion": "El paciente pulsó SOS y la app confirmó \"Ayuda solicitada: recepción ya la recibió. Ubicación no disponible.\". Firestore tiene el SOS n3Cn46RvMaHHpLkXAuVg en estado ABIERTA con sus signos.",
+      "evidencias": [
+        "F2-sos-enviado-A.png"
+      ]
+    },
+    {
+      "id": "DB-03",
+      "nombre": "Lectura desde B",
+      "esperado": "B puede recuperar la incidencia creada por A.",
+      "resultado": "Aprobado",
+      "observacion": "El SOS apareció solo en Recepción, sin recargar, 1.0 s después de la confirmación en el teléfono del paciente (la lista se consulta cada 3 s).",
+      "evidencias": [
+        "F2-sos-en-recepcion-B.png"
+      ]
+    },
+    {
+      "id": "DB-04",
+      "nombre": "Escritura desde B",
+      "esperado": "La incidencia creada por B se almacena correctamente.",
+      "resultado": "Aprobado",
+      "observacion": "Recepción eligió a la Dra. Ana Torres y pulsó Canalizar. Firestore: CANALIZADA, canalizada por Laura Gómez, versión 1.",
+      "evidencias": [
+        "F2-canalizado-B.png"
+      ]
+    },
+    {
+      "id": "DB-05",
+      "nombre": "Lectura desde A",
+      "esperado": "A puede recuperar la incidencia creada por B.",
+      "resultado": "Aprobado",
+      "observacion": "El paciente vio \"Canalizado con Dra. Ana Torres\" y el aviso de recepción en su chat 2.2 s después.",
+      "evidencias": [
+        "F2-paciente-ve-canalizado-A.png"
+      ]
+    },
+    {
+      "id": "DB-06",
+      "nombre": "Actualización cruzada",
+      "esperado": "El cambio confirmado es visible en el otro dispositivo.",
+      "resultado": "Aprobado",
+      "observacion": "La medición del paciente (FC 72 bpm, 0 pasos) llegó a Firestore y la doctora la vio junto al SOS. La doctora lo marcó como atendido y el paciente vio \"Atendido por Dra. Ana Torres\" en 5.2 s; recepción también lo vio. Final en Firestore: ATENDIDA, versión 2. Después la doctora pidió una ambulancia desde el chat y al paciente le llegó el aviso \"🚑 AMBULANCIA EN CAMINO\" (simulado).",
+      "evidencias": [
+        "F3-wearable-pasos-A.png",
+        "F3-medicion-enviada-A.png",
+        "F3-doctora-ve-sos-y-medicion-D.png",
+        "F3-paciente-ve-atendido-A.png",
+        "F3-recepcion-ve-atendido-B.png",
+        "F3-doctora-pide-ambulancia-D.png",
+        "F3-paciente-ve-ambulancia-A.png"
+      ]
+    },
+    {
+      "id": "DB-07",
+      "nombre": "Modificación concurrente",
+      "esperado": "El resultado final cumple la política de actualización definida.",
+      "resultado": "Aprobado",
+      "observacion": "Dos teléfonos de recepción canalizaron el mismo SOS al mismo tiempo, uno con la Dra. Ana Torres y otro con el Dr. Luis Ramírez. Ganó uno: \"SOS de Juan Pérez canalizado con Dra. Ana Torres\". El otro recibió \"Ya lo había canalizado Laura Gómez: Canalizado con Dra. Ana Torres.\" y no sobrescribió. Firestore: CANALIZADA con Dra. Ana Torres, versión 1.",
+      "evidencias": [
+        "F4-recepcion1-elige-ana-B.png",
+        "F4-recepcion2-elige-luis-B2.png",
+        "F4-resultado-recepcion1-B.png",
+        "F4-resultado-recepcion2-B2.png"
+      ]
+    },
+    {
+      "id": "DB-08",
+      "nombre": "Persistencia",
+      "esperado": "Los registros confirmados permanecen tras cerrar y abrir la app.",
+      "resultado": "Aprobado",
+      "observacion": "Al cerrar y abrir la app, la sesión siguió activa: Historial muestra la lectura Enviada y la pantalla Doctor trae de Firestore el estado del SOS (canalizado) y el chat con los avisos de recepción y de la doctora.",
+      "evidencias": [
+        "F5-reabrir-historial-A.png",
+        "F5-reabrir-sos-A.png"
+      ]
+    },
+    {
+      "id": "DB-09",
+      "nombre": "Pérdida de conexión",
+      "esperado": "La aplicación informa o gestiona la operación sin confirmar falsamente el éxito.",
+      "resultado": "Aprobado",
+      "observacion": "Sin red, el SOS respondió \"No fue posible obtener la información. Si es una emergencia, llama al 911.\": no se confirmó nada y ofrece llamar al 911. Al volver la red, Firestore no tenía ningún SOS pendiente de enviarse solo; el siguiente intento sí llegó a recepción.",
+      "evidencias": [
+        "F6-sos-sin-red-A.png",
+        "F6-sos-con-red-A.png"
+      ]
+    }
+  ]
+}

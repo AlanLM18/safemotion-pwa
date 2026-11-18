@@ -1,0 +1,29 @@
+Primera petición (posible arranque en frío): HTTP 200 en 623 ms
+✔ PROD-01 Estado del servicio por el dominio de Vercel
+✔ PROD-02 Login con PIN y sesión
+✔ PROD-03 PIN incorrecto y PIN mal formado
+✔ PROD-04 Sin token, token inventado y JWT con el UID cambiado por el del admin
+✔ PROD-05 Permisos por rol (autenticado sin permiso)
+✔ PROD-06 Juan intenta leer el chat de María (por la API y directo en Firestore)
+✔ PROD-07 Validaciones (se rechazan antes de escribir)
+✔ PROD-08 Recursos inexistentes y método no permitido
+✖ PROD-09 Lecturas por rol
+✖ PROD-10 Mismos datos por la API y directo en Firestore (token de Juan, reglas activas)
+✔ PROD-11 Datos sensibles en las respuestas
+✖ PROD-12 CORS en producción
+⏱ historial20_vercel: {"n":10,"min":4,"prom":21.6,"max":62.5,"de":19.4,"p95":62.5} · 0 B · códigos 0
+⏱ historial20_render: {"n":10,"min":4,"prom":14.9,"max":36.1,"de":11.5,"p95":36.1} · 0 B · códigos 0
+⏱ historial20_firestore_directo: {"n":10,"min":7.1,"prom":11.4,"max":16,"de":2.7,"p95":16} · 0 B · códigos 0
+⏱ estado_vercel: {"n":10,"min":3.4,"prom":7.5,"max":16.8,"de":3.8,"p95":16.8} · 0 B · códigos 0
+⏱ me_vercel: {"n":10,"min":4.4,"prom":12.5,"max":42.9,"de":11.6,"p95":42.9} · 0 B · códigos 0
+⏱ perfil_firestore_directo: {"n":10,"min":3.7,"prom":4.6,"max":5.7,"de":0.6,"p95":5.7} · 0 B · códigos 0
+⏱ emergencias_vercel: {"n":10,"min":4.2,"prom":6.7,"max":9.9,"de":1.7,"p95":9.9} · 0 B · códigos 0
+Descarga: 0 B 14.2 ms 0 Mbps (HTTP 0) | 0 B 4.6 ms 0 Mbps (HTTP 0) | 0 B 17.7 ms 0 Mbps (HTTP 0)
+Subida  : 1048691 B 15.9 ms 526.84 Mbps (HTTP 0) | 1048691 B 14.2 ms 589.43 Mbps (HTTP 0) | 1048691 B 22.4 ms 374.4 Mbps (HTTP 0)
+Lectura GET /api/mediciones/historial?limite=20 x1: prom 6.4 ms, p95 14.3 ms, ok 0/40, 155.9 req/s, códigos {"0":40}
+Lectura GET /api/mediciones/historial?limite=20 x5: prom 28.3 ms, p95 99.9 ms, ok 0/40, 171.2 req/s, códigos {"0":40}
+Lectura GET /api/mediciones/historial?limite=20 x10: prom 37.2 ms, p95 63.9 ms, ok 0/40, 243.4 req/s, códigos {"0":40}
+Lectura GET /api/sistema/estado x1: prom 14.9 ms, p95 38.4 ms, ok 0/40, 66.7 req/s, códigos {"0":40}
+Lectura GET /api/sistema/estado x5: prom 22.3 ms, p95 32.3 ms, ok 0/40, 208 req/s, códigos {"0":40}
+Lectura GET /api/sistema/estado x10: prom 32 ms, p95 48.7 ms, ok 0/40, 285.3 req/s, códigos {"0":40}
+9/12 casos aprobados en producción · 2026-11-11T05:28:18.285Z

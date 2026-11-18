@@ -1,0 +1,36 @@
+✔ RF-01 / CP-01: login con PIN válido de usuario crea sesión de 8 h (413.365ms)
+✔ RF-01 / CP-02: login con PIN de administrador devuelve rol admin (409.7412ms)
+✔ RF-02 / CP-03: guardar lectura unificada (wearable + teléfono) y consultarla en historial (11.1936ms)
+✔ RF-03 / CP-04: enviar pendientes marca la lectura como Enviada y el servidor la devuelve en su historial (567.8188ms)
+✔ RF-04 / CP-05: reglas de alerta en sus valores límite (FC 45-110, Temp <= 37.8, SpO2 >= 92) (1.1384ms)
+✔ RV-01 / CP-06: PIN con formato inválido se rechaza sin consultar al servidor (1.5476ms)
+✔ RV-02 / CP-07: bloqueo tras 5 intentos fallidos durante 30 s, incluso con el PIN correcto (2847.2046ms)
+✔ RV-03 / CP-08: rangos de MedicionRequest en sus valores límite (1.1725ms)
+✔ RV-03 / CP-09: el servidor (contrato) rechaza con 400 una medición fuera de rango (559.8274ms)
+✔ RP-01 / CP-10: alta, modificación y baja en IndexedDB conservan la consistencia (194.9573ms)
+✔ RF-05 / CP-11: el historial se ordena de la lectura más reciente a la más antigua (2.4359ms)
+✔ RP-02 / CP-12: dos envíos simultáneos no duplican mediciones en el servidor (722.9606ms)
+✔ RP-02 / CP-13: una lectura rechazada queda marcada y no se reintenta (406.6068ms)
+✔ RN-02 / CP-14: el servidor exige token y aísla el historial por usuario (1128.7305ms)
+✖ RN-02 / CP-15: en el mismo teléfono, un usuario no debe ver ni enviar lecturas de otro (810.5319ms)
+✔ RN-01 / CP-16: la sesión vencida deja de considerarse autenticada (1.9621ms)
+✔ RE-01 / CP-17: servidor caído o sin respuesta produce un error controlado (547.9748ms)
+✔ RE-01 / CP-18: respuestas 401 y 500 del servidor se distinguen al iniciar sesión (44.0744ms)
+✔ RE-01 / CP-19: sin red durante el envío, las lecturas siguen pendientes para el siguiente intento (573.0237ms)
+✔ RE-02 / CP-20: 401 durante el envío cierra la sesión y avisa en el login (403.2079ms)
+✖ RF-03 / CP-21: una lectura con los datos que entrega un wearable BLE estándar debe poder enviarse (1.4876ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 19
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9928.7348
+✖ failing tests:
+✖ RN-02 / CP-15: en el mismo teléfono, un usuario no debe ver ni enviar lecturas de otro (810.5319ms)
+  AssertionError [ERR_ASSERTION]: el administrador ve 1 lectura(s) de Juan Pérez como propias
+✖ RF-03 / CP-21: una lectura con los datos que entrega un wearable BLE estándar debe poder enviarse (1.4876ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  +   'spo2 requerido'
+    actual: [ 'spo2 requerido' ],

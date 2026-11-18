@@ -1,0 +1,158 @@
+{
+  "fecha": "2026-11-11T00:33:50.088Z",
+  "resultados": [
+    {
+      "id": "DB-01",
+      "descripcion": "Inserción válida (POST /api/mediciones) y lectura directa del documento",
+      "esperado": "Documento usuarios/{uid}/mediciones/{idLocal} con los mismos valores y tipos",
+      "observado": "HTTP 201; Firestore: FC 72 (integerValue), temp 36.4 (doubleValue), fecha timestampValue, pacienteId = UID",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "DB-02",
+      "descripcion": "Inserción con datos incompletos o inválidos (actividad vacía, FC 10, sin batería)",
+      "esperado": "400 y ningún documento creado",
+      "observado": "HTTP 400/400/400; los 3 documentos responden 404 en Firestore",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "DB-03",
+      "descripcion": "Consulta por identificador existente (SOS creado por la API)",
+      "esperado": "Mismos datos en la API y en el documento emergencias/{id}",
+      "observado": "id t3p8vDddBoURNoiYQan9: API estado ABIERTA = Firestore ABIERTA, version 0, pacienteId = UID de María",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "DB-04",
+      "descripcion": "Consulta por identificador inexistente",
+      "esperado": "404 en la API y 404 en Firestore",
+      "observado": "API HTTP 404 · Firestore HTTP 404",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "DB-05",
+      "descripcion": "Actualización: canalizar y atender; consulta posterior (persistencia)",
+      "esperado": "estado ATENDIDA, version 2, atendidaPorUid y fechas guardadas",
+      "observado": "Firestore: ATENDIDA, version 2, canalizadaA Dra. Ana Torres, atendidaPor Dra. Ana Torres",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "DB-06",
+      "descripcion": "Eliminación: DELETE /api/chat/{uid}/mensajes y conteo posterior",
+      "esperado": "0 mensajes de Juan; los de María no cambian",
+      "observado": "HTTP 204; Juan 0 mensajes; María 198 (sin cambio)",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "DB-07",
+      "descripcion": "Persistencia tras cerrar sesión y entrar de nuevo",
+      "esperado": "La lectura de DB-01 sigue en el historial con el token nuevo",
+      "observado": "Lectura wb19427b5861… presente con la sesión nueva",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "DB-08",
+      "descripcion": "Atomicidad: el SOS crea la emergencia y el mensaje en una sola transacción",
+      "esperado": "Ambos documentos existen (o ninguno)",
+      "observado": "HTTP 201; emergencia guardada y mensajes 0 → 1 (\"SOS: … FC 130 bpm. SpO2 90 %.\")",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "DB-09",
+      "descripcion": "Concurrencia: 2 SOS simultáneos del mismo paciente (10 rondas)",
+      "esperado": "Nunca más de 1 emergencia activa por paciente",
+      "observado": "0/10 rondas con duplicado; respuestas: 10× HTTP 200, 10× HTTP 201",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "DB-10",
+      "descripcion": "Concurrencia: dos recepcionistas canalizan el mismo SOS a la vez (5 rondas)",
+      "esperado": "Una gana (200), la otra recibe 409 con cómo quedó; un solo aviso",
+      "observado": "5/5 rondas con 200/409 y 1 aviso (200/409·1 200/409·1 200/409·1 200/409·1 200/409·1)",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "DB-11",
+      "descripcion": "Concurrencia: la doctora y el admin atienden el mismo SOS a la vez",
+      "esperado": "Un solo cambio de estado y un solo aviso \"fue atendida\"",
+      "observado": "HTTP 200/200; 1 aviso; version 2; atendidaPor Dra. Ana Torres",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "DB-12",
+      "descripcion": "Concurrencia: 5 reintentos simultáneos de la misma lectura (mismo idLocal)",
+      "esperado": "1 documento; 1×201 y 4×200",
+      "observado": "HTTP 200/200/200/200/201; un solo documento wbeb9e6d0cff…",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "DB-13",
+      "descripcion": "Reglas: acceso directo a Firestore sin pasar por Spring",
+      "esperado": "Sin sesión 403; Juan no lee a María, no escribe FC 300 ni cambia su rol",
+      "observado": "HTTP 403 / 403 / 403 / 403 (PERMISSION_DENIED)",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "DB-14",
+      "descripcion": "Inyección en un sistema NoSQL",
+      "esperado": "El texto se guarda literal como string; no altera la consulta",
+      "observado": "HTTP 201; guardado literal como stringValue; Firestore no interpreta texto como consulta",
+      "estado": "Aprobado"
+    }
+  ],
+  "tiempos": [
+    {
+      "consulta": "Q1 historial: usuarios/{uid}/mediciones orderBy fecha desc limit 20",
+      "directo": {
+        "min": 7.98,
+        "prom": 8.52,
+        "max": 9
+      },
+      "api": {
+        "min": 9.97,
+        "prom": 10.51,
+        "max": 10.85
+      }
+    },
+    {
+      "consulta": "Q2 SOS del paciente: emergencias where pacienteId == uid",
+      "directo": {
+        "min": 8.03,
+        "prom": 8.48,
+        "max": 9.59
+      },
+      "api": {
+        "min": 8.79,
+        "prom": 9.44,
+        "max": 10.49
+      }
+    },
+    {
+      "consulta": "Q3 perfil: usuarios/{uid} (lo hace cada petición autenticada)",
+      "directo": {
+        "min": 1.63,
+        "prom": 1.84,
+        "max": 2.29
+      },
+      "api": {
+        "min": 3.59,
+        "prom": 4.22,
+        "max": 5.92
+      }
+    },
+    {
+      "consulta": "Q4 doctores: usuarios where rol == doctor",
+      "directo": {
+        "min": 2.48,
+        "prom": 3.09,
+        "max": 4.85
+      },
+      "api": {
+        "min": 5.17,
+        "prom": 5.59,
+        "max": 5.93
+      }
+    }
+  ],
+  "medicionesDeJuan": 2161
+}

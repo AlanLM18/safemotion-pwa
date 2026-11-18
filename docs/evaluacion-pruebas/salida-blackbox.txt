@@ -1,0 +1,77 @@
+
+> safemotion-pwa@0.3.0 test:blackbox
+> node --test tests/blackbox.test.js
+
+✔ RF-01 / CP-01: login con PIN válido de usuario crea sesión de 8 h (413.6101ms)
+✔ RF-01 / CP-02: login con PIN de administrador devuelve rol admin (414.4769ms)
+✔ RF-02 / CP-03: guardar lectura unificada (wearable + teléfono) y consultarla en historial (10.2845ms)
+✔ RF-03 / CP-04: enviar pendientes marca la lectura como Enviada y el servidor la devuelve en su historial (570.0377ms)
+✔ RF-04 / CP-05: reglas de alerta en sus valores límite (FC 45-110, Temp <= 37.8, SpO2 >= 92) (1.0913ms)
+✔ RV-01 / CP-06: PIN con formato inválido se rechaza sin consultar al servidor (3.1457ms)
+✔ RV-02 / CP-07: bloqueo tras 5 intentos fallidos durante 30 s, incluso con el PIN correcto (2847.8932ms)
+✔ RV-03 / CP-08: rangos de MedicionRequest en sus valores límite (0.9924ms)
+✔ RV-03 / CP-09: el servidor (contrato) rechaza con 400 una medición fuera de rango (560.0334ms)
+✔ RP-01 / CP-10: alta, modificación y baja en IndexedDB conservan la consistencia (20.9531ms)
+✔ RF-05 / CP-11: el historial se ordena de la lectura más reciente a la más antigua (2.5211ms)
+✔ RP-02 / CP-12: dos envíos simultáneos no duplican mediciones en el servidor (730.3578ms)
+✔ RP-02 / CP-13: una lectura rechazada queda marcada y no se reintenta (404.2997ms)
+✔ RN-02 / CP-14: el servidor exige token y aísla el historial por usuario (1120.2943ms)
+✖ RN-02 / CP-15: en el mismo teléfono, un usuario no debe ver ni enviar lecturas de otro (813.3389ms)
+✔ RN-01 / CP-16: la sesión vencida deja de considerarse autenticada (0.9156ms)
+✔ RE-01 / CP-17: servidor caído o sin respuesta produce un error controlado (532.7225ms)
+✔ RE-01 / CP-18: respuestas 401 y 500 del servidor se distinguen al iniciar sesión (38.1576ms)
+✔ RE-01 / CP-19: sin red durante el envío, las lecturas siguen pendientes para el siguiente intento (561.1145ms)
+✔ RE-02 / CP-20: 401 durante el envío cierra la sesión y avisa en el login (407.6269ms)
+✖ RF-03 / CP-21: una lectura con los datos que entrega un wearable BLE estándar debe poder enviarse (1.28ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 19
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9732.2895
+
+✖ failing tests:
+
+test at tests\blackbox.test.js:230:1
+✖ RN-02 / CP-15: en el mismo teléfono, un usuario no debe ver ni enviar lecturas de otro (813.3389ms)
+  AssertionError [ERR_ASSERTION]: el administrador ve 1 lectura(s) de Juan Pérez como propias
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///C:/Users/ASUS/Downloads/safemotion-pwa/tests/blackbox.test.js:239:12)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\blackbox.test.js:315:1
+✖ RF-03 / CP-21: una lectura con los datos que entrega un wearable BLE estándar debe poder enviarse (1.28ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'spo2 requerido'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///C:/Users/ASUS/Downloads/safemotion-pwa/tests/blackbox.test.js:318:10)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:787:18)
+      at Test.postRun (node:internal/test_runner/test:1247:19)
+      at Test.run (node:internal/test_runner/test:1175:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'spo2 requerido' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

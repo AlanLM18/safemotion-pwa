@@ -1,0 +1,14 @@
+✔ CH-01 [Roles] Cada dispositivo ve las pantallas de su rol -> Paciente: Inicio, Wearable, Movimiento, Historial, Doctor, Cuenta · Doctor: Consultas, Cuenta
+✔ CH-02 [Alerta] Una alerta del wearable muestra un aviso con acceso al doctor -> Saturación de oxígeno bajaHablar con un doctor
+✔ CH-03 [P6-4] Desde el aviso se abre el chat y se envía el mensaje de la alerta -> Juan Pérez · Paciente · 11:07 p.m. Tengo una alerta: saturación de oxígeno baja. Mis signos ahora: FC 89 bpm, SpO2 91 %, temperatura 37 °C. ¿Qué hago mientras llego a consulta?
+✔ CH-04 [P6-6] Un mensaje vacío no se envía y muestra la validación -> Escribe un mensaje antes de enviarlo.
+✔ CH-05 [P6-1, P6-5] El doctor ve al paciente en su bandeja y abre la conversación -> Juan Pérez · Paciente · 11:07 p.m. Tengo una alerta: saturación de oxígeno baja. Mis signos ahora: FC 89 bpm, SpO2 91 %, temperatura 37 °C. ¿Qué hago mientras llego a consulta?
+✔ CH-06 [P6-4, P6-7] El doctor responde y recibe el aviso de "Mensaje enviado" -> Mensaje enviado
+✔ CH-07 [P6-5, A1, A2] El paciente recibe la respuesta con hora y el contador por emisor -> Dra. Ana Torres · Médico · 11:07 p.m. Siéntate y respira lento. Te reviso tus signos y te digo qué tomar. · contador · Juan Pérez: 1 · Dra. Ana Torres: 1
+✔ CH-08 [SOS] El SOS manda ubicación y signos y confirma al paciente -> Ayuda solicitada. Ubicación enviada.
+✔ CH-09 [SOS] El doctor ve el SOS primero, con signos y mapa, y lo marca como atendido -> SOS abierto desde 02/11/26, 11:07:18 p.m. FC 101 bpm · SpO₂ 89 % · 37.3 °C Ver ubicación en el mapa Marcar como atendida
+✔ CH-10 [SOS] El paciente ve que su SOS fue atendido -> Último SOS: 02/11/26, 11:07:18 p.m. · Atendido por Dra. Ana Torres
+✔ CH-11 [TC07] Sin conexión, el mensaje no se pierde y se avisa -> Aviso de error y el texto se conserva para reintentar
+✔ CH-12 [A3] Limpiar historial deja la conversación vacía -> Conversación vacía
+✔ CH-13 [Roles] Las rutas de otro rol redirigen a la pantalla propia -> Paciente #/consultas -> #/inicio · Doctor #/inicio -> #/consultas
+13 casos · 13 aprobados · 0 omitidos · 0 fallidos

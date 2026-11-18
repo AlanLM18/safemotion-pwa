@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UsuarioService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">com.safemotion.backend.service</a> &gt; <span class="el_source">UsuarioService.java</span></div><h1>UsuarioService.java</h1><pre class="source lang-java linenums">package com.safemotion.backend.service;
+
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Firestore;
+import com.safemotion.backend.error.ApiException;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import static com.safemotion.backend.service.FirestoreUtil.*;
+
+/** Administración de cuentas (solo admin). Las cuentas se crean fuera de la app; aquí se habilitan o deshabilitan. */
+@Service
+public class UsuarioService {
+
+    private final Firestore db;
+    private final AuthService auth;
+
+<span class="fc" id="L23">    public UsuarioService(Firestore db, AuthService auth) {</span>
+<span class="fc" id="L24">        this.db = db;</span>
+<span class="fc" id="L25">        this.auth = auth;</span>
+<span class="fc" id="L26">    }</span>
+
+    static Map&lt;String, Object&gt; dto(DocumentSnapshot d) {
+<span class="fc" id="L29">        Map&lt;String, Object&gt; u = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L30">        u.put(&quot;id&quot;, d.getId());</span>
+<span class="fc" id="L31">        u.put(&quot;nombre&quot;, d.getString(&quot;nombre&quot;));</span>
+<span class="fc" id="L32">        u.put(&quot;rol&quot;, d.getString(&quot;rol&quot;));</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        u.put(&quot;habilitado&quot;, !Boolean.FALSE.equals(d.getBoolean(&quot;habilitado&quot;)));</span>
+<span class="fc" id="L34">        u.put(&quot;ultimoInicioSesion&quot;, iso(d.get(&quot;ultimoInicioSesion&quot;)));</span>
+<span class="fc" id="L35">        return u;</span>
+    }
+
+    public List&lt;Map&lt;String, Object&gt;&gt; listar(Sesion s) {
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (!Reglas.ADMIN.equals(s.rol())) throw ApiException.sinPermiso();</span>
+<span class="fc" id="L40">        return get(db.collection(&quot;usuarios&quot;)).getDocuments().stream().map(UsuarioService::dto).toList();</span>
+    }
+
+    public Map&lt;String, Object&gt; cambiarEstado(Sesion s, String uid, boolean habilitado) {
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (!Reglas.ADMIN.equals(s.rol())) throw ApiException.sinPermiso();</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">        if (s.uid().equals(uid)) throw new ApiException(HttpStatus.BAD_REQUEST, &quot;No puedes deshabilitar tu propia cuenta&quot;);</span>
+<span class="fc" id="L46">        DocumentReference ref = db.collection(&quot;usuarios&quot;).document(uid);</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        if (!get(ref).exists()) throw ApiException.noExiste(&quot;El usuario&quot;);</span>
+<span class="fc" id="L48">        esperar(ref.update(&quot;habilitado&quot;, habilitado));</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if (!habilitado) auth.revocar(uid);   // sus tokens dejan de servir de inmediato</span>
+<span class="fc" id="L50">        return dto(get(ref));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

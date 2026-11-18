@@ -1,0 +1,7 @@
+Primera corrida de resiliencia (antes), 12/11/2026: RES-01 a RES-07 aprobados; en RES-08 una de las solicitudes
+reenviadas por el proxy terminó con ApiError "Sin conexión con el servidor" (status 0) y el proceso de prueba se detuvo
+porque el error no estaba capturado (Promise.all sin manejo).
+Reproducción aislada del mismo escenario (respuesta tardía de 3 s, 2 solicitudes): 200 en 3 042 ms y 200 en 3 021 ms.
+Segunda corrida completa con la prueba instrumentada (Promise.allSettled + registro de errores del proxy): RES-08 aprobado,
+sin errores. Causa probable: reutilización de una conexión keep-alive que el escenario RES-07 había cerrado a propósito.
+Se registra como hallazgo intermitente de la herramienta de prueba, no de la aplicación.

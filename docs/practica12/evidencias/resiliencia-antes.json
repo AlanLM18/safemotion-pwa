@@ -1,0 +1,75 @@
+{
+  "etiqueta": "antes",
+  "fecha": "2026-11-13T00:01:45.973Z",
+  "casos": [
+    {
+      "id": "RES-01",
+      "escenario": "Pérdida de Internet durante una consulta",
+      "esperado": "Error controlado",
+      "observado": "Conexión cortada antes de llegar: \"Sin conexión con el servidor\" (status 0) en 13.3 ms · cortada durante la respuesta: \"Sin conexión con el servidor\" en 97.9 ms; la app no se cae",
+      "resultado": "Cumple",
+      "deteccionMs": 97.9
+    },
+    {
+      "id": "RES-02",
+      "escenario": "Pérdida de Internet durante una escritura",
+      "esperado": "No confirmar falsamente el registro",
+      "observado": "Sincronizar 3 lecturas sin red: \"Sin conexión con el servidor\" en 28.9 ms · cola local: 3 pendientes, 0 marcadas como enviadas · servidor: 60 → 60",
+      "resultado": "Cumple",
+      "deteccionMs": 28.9
+    },
+    {
+      "id": "RES-03",
+      "escenario": "Servidor sin respuesta",
+      "esperado": "Timeout controlado",
+      "observado": "La solicitud se cancela a los 8014.9 ms con \"Sin conexión con el servidor\" (AbortController, API_TIMEOUT_MS = 8 000 ms; en modo Firebase el límite es 10 000 ms)",
+      "resultado": "Cumple",
+      "deteccionMs": 8014.9
+    },
+    {
+      "id": "RES-04",
+      "escenario": "Respuesta HTTP 500",
+      "esperado": "Mostrar error y conservar estabilidad",
+      "observado": "Sincronizar: error \"HTTP 500\" (status 500) y las 3 lecturas siguen pendientes · consulta: ApiError 500 con datos \"del cuerpo\"; el proceso continúa",
+      "resultado": "Cumple"
+    },
+    {
+      "id": "RES-05",
+      "escenario": "Respuesta HTTP 401 o 403",
+      "esperado": "Gestionar correctamente autenticación o permisos",
+      "observado": "401 (token revocado): la sincronización se detiene, se borra la sesión y se envía a /login (sí) · 403 (cuenta deshabilitada): \"Esta cuenta está deshabilitada\" (status 403), distinto de \"Credenciales inválidas\"",
+      "resultado": "Cumple"
+    },
+    {
+      "id": "RES-06",
+      "escenario": "Recuperación de conexión",
+      "esperado": "Restablecer comunicación",
+      "observado": "Política: reintento fijo cada 5 s · 8 intentos durante 40 s sin red · lo pendiente se envió 0.2 s después de volver la red · servidor 60 → 63",
+      "resultado": "Cumple",
+      "intentosSinRed": 8,
+      "recuperacionS": 0.2,
+      "solicitudesAlServidor": 11
+    },
+    {
+      "id": "RES-07",
+      "escenario": "Reintento de una escritura",
+      "esperado": "Evitar duplicados inesperados",
+      "observado": "1.er intento: \"Sin conexión con el servidor\" pero el servidor ya guardó (63 → 64) · reintento: 3 enviadas · total 3 lecturas para 3 envíos (idLocal como ID del documento)",
+      "resultado": "Cumple"
+    },
+    {
+      "id": "RES-08",
+      "escenario": "Respuesta tardía (varios toques al botón)",
+      "esperado": "Evitar operaciones duplicadas o inconsistentes en la interfaz",
+      "observado": "3 llamadas simultáneas compartieron la misma sincronización (misma promesa) · 2 POST al servidor para 2 lecturas · 2 guardadas · 6097 ms",
+      "resultado": "Cumple"
+    },
+    {
+      "id": "RES-08b",
+      "escenario": "Respuesta tardía en la interfaz (SOS, 3 toques, servidor tarda 4 s)",
+      "esperado": "No crear SOS duplicados ni mostrar estados contradictorios",
+      "observado": "Botón deshabilitado mientras se envía: sí · 1 POST · SOS de Juan 0 → 1 · mensaje final: \"Ayuda solicitada: recepción ya la recibió. Ubicación no disponible.\" (4433 ms)",
+      "resultado": "Cumple"
+    }
+  ]
+}

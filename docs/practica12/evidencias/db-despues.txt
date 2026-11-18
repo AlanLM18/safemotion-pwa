@@ -1,0 +1,24 @@
+Siembra: 2 000 mediciones de Juan y 1 500 SOS atendidos
+DB-1 Consulta individual por identificador (usuarios/{uid}/mediciones/{id} · perfil por la API)
+   directo: {"min":5.76,"prom":6.81,"max":7.98,"registros":1,"bytes":876}
+   api: {"min":0.94,"prom":1.23,"max":1.6,"registros":1,"bytes":76,"codigo":200,"operacionesPorSolicitud":{"lecturas":0,"perfil":0,"verificaciones":0}}
+DB-2 Conjunto pequeño: 20 lecturas más recientes
+   directo: {"min":21.91,"prom":26.77,"max":34.2,"registros":20,"bytes":20397}
+   api: {"min":12.17,"prom":18.61,"max":24.02,"registros":20,"bytes":4859,"codigo":200,"operacionesPorSolicitud":{"lecturas":1,"perfil":0,"verificaciones":0}}
+DB-3 Conjunto grande: 500 lecturas (máximo de la API) · 2 000 directo
+   directo: {"min":125.5,"prom":195.43,"max":303.01,"registros":2000,"bytes":2075698}
+   api: {"min":31.59,"prom":45.02,"max":70.07,"registros":500,"bytes":124374,"codigo":200,"operacionesPorSolicitud":{"lecturas":1,"perfil":0,"verificaciones":0}}
+DB-4a Filtro por campo: SOS de una paciente (where pacienteId == uid)
+   directo: {"min":51.58,"prom":54.69,"max":64.38,"registros":750,"bytes":742519}
+   api: {"min":37.65,"prom":39.85,"max":42.15,"registros":750,"bytes":207001,"codigo":200,"operacionesPorSolicitud":{"lecturas":1,"perfil":0,"verificaciones":0}}
+DB-4b Filtro para recepción: lista de SOS (API) · SOS activos where estado in [ABIERTA, CANALIZADA] (directo)
+   directo: {"min":12.97,"prom":14.8,"max":18.65,"registros":0,"bytes":68}
+   api: {"min":18.1,"prom":20.78,"max":23.95,"registros":50,"bytes":13751,"codigo":200,"operacionesPorSolicitud":{"lecturas":2,"perfil":0,"verificaciones":0}}
+DB-4c Filtro en el cliente: alertas de las últimas 100 lecturas (/api/alertas)
+   directo: null
+   api: {"min":10.41,"prom":11.59,"max":12.85,"registros":0,"bytes":2,"codigo":200,"operacionesPorSolicitud":{"lecturas":1,"perfil":0,"verificaciones":0}}
+DB-5 {"id":"DB-5","nombre":"20 escrituras concurrentes sobre registros distintos (2 pacientes)","ms":79.4,"codigos":{"201":20},"tiempos":{"min":66.57,"prom":73.97,"max":77.81}}
+DB-6a {"id":"DB-6a","nombre":"10 canalizaciones simultáneas del mismo SOS","ms":3046,"codigos":{"200":1,"409":9},"tiempos":{"min":2168.75,"prom":2615.35,"max":3029.66},"versionFinal":1,"estadoFinal":"CANALIZADA","avisosCanalizacion":1}
+DB-6b {"id":"DB-6b","nombre":"20 escrituras simultáneas del mismo registro (mismo idLocal)","ms":2990.4,"codigos":{"200":19,"201":1},"tiempos":{"min":2141.25,"prom":2564.42,"max":2984.09},"documentosResultantes":1}
+DB-6c {"id":"DB-6c","nombre":"10 SOS simultáneos de la misma paciente","ms":3179.3,"codigos":{"200":9,"201":1},"tiempos":{"min":2365.84,"prom":2734.73,"max":3112.31},"sosActivosResultantes":1}
+Integridad: {"emergencias":1503,"versionIncoherente":0,"pacientesConMasDeUnSosActivo":0}

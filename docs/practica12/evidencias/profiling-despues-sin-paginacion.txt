@@ -1,0 +1,7 @@
+Carga de la app y login con PIN: 1555 ms · CPU 12% (máx 13.1%) · heap 0.93→3.48→3.48 MB · tareas largas 0 (máx 0 ms) · Firebase 10 solic / 3.5 KB · {"loginMs":730}
+Consulta repetida: abrir el chat 10 veces: 1432 ms · CPU 50.9% (máx 50.9%) · heap 3.48→7.71→5.66 MB · tareas largas 1 (máx 50 ms) · Firebase 30 solic / 10.3 KB · {"abrirChatProm":116.1,"min":77,"max":333}
+Consulta periódica: chat abierto 30 s sin actividad: 30014 ms · CPU 2.6% (máx 7.7%) · heap 5.67→8.57→6.63 MB · tareas largas 0 (máx 0 ms) · Firebase 31 solic / 10.7 KB · {"mensajesEnPantalla":150}
+Escritura: guardar 5 lecturas del wearable y enviarlas: 1889 ms · CPU 5% (máx 5.3%) · heap 6.64→7.15→7.15 MB · tareas largas 0 (máx 0 ms) · Firebase 14 solic / 4.3 KB · {"enviarMs":222,"mensaje":"5 enviada(s), 0 rechazada(s)."}
+Navegación: 5 vueltas por Inicio, Wearable, Historial, Doctor y Cuenta: 818 ms · CPU 44.2% (máx 44.2%) · heap 7.15→9.11→4.35 MB · tareas largas 0 (máx 0 ms) · Firebase 15 solic / 5.2 KB · {"/inicio":20.3,"/dispositivo":24.4,"/historial":20.1,"/doctor":75.5,"/cuenta":23.1}
+Procesamiento: mostrar Historial con 1 000 lecturas locales (5 veces): 1112 ms · CPU 79.3% (máx 93.1%) · heap 5.31→9.47→7.08 MB · tareas largas 5 (máx 117 ms) · Firebase 0 solic / 0 KB · {"historial1000Prom":191.4,"elementos":1005}
+Operación crítica: sincronizar 100 lecturas pendientes: 1954 ms · CPU 21.8% (máx 22.5%) · heap 7.22→10.94→5.96 MB · tareas largas 0 (máx 0 ms) · Firebase 200 solic / 85.2 KB · {"sincronizar100Ms":1891,"mensaje":"100 enviada(s), 0 rechazada(s)."}

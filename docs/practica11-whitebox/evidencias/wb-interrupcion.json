@@ -1,0 +1,78 @@
+{
+  "fecha": "2026-11-11T00:34:40.390Z",
+  "pasos": [
+    {
+      "paso": "1. Sin red: sincronizar 3 lecturas",
+      "modo": "caida",
+      "ms": 15.4,
+      "resultado": {
+        "ok": false,
+        "error": "Sin conexión con el servidor",
+        "status": 0
+      },
+      "local": {
+        "pendientes": 3,
+        "enviadas": 0
+      },
+      "servidor": 6
+    },
+    {
+      "paso": "2. Se pierde la respuesta (el servidor ya guardó)",
+      "modo": "cortar-respuesta",
+      "ms": 10.3,
+      "resultado": {
+        "ok": false,
+        "error": "Sin conexión con el servidor",
+        "status": 0
+      },
+      "local": {
+        "pendientes": 3,
+        "enviadas": 0
+      },
+      "servidor": 7
+    },
+    {
+      "paso": "3. Se recupera la red: reintento",
+      "modo": "normal",
+      "ms": 27,
+      "resultado": {
+        "ok": true,
+        "valor": {
+          "total": 3,
+          "enviadas": 3,
+          "rechazadas": 0
+        }
+      },
+      "local": {
+        "pendientes": 0,
+        "enviadas": 3
+      },
+      "servidor": 9
+    },
+    {
+      "paso": "4. Segundo reintento (no debe enviar nada)",
+      "modo": "normal",
+      "ms": 0.3,
+      "resultado": {
+        "ok": true,
+        "valor": {
+          "total": 0,
+          "enviadas": 0,
+          "rechazadas": 0
+        }
+      },
+      "local": {
+        "pendientes": 0,
+        "enviadas": 3
+      },
+      "servidor": 9
+    }
+  ],
+  "resumen": {
+    "inicial": 6,
+    "final": 9,
+    "esperadas": 3,
+    "insertadas": 3,
+    "duplicadas": 0
+  }
+}

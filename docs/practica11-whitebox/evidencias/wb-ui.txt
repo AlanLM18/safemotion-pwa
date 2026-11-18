@@ -1,0 +1,8 @@
+Vercel carga 1 (Wi-Fi, sin caché) {"etiqueta":"Vercel carga 1 (Wi-Fi, sin caché)","url":"https://safemotion-pwa.vercel.app/","ttfb":79.5,"dcl":436,"load":436.2,"fcp":464,"recursos":5,"bytes":27855,"hastaRedInactiva":1075,"heapMB":1.62,"nodosDOM":91}
+Vercel carga 2 (Wi-Fi, sin caché) {"etiqueta":"Vercel carga 2 (Wi-Fi, sin caché)","url":"https://safemotion-pwa.vercel.app/","ttfb":79.6,"dcl":410.5,"load":410.6,"fcp":432,"recursos":5,"bytes":27855,"hastaRedInactiva":1091,"heapMB":1.62,"nodosDOM":91}
+Vercel carga 3 (Wi-Fi, sin caché) {"etiqueta":"Vercel carga 3 (Wi-Fi, sin caché)","url":"https://safemotion-pwa.vercel.app/","ttfb":79.7,"dcl":434.7,"load":434.8,"fcp":456,"recursos":5,"bytes":27855,"hastaRedInactiva":1080,"heapMB":1.62,"nodosDOM":91}
+Vercel con 4G lenta (1.6 Mbps, 150 ms) y CPU 4x {"etiqueta":"Vercel con 4G lenta (1.6 Mbps, 150 ms) y CPU 4x","url":"https://safemotion-pwa.vercel.app/","ttfb":150.2,"dcl":616.2,"load":617.1,"fcp":696,"recursos":5,"bytes":27855,"hastaRedInactiva":1424,"heapMB":1.61,"nodosDOM":91}
+Login hasta Inicio: 115.8 ms
+SOS-sin-red {"etiqueta":"SOS-sin-red","offline":true,"ms":139.2,"texto":"No fue posible obtener la información. Si es una emergencia, llama al 911.","clase":"error small","boton":"Enviar SOS","sosEnServidor":4}
+SOS-red-recuperada {"etiqueta":"SOS-red-recuperada","offline":false,"ms":28.1,"texto":"Ayuda solicitada: recepción ya la recibió. Ubicación no disponible.","clase":"small","boton":"Ir al chat","sosEnServidor":5}
+SOS-repetido {"etiqueta":"SOS-repetido","offline":false,"ms":34.4,"texto":"Ya tienes una solicitud abierta desde 10/11/26, 6:35:44 p.m.. Recepción ya fue avisada.","clase":"small","boton":"Ir al chat","sosEnServidor":5}

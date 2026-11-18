@@ -1,0 +1,196 @@
+{
+  "etiqueta": "despues",
+  "fecha": "2026-11-13T00:25:09.095Z",
+  "fases": [
+    {
+      "fase": "Carga de la app y login con PIN",
+      "duracionMs": 1847,
+      "cpuProm": 16.1,
+      "cpuMax": 16.2,
+      "scriptMs": 40,
+      "layoutMs": 55,
+      "heapIniMB": 0.93,
+      "heapMaxMB": 3.45,
+      "heapFinMB": 3.45,
+      "nodosFin": 227,
+      "tareasLargas": 0,
+      "tareaLargaMaxMs": 0,
+      "solicitudes": 18,
+      "solicitudesFirebase": 9,
+      "kbFirebase": 3.1,
+      "detalle": {
+        "loginMs": 958
+      }
+    },
+    {
+      "fase": "Consulta repetida: abrir el chat 10 veces",
+      "duracionMs": 2076,
+      "cpuProm": 52.9,
+      "cpuMax": 63.7,
+      "scriptMs": 25,
+      "layoutMs": 87,
+      "heapIniMB": 3.49,
+      "heapMaxMB": 6.4,
+      "heapFinMB": 5.37,
+      "nodosFin": 15943,
+      "tareasLargas": 2,
+      "tareaLargaMaxMs": 63,
+      "solicitudes": 30,
+      "solicitudesFirebase": 30,
+      "kbFirebase": 10.6,
+      "detalle": {
+        "abrirChatProm": 172.6,
+        "min": 109,
+        "max": 546
+      }
+    },
+    {
+      "fase": "Consulta periódica: chat abierto 30 s sin actividad",
+      "duracionMs": 30011,
+      "cpuProm": 3.4,
+      "cpuMax": 10.8,
+      "scriptMs": 9,
+      "layoutMs": 65,
+      "heapIniMB": 5.37,
+      "heapMaxMB": 8.62,
+      "heapFinMB": 5.93,
+      "nodosFin": 29463,
+      "tareasLargas": 0,
+      "tareaLargaMaxMs": 0,
+      "solicitudes": 30,
+      "solicitudesFirebase": 30,
+      "kbFirebase": 10.3,
+      "detalle": {
+        "mensajesEnPantalla": 150
+      }
+    },
+    {
+      "fase": "Escritura: guardar 5 lecturas del wearable y enviarlas",
+      "duracionMs": 2053,
+      "cpuProm": 7.1,
+      "cpuMax": 8.3,
+      "scriptMs": 14,
+      "layoutMs": 32,
+      "heapIniMB": 5.93,
+      "heapMaxMB": 6.45,
+      "heapFinMB": 6.45,
+      "nodosFin": 30012,
+      "tareasLargas": 0,
+      "tareaLargaMaxMs": 0,
+      "solicitudes": 15,
+      "solicitudesFirebase": 15,
+      "kbFirebase": 4.3,
+      "detalle": {
+        "enviarMs": 373,
+        "mensaje": "5 enviada(s), 0 rechazada(s)."
+      }
+    },
+    {
+      "fase": "Navegación: 5 vueltas por Inicio, Wearable, Historial, Doctor y Cuenta",
+      "duracionMs": 1279,
+      "cpuProm": 53,
+      "cpuMax": 54.3,
+      "scriptMs": 31,
+      "layoutMs": 56,
+      "heapIniMB": 6.45,
+      "heapMaxMB": 8.21,
+      "heapFinMB": 4.45,
+      "nodosFin": 10038,
+      "tareasLargas": 0,
+      "tareaLargaMaxMs": 0,
+      "solicitudes": 15,
+      "solicitudesFirebase": 15,
+      "kbFirebase": 5.2,
+      "detalle": {
+        "/inicio": 32.6,
+        "/dispositivo": 32.4,
+        "/historial": 32.8,
+        "/doctor": 121.3,
+        "/cuenta": 36.4
+      }
+    },
+    {
+      "fase": "Procesamiento: mostrar Historial con 1 000 lecturas locales (5 veces)",
+      "duracionMs": 420,
+      "cpuProm": 61.5,
+      "cpuMax": null,
+      "scriptMs": 64,
+      "layoutMs": 32,
+      "heapIniMB": 5.42,
+      "heapMaxMB": 8.24,
+      "heapFinMB": 4.3,
+      "nodosFin": 11508,
+      "tareasLargas": 0,
+      "tareaLargaMaxMs": 0,
+      "solicitudes": 0,
+      "solicitudesFirebase": 0,
+      "kbFirebase": 0,
+      "detalle": {
+        "historial1000Prom": 52,
+        "elementos": 100
+      }
+    },
+    {
+      "fase": "Procesamiento: recorrer todas las páginas del Historial (si existen)",
+      "duracionMs": 388,
+      "cpuProm": 57.3,
+      "cpuMax": null,
+      "scriptMs": 172,
+      "layoutMs": 54,
+      "heapIniMB": 4.3,
+      "heapMaxMB": 6.43,
+      "heapFinMB": 6.43,
+      "nodosFin": 25103,
+      "tareasLargas": 0,
+      "tareaLargaMaxMs": 0,
+      "solicitudes": 0,
+      "solicitudesFirebase": 0,
+      "kbFirebase": 0,
+      "detalle": {
+        "elementos": 1005,
+        "paginasExtra": 10,
+        "msVerTodas": 388
+      }
+    },
+    {
+      "fase": "Operación crítica: sincronizar 100 lecturas pendientes",
+      "duracionMs": 2590,
+      "cpuProm": 21.7,
+      "cpuMax": 23.5,
+      "scriptMs": 35,
+      "layoutMs": 14,
+      "heapIniMB": 6.57,
+      "heapMaxMB": 11.14,
+      "heapFinMB": 4.14,
+      "nodosFin": 11570,
+      "tareasLargas": 0,
+      "tareaLargaMaxMs": 0,
+      "solicitudes": 203,
+      "solicitudesFirebase": 203,
+      "kbFirebase": 85.2,
+      "detalle": {
+        "sincronizar100Ms": 2479,
+        "mensaje": "100 enviada(s), 0 rechazada(s)."
+      }
+    }
+  ],
+  "operaciones": {
+    "loginMs": 958,
+    "abrirChatMs": 172.6,
+    "navegacion": {
+      "/inicio": 32.6,
+      "/dispositivo": 32.4,
+      "/historial": 32.8,
+      "/doctor": 121.3,
+      "/cuenta": 36.4
+    },
+    "historial1000Ms": 52,
+    "sincronizar100Ms": 2479
+  },
+  "navegador": "Edg/157.0.4341.46",
+  "mensajesSembrados": 150,
+  "tareasLargasTotales": {
+    "cantidad": 2,
+    "maxMs": 63
+  }
+}

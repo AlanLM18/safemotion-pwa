@@ -1,0 +1,84 @@
+
+> safemotion-pwa@0.3.0 test:sync:int
+> node --test tests/sync.integration.test.js
+
+✔ I-01 flujo correcto: las lecturas de IndexedDB llegan al servidor y quedan Enviadas con su id del servidor (90.4849ms)
+✔ I-02 error: el servidor falla (503) a mitad de la cola; al recuperarse se envía solo lo pendiente (26.2739ms)
+✔ I-03 error: un 400 real del servidor marca la lectura como Rechazada y no se reintenta (9.218ms)
+✔ I-04 error: el servidor se reinicia y pierde las sesiones (401): se cierra la sesión y nada se pierde (8.8831ms)
+✔ I-05 error: el servidor no responde; el tiempo de espera corta la petición y la lectura sigue Pendiente (818.9686ms)
+⚠ I-06 [D-02] si el servidor guarda pero la respuesta se pierde, el reintento no debe duplicar la medición (830.4953ms) # Defecto D-02 abierto: POST /api/mediciones no es idempotente
+✔ I-07 Spring Boot real: las lecturas de IndexedDB quedan en el historial del servidor con el mismo id (64.1122ms)
+⚠ I-08 [D-03] Spring Boot real: una medición sin SpO2 debe rechazarse, no guardarse como 0 % (24.4272ms) # Defecto D-03 abierto: MedicionRequest.java usa int primitivo y null se convierte en 0
+ℹ tests 8
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 2
+ℹ duration_ms 2131.1046
+
+✖ failing tests:
+
+test at tests\sync.integration.test.js:98:1
+⚠ I-06 [D-02] si el servidor guarda pero la respuesta se pierde, el reintento no debe duplicar la medición (830.4953ms) # Defecto D-02 abierto: POST /api/mediciones no es idempotente
+  AssertionError [ERR_ASSERTION]: el servidor tiene 2 copias de la misma lectura
+  
+  2 !== 1
+  
+      at TestContext.<anonymous> (file:///C:/Users/ASUS/Downloads/safemotion-pwa/tests/sync.integration.test.js:103:10)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\sync.integration.test.js:129:1
+⚠ I-08 [D-03] Spring Boot real: una medición sin SpO2 debe rechazarse, no guardarse como 0 % (24.4272ms) # Defecto D-03 abierto: MedicionRequest.java usa int primitivo y null se convierte en 0
+  AssertionError [ERR_ASSERTION]: Spring Boot la guardó con id 7 y spo2 = 0 %
+  + actual - expected
+  
+  + {
+  +   actividad: 'reposo',
+  +   bateria: 90,
+  +   calorias: 0,
+  +   dispositivo: {
+  +     bateria: 90,
+  +     estado: 'Conectado',
+  +     id: 1,
+  +     nombre: 'SafeBand X1',
+  +     usuario: 'Juan Pérez'
+  +   },
+  +   fecha: '2026-11-02T23:06:26.1845337',
+  +   frecuenciaCardiaca: 80,
+  +   id: 7,
+  +   pasos: 0,
+  +   spo2: 0,
+  +   temperatura: 36.6,
+  +   usuario: {
+  +     habilitado: true,
+  +     id: 2,
+  +     nombre: 'Juan Pérez',
+  +     rol: 'usuario',
+  +     ultimoInicioSesion: '2026-11-02T23:06:26.172128'
+  +   }
+  + }
+  - null
+  
+      at file:///C:/Users/ASUS/Downloads/safemotion-pwa/tests/sync.integration.test.js:133:10
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async contraSpring (file:///C:/Users/ASUS/Downloads/safemotion-pwa/tests/sync.integration.test.js:113:35)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { id: 7, frecuenciaCardiaca: 80, temperatura: 36.6, spo2: 0, pasos: 0, calorias: 0, actividad: 'reposo', bateria: 90, fecha: '2026-11-02T23:06:26.1845337', dispositivo: { id: 1, nombre: 'SafeBand X1', usuario: 'Juan Pérez', estado: 'Conectado', bateria: 90 }, usuario: { id: 2, nombre: 'Juan Pérez', rol: 'usuario', habilitado: true, ultimoInicioSesion: '2026-11-02T23:06:26.172128' } },
+    expected: null,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

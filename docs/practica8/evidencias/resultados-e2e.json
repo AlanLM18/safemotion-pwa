@@ -1,0 +1,162 @@
+[
+  {
+    "id": "E2E-01",
+    "req": "RN-01",
+    "descripcion": "Sin sesión, cualquier pantalla protegida redirige a Login",
+    "estado": "Aprobado",
+    "detalle": "De #/historial a #/login",
+    "captura": "E2E-01.png"
+  },
+  {
+    "id": "E2E-02",
+    "req": "RV-01",
+    "descripcion": "El campo PIN descarta letras y limita a 4 dígitos",
+    "estado": "Aprobado",
+    "detalle": "Escrito \"ab12cd345\", queda \"1234\"",
+    "captura": "E2E-02.png"
+  },
+  {
+    "id": "E2E-03",
+    "req": "RV-01",
+    "descripcion": "PIN incompleto muestra mensaje genérico y no inicia sesión",
+    "estado": "Aprobado",
+    "detalle": "Datos de acceso no válidos.",
+    "captura": "E2E-03.png"
+  },
+  {
+    "id": "E2E-04",
+    "req": "RV-01",
+    "descripcion": "PIN con formato válido pero incorrecto muestra el mismo mensaje genérico",
+    "estado": "Aprobado",
+    "detalle": "Mensaje genérico, campo limpio",
+    "captura": "E2E-04.png"
+  },
+  {
+    "id": "E2E-05",
+    "req": "RF-01",
+    "descripcion": "Login correcto (0000) abre Inicio con el nombre del usuario",
+    "estado": "Aprobado",
+    "detalle": "Hola, Juan Pérez; pestañas: Inicio, Wearable, Movimiento, Historial, Cuenta",
+    "captura": "E2E-05.png"
+  },
+  {
+    "id": "E2E-06",
+    "req": "RN-01",
+    "descripcion": "Con sesión, Login y rutas desconocidas redirigen a Inicio",
+    "estado": "Aprobado",
+    "detalle": "#/login y #/no-existe -> #/inicio",
+    "captura": "E2E-06.png"
+  },
+  {
+    "id": "E2E-07",
+    "req": "RP-01",
+    "descripcion": "La sesión se conserva al recargar la página",
+    "estado": "Aprobado",
+    "detalle": "Hola, Juan Pérez (sigue en Inicio tras recargar)",
+    "captura": "E2E-07.png"
+  },
+  {
+    "id": "E2E-08",
+    "req": "RV-03",
+    "descripcion": "Guardar lectura sin sensores ni wearable muestra un aviso y no guarda",
+    "estado": "Aprobado",
+    "detalle": "Inicia los sensores o conecta un wearable primero.",
+    "captura": "E2E-08.png"
+  },
+  {
+    "id": "E2E-09",
+    "req": "RF-04",
+    "descripcion": "Wearable simulado en escenario \"alerta\" resalta los valores fuera de rango",
+    "estado": "Aprobado",
+    "detalle": "FC 120 bpm, 3 mosaico(s) en alerta",
+    "captura": "E2E-09.png"
+  },
+  {
+    "id": "E2E-10",
+    "req": "RF-04",
+    "descripcion": "Inicio muestra el banner de alertas del wearable",
+    "estado": "Aprobado",
+    "detalle": "Frecuencia cardiaca alta · Temperatura elevada · Saturación de oxígeno baja",
+    "captura": "E2E-10.png"
+  },
+  {
+    "id": "E2E-11",
+    "req": "RF-02",
+    "descripcion": "Guardar lectura con wearable simulado confirma el guardado",
+    "estado": "Aprobado",
+    "detalle": "Lectura guardada (teléfono + wearable).",
+    "captura": "E2E-11.png"
+  },
+  {
+    "id": "E2E-12",
+    "req": "RF-03, RF-05",
+    "descripcion": "Historial muestra la lectura Pendiente y \"Enviar pendientes\" la marca Enviada",
+    "estado": "Aprobado",
+    "detalle": "1 enviada(s), 0 rechazada(s). Estados: Enviada",
+    "captura": "E2E-12.png"
+  },
+  {
+    "id": "E2E-13",
+    "req": "RP-02",
+    "descripcion": "Enviar de nuevo no reenvía lo ya enviado",
+    "estado": "Aprobado",
+    "detalle": "No hay lecturas pendientes.",
+    "captura": "E2E-13.png"
+  },
+  {
+    "id": "E2E-14",
+    "req": "RE-01",
+    "descripcion": "Sin red, el monitoreo automático guarda la lectura en el teléfono",
+    "estado": "Aprobado",
+    "detalle": "Sin red: lectura guardada en el teléfono",
+    "captura": "E2E-14.png"
+  },
+  {
+    "id": "E2E-15",
+    "req": "RP-01",
+    "descripcion": "Eliminar una lectura la quita de la lista y del contador de Inicio",
+    "estado": "Aprobado",
+    "detalle": "2 -> 1 lecturas; contador de Inicio = 1; confirmación previa: no",
+    "captura": "E2E-15.png"
+  },
+  {
+    "id": "E2E-16",
+    "req": "RN-02",
+    "descripcion": "Cuenta muestra el rol y \"Cerrar sesión\" vuelve a Login",
+    "estado": "Aprobado",
+    "detalle": "Rol: usuario; tras cerrar sesión #/inicio -> #/login",
+    "captura": "E2E-16.png"
+  },
+  {
+    "id": "E2E-17",
+    "req": "RN-02",
+    "descripcion": "Al cambiar de usuario en el mismo teléfono, el historial no muestra lecturas del anterior",
+    "estado": "Fallido",
+    "detalle": "el Administrador ve 2 lectura(s); 2 pertenecen a Juan Pérez",
+    "captura": "E2E-17.png"
+  },
+  {
+    "id": "E2E-18",
+    "req": "RV-02",
+    "descripcion": "Tras 5 PIN incorrectos, el sexto intento se bloquea",
+    "estado": "Aprobado",
+    "detalle": "Demasiados intentos. Espera 30 s.",
+    "captura": "E2E-18.png"
+  },
+  {
+    "id": "E2E-19",
+    "req": "RV-02",
+    "descripcion": "El bloqueo se mantiene al recargar la página",
+    "estado": "Fallido",
+    "detalle": "al recargar se reinicia el bloqueo y el PIN correcto entra de inmediato",
+    "captura": "E2E-19.png"
+  },
+  {
+    "id": "E2E-20",
+    "req": "RN-01, RE-02",
+    "descripcion": "Una sesión vencida (más de 8 h) obliga a iniciar sesión otra vez",
+    "estado": "Aprobado",
+    "detalle": "Redirige a #/login",
+    "captura": "E2E-20.png"
+  }
+]

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">com.safemotion.backend.service</a> &gt; <span class="el_source">AuthService.java</span></div><h1>AuthService.java</h1><pre class="source lang-java linenums">package com.safemotion.backend.service;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.FieldValue;
+import com.google.cloud.firestore.Firestore;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
+import com.safemotion.backend.error.ApiException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.Map;
+
+/**
+ * Sesión con Firebase Authentication.
+ * Login: el PIN de 4 dígitos se traduce a la cuenta de Firebase (mismo esquema que src/models/user.js de la PWA, el
+ * dashboard y el reloj) y se inicia sesión con la API REST de Identity Toolkit. El token que se devuelve es el ID token
+ * de Firebase (caduca en 1 h); cada petición lo verifica con el Admin SDK, incluido si fue revocado (logout o cuenta
+ * deshabilitada), y vuelve a leer el perfil para aplicar el rol y el estado actuales.
+ */
+@Service
+public class AuthService {
+
+<span class="fc" id="L36">    private static final Logger log = LoggerFactory.getLogger(AuthService.class);</span>
+    public static final String DOMINIO_PIN = &quot;pin.safemotion.app&quot;;
+
+    private final FirebaseAuth auth;
+    private final Firestore db;
+    private final String apiKey;
+    private final String referer;
+<span class="fc" id="L43">    private final HttpClient http = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(8)).build();</span>
+<span class="fc" id="L44">    private final ObjectMapper json = new ObjectMapper();</span>
+
+    public AuthService(FirebaseAuth auth, Firestore db,
+                       @Value(&quot;${app.firebase.api-key}&quot;) String apiKey,
+<span class="fc" id="L48">                       @Value(&quot;${app.firebase.referer}&quot;) String referer) {</span>
+<span class="fc" id="L49">        this.auth = auth;</span>
+<span class="fc" id="L50">        this.db = db;</span>
+<span class="fc" id="L51">        this.apiKey = apiKey;</span>
+<span class="fc" id="L52">        this.referer = referer;</span>
+<span class="fc" id="L53">    }</span>
+
+<span class="fc" id="L55">    public static String correoDePin(String pin) { return pin + &quot;@&quot; + DOMINIO_PIN; }</span>
+<span class="fc" id="L56">    public static String passwordDePin(String pin) { return &quot;SafeMotion-&quot; + pin; }</span>
+
+<span class="fc" id="L58">    public record Login(String token, int expiraEnSegundos, Sesion usuario) { }</span>
+
+    public Login login(String pin) {
+<span class="fc" id="L61">        JsonNode r = signInWithPassword(correoDePin(pin), passwordDePin(pin));</span>
+<span class="fc" id="L62">        String uid = r.path(&quot;localId&quot;).asText();</span>
+<span class="fc" id="L63">        Sesion s = perfil(uid);   // 403 si no tiene perfil o está deshabilitada</span>
+<span class="fc" id="L64">        db.collection(&quot;usuarios&quot;).document(uid).update(&quot;ultimoInicioSesion&quot;, FieldValue.serverTimestamp());</span>
+<span class="fc" id="L65">        return new Login(r.path(&quot;idToken&quot;).asText(), r.path(&quot;expiresIn&quot;).asInt(3600), s);</span>
+    }
+
+    /** Valida el header Authorization (&quot;&lt;token&gt;&quot; o &quot;Bearer &lt;token&gt;&quot;) y devuelve la sesión con el rol actual. */
+    public Sesion autenticar(String header) {
+<span class="pc bpc" id="L70" title="1 of 4 branches missed.">        if (header == null || header.isBlank()) throw ApiException.noAutenticado();</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        String token = header.startsWith(&quot;Bearer &quot;) ? header.substring(7).trim() : header.trim();</span>
+        FirebaseToken t;
+        try {
+<span class="fc" id="L74">            t = auth.verifyIdToken(token, true);   // true: rechaza tokens revocados (logout / cuenta deshabilitada)</span>
+<span class="fc" id="L75">        } catch (FirebaseAuthException | IllegalArgumentException e) {</span>
+<span class="fc" id="L76">            throw ApiException.noAutenticado();</span>
+<span class="fc" id="L77">        }</span>
+<span class="fc" id="L78">        return perfil(t.getUid());</span>
+    }
+
+    public void logout(String header) {
+<span class="fc" id="L82">        Sesion s = autenticar(header);</span>
+<span class="fc" id="L83">        revocar(s.uid());</span>
+<span class="fc" id="L84">    }</span>
+
+    public void revocar(String uid) {
+        try {
+<span class="fc" id="L88">            auth.revokeRefreshTokens(uid);</span>
+<span class="nc" id="L89">        } catch (FirebaseAuthException e) {</span>
+<span class="nc" id="L90">            log.warn(&quot;No se pudieron revocar las sesiones de {}: {}&quot;, uid, e.getMessage());</span>
+<span class="fc" id="L91">        }</span>
+<span class="fc" id="L92">    }</span>
+
+    /** Perfil de usuarios/{uid}. Una cuenta sin perfil o deshabilitada no puede operar (403). */
+    public Sesion perfil(String uid) {
+<span class="fc" id="L96">        DocumentSnapshot d = FirestoreUtil.get(db.collection(&quot;usuarios&quot;).document(uid));</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">        if (!d.exists()) throw new ApiException(HttpStatus.FORBIDDEN, &quot;Tu cuenta no tiene perfil en SafeMotion&quot;);</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        if (Boolean.FALSE.equals(d.getBoolean(&quot;habilitado&quot;))) throw new ApiException(HttpStatus.FORBIDDEN, &quot;Esta cuenta está deshabilitada&quot;);</span>
+<span class="fc" id="L99">        return new Sesion(uid, d.getString(&quot;nombre&quot;), d.getString(&quot;rol&quot;));</span>
+    }
+
+    // ---- Identity Toolkit (Firebase Authentication REST) ----
+    private JsonNode signInWithPassword(String correo, String password) {
+<span class="fc" id="L104">        String emulador = System.getenv(&quot;FIREBASE_AUTH_EMULATOR_HOST&quot;);</span>
+<span class="pc bpc" id="L105" title="2 of 4 branches missed.">        String base = emulador != null &amp;&amp; !emulador.isBlank()</span>
+<span class="fc" id="L106">                ? &quot;http://&quot; + emulador + &quot;/identitytoolkit.googleapis.com&quot;</span>
+<span class="pc" id="L107">                : &quot;https://identitytoolkit.googleapis.com&quot;;</span>
+<span class="pc bpc" id="L108" title="3 of 6 branches missed.">        String key = apiKey == null || apiKey.isBlank() ? (emulador != null ? &quot;emulador&quot; : null) : apiKey;</span>
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">        if (key == null) throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, &quot;Falta FIREBASE_API_KEY en el servidor&quot;);</span>
+        try {
+<span class="fc" id="L111">            String cuerpo = json.writeValueAsString(Map.of(&quot;email&quot;, correo, &quot;password&quot;, password, &quot;returnSecureToken&quot;, true));</span>
+<span class="fc" id="L112">            HttpRequest req = HttpRequest.newBuilder(URI.create(base + &quot;/v1/accounts:signInWithPassword?key=&quot; + key))</span>
+<span class="fc" id="L113">                    .timeout(Duration.ofSeconds(10))</span>
+<span class="fc" id="L114">                    .header(&quot;Content-Type&quot;, &quot;application/json&quot;)</span>
+<span class="fc" id="L115">                    .header(&quot;Referer&quot;, referer)</span>
+<span class="fc" id="L116">                    .POST(HttpRequest.BodyPublishers.ofString(cuerpo))</span>
+<span class="fc" id="L117">                    .build();</span>
+<span class="fc" id="L118">            HttpResponse&lt;String&gt; res = http.send(req, HttpResponse.BodyHandlers.ofString());</span>
+<span class="fc" id="L119">            JsonNode body = json.readTree(res.body());</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">            if (res.statusCode() == 200) return body;</span>
+<span class="fc" id="L121">            String codigo = body.path(&quot;error&quot;).path(&quot;message&quot;).asText(&quot;&quot;);</span>
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">            if (codigo.startsWith(&quot;USER_DISABLED&quot;)) throw new ApiException(HttpStatus.FORBIDDEN, &quot;Esta cuenta está deshabilitada&quot;);</span>
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">            if (codigo.startsWith(&quot;TOO_MANY_ATTEMPTS&quot;)) throw new ApiException(HttpStatus.TOO_MANY_REQUESTS, &quot;Demasiados intentos. Espera un momento.&quot;);</span>
+<span class="pc bpc" id="L124" title="2 of 4 branches missed.">            if (codigo.startsWith(&quot;INVALID&quot;) || codigo.startsWith(&quot;EMAIL_NOT_FOUND&quot;)) throw new ApiException(HttpStatus.UNAUTHORIZED, &quot;PIN incorrecto&quot;);</span>
+<span class="nc" id="L125">            log.error(&quot;Identity Toolkit respondió {}: {}&quot;, res.statusCode(), codigo);</span>
+<span class="nc" id="L126">            throw new ApiException(HttpStatus.BAD_GATEWAY, &quot;No fue posible validar el acceso con Firebase&quot;);</span>
+<span class="nc" id="L127">        } catch (IOException e) {</span>
+<span class="nc" id="L128">            throw new ApiException(HttpStatus.SERVICE_UNAVAILABLE, &quot;Firebase Authentication no responde&quot;);</span>
+<span class="nc" id="L129">        } catch (InterruptedException e) {</span>
+<span class="nc" id="L130">            Thread.currentThread().interrupt();</span>
+<span class="nc" id="L131">            throw new ApiException(HttpStatus.SERVICE_UNAVAILABLE, &quot;Firebase Authentication no responde&quot;);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

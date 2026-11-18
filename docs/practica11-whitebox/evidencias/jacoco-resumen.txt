@@ -1,0 +1,40 @@
+service.AuthService|269/334|80.5|20/32|62.5
+service.UsuarioService|117/126|92.9|10/12|83.3
+service.MedicionService|354/361|98.1|26/30|86.7
+service.AtencionService|952/973|97.8|50/64|78.1
+service.FirestoreUtil|74/112|66.1|6/14|42.9
+service.Reglas|155/155|100.0|44/44|100.0
+service.Sesion|12/12|100.0|0/0|100.0
+controller.ChatController|48/48|100.0|0/0|100.0
+controller.EmergenciaController|77/77|100.0|2/2|100.0
+controller.AuthController|55/59|93.2|2/4|50.0
+controller.UsuarioController|29/29|100.0|0/0|100.0
+controller.MedicionController|95/95|100.0|6/6|100.0
+controller.SistemaController|72/76|94.7|1/2|50.0
+backend.BackendApplication|8/8|100.0|0/0|100.0
+error.ApiException|41/41|100.0|0/0|100.0
+error.ManejadorErrores|78/89|87.6|3/4|75.0
+config.FirebaseConfig|59/81|72.8|5/14|35.7
+config.CorsConfig|50/50|100.0|0/0|100.0
+TOTAL|2659/2840|93.6|175/228|76.8|lineas 427/450=94.9
+--- metodos (complejidad, ramas)
+AuthService.autenticar l.70 CC=4 instr 34/34 ramas 5/6
+AuthService.perfil l.96 CC=3 instr 34/40 ramas 3/4
+AuthService.signInWithPassword l.104 CC=12 instr 107/159 ramas 12/22
+UsuarioService.cambiarEstado l.44 CC=5 instr 42/51 ramas 6/8
+MedicionService.registrar l.34 CC=9 instr 151/158 ramas 13/16
+MedicionService.alertas l.85 CC=4 instr 88/88 ramas 5/6
+AtencionService.pacienteExistente l.51 CC=3 instr 22/22 ramas 3/4
+AtencionService.limpiar l.77 CC=3 instr 43/45 ramas 3/4
+AtencionService.conversaciones l.89 CC=6 instr 151/156 ramas 7/10
+AtencionService.canalizar l.170 CC=3 instr 35/37 ramas 3/4
+AtencionService.lambda$atender$10 l.202 CC=6 instr 122/122 ramas 10/10
+AtencionService.lambda$canalizar$9 l.174 CC=6 instr 133/136 ramas 7/10
+AtencionService.lambda$crearEmergencia$5 l.122 CC=3 instr 136/136 ramas 4/4
+Reglas.esClinico l.31 CC=3 instr 12/12 ramas 4/4
+Reglas.esPersonal l.36 CC=3 instr 11/11 ramas 4/4
+Reglas.puedeVerChat l.41 CC=4 instr 18/18 ramas 6/6
+Reglas.activa l.45 CC=3 instr 12/12 ramas 4/4
+Reglas.alertas l.50 CC=9 instr 48/48 ramas 16/16
+Reglas.limiteValido l.60 CC=3 instr 10/10 ramas 4/4
+Reglas.mensajeSos l.72 CC=4 instr 38/38 ramas 6/6

@@ -1,0 +1,7 @@
+Package                   Current   Wanted   Latest  Location                               Depended by
+@vitejs/plugin-basic-ssl    1.2.0    1.2.0    2.3.0  node_modules/@vitejs/plugin-basic-ssl  safemotion-pwa
+fake-indexeddb              6.2.6    6.2.8    6.2.8  node_modules/fake-indexeddb            safemotion-pwa
+firebase                  11.10.0  11.10.0   13.2.0  node_modules/firebase                  safemotion-pwa
+puppeteer-core            23.11.1  23.11.1  25.17.0  node_modules/puppeteer-core            safemotion-pwa
+vite                       5.4.21   5.4.21    8.3.7  node_modules/vite                      safemotion-pwa
+vite-plugin-pwa            0.20.5   0.20.5    2.0.0  node_modules/vite-plugin-pwa           safemotion-pwa

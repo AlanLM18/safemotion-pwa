@@ -1,0 +1,3 @@
+vercel_api ok 10/10 DNS 6.6 TCP 103.9 TLS 206.3 TTFB 692.8 total 694.3 ms | totales: 1194 549 508 479 681 558 669 648 941 715
+render_directo ok 10/10 DNS 30.4 TCP 83.3 TLS 114.1 TTFB 401.8 total 402.4 ms | totales: 595 244 261 391 299 492 308 273 817 344
+vercel_pwa ok 10/10 DNS 2.3 TCP 94.5 TLS 228.2 TTFB 408.2 total 408.7 ms | totales: 299 518 647 910 306 208 359 252 239 350

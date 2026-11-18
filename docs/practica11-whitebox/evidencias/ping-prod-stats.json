@@ -1,0 +1,42 @@
+{
+ "10.13.63.250": {
+  "enviados": 20,
+  "recibidos": 20,
+  "perdida_pct": 0.0,
+  "min": 1.0,
+  "max": 318.0,
+  "prom": 68.5,
+  "de": 77.0,
+  "jitter": 78.1
+ },
+ "safemotion-backend.onrender.com": {
+  "enviados": 20,
+  "recibidos": 19,
+  "perdida_pct": 5.0,
+  "min": 8.0,
+  "max": 1821.0,
+  "prom": 267.0,
+  "de": 452.8,
+  "jitter": 436.4
+ },
+ "safemotion-pwa.vercel.app": {
+  "enviados": 20,
+  "recibidos": 20,
+  "perdida_pct": 0.0,
+  "min": 55.0,
+  "max": 268.0,
+  "prom": 93.0,
+  "de": 62.3,
+  "jitter": 53.6
+ },
+ "firestore.googleapis.com": {
+  "enviados": 20,
+  "recibidos": 20,
+  "perdida_pct": 0.0,
+  "min": 28.0,
+  "max": 284.0,
+  "prom": 88.1,
+  "de": 62.2,
+  "jitter": 53.5
+ }
+}

@@ -1,0 +1,29 @@
+✔ RES-01 Pérdida de Internet durante una consulta
+     Conexión cortada antes de llegar: "Sin conexión con el servidor" (status 0) en 13.3 ms · cortada durante la respuesta: "Sin conexión con el servidor" en 97.9 ms; la app no se cae
+✔ RES-02 Pérdida de Internet durante una escritura
+     Sincronizar 3 lecturas sin red: "Sin conexión con el servidor" en 28.9 ms · cola local: 3 pendientes, 0 marcadas como enviadas · servidor: 60 → 60
+✔ RES-03 Servidor sin respuesta
+     La solicitud se cancela a los 8014.9 ms con "Sin conexión con el servidor" (AbortController, API_TIMEOUT_MS = 8 000 ms; en modo Firebase el límite es 10 000 ms)
+✔ RES-04 Respuesta HTTP 500
+     Sincronizar: error "HTTP 500" (status 500) y las 3 lecturas siguen pendientes · consulta: ApiError 500 con datos "del cuerpo"; el proceso continúa
+✔ RES-05 Respuesta HTTP 401 o 403
+     401 (token revocado): la sincronización se detiene, se borra la sesión y se envía a /login (sí) · 403 (cuenta deshabilitada): "Esta cuenta está deshabilitada" (status 403), distinto de "Credenciales inválidas"
+✔ RES-06 Recuperación de conexión
+     Política: reintento fijo cada 5 s · 8 intentos durante 40 s sin red · lo pendiente se envió 0.2 s después de volver la red · servidor 60 → 63
+✔ RES-07 Reintento de una escritura
+     1.er intento: "Sin conexión con el servidor" pero el servidor ya guardó (63 → 64) · reintento: 3 enviadas · total 3 lecturas para 3 envíos (idLocal como ID del documento)
+✔ RES-08 Respuesta tardía (varios toques al botón)
+     3 llamadas simultáneas compartieron la misma sincronización (misma promesa) · 2 POST al servidor para 2 lecturas · 2 guardadas · 6097 ms
+warnings
+  One of the glob patterns doesn't match any files. Please remove or fix the following: {
+  "globDirectory": "C:/Users/ASUS/Downloads/safemotion-pwa/dev-dist",
+  "globPattern": "**/*.{js,css,html,svg,png}",
+  "globIgnores": [
+    "**/node_modules/**/*",
+    "sw.js",
+    "workbox-*.js"
+  ]
+}
+
+✔ RES-08b Respuesta tardía en la interfaz (SOS, 3 toques, servidor tarda 4 s)
+     Botón deshabilitado mientras se envía: sí · 1 POST · SOS de Juan 0 → 1 · mensaje final: "Ayuda solicitada: recepción ya la recibió. Ubicación no disponible." (4433 ms)

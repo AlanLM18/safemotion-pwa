@@ -1,0 +1,118 @@
+{
+  "etiqueta": "prod-despues",
+  "base": "https://safemotion-pwa.vercel.app",
+  "fecha": "2026-11-13T00:32:32.700Z",
+  "duracionNivelS": 20,
+  "niveles": [
+    1,
+    5,
+    10,
+    20
+  ],
+  "resultados": [
+    {
+      "escenario": "Lectura · GET /api/mediciones/historial?limite=20",
+      "usuarios": 1,
+      "solicitudes": 53,
+      "exitosas": 53,
+      "errores": 0,
+      "errorPct": 0,
+      "codigos": {
+        "200": 53
+      },
+      "rps": 2.6,
+      "prom": 380.2,
+      "min": 261.9,
+      "p50": 363.8,
+      "p90": 504.2,
+      "p95": 570.8,
+      "p99": 704.5,
+      "max": 704.5,
+      "mbps": 0.19,
+      "cpuProm": null,
+      "cpuMax": null,
+      "ramMinMB": null,
+      "ramMaxMB": null,
+      "lecturasFirestorePorSolicitud": 1.09,
+      "verificacionesTokenPorSolicitud": 0
+    },
+    {
+      "escenario": "Lectura · GET /api/mediciones/historial?limite=20",
+      "usuarios": 5,
+      "solicitudes": 183,
+      "exitosas": 183,
+      "errores": 0,
+      "errorPct": 0,
+      "codigos": {
+        "200": 183
+      },
+      "rps": 9,
+      "prom": 549,
+      "min": 269.7,
+      "p50": 511.6,
+      "p90": 724.6,
+      "p95": 836.5,
+      "p99": 1204.7,
+      "max": 1393.7,
+      "mbps": 0.41,
+      "cpuProm": null,
+      "cpuMax": null,
+      "ramMinMB": null,
+      "ramMaxMB": null,
+      "lecturasFirestorePorSolicitud": 1.05,
+      "verificacionesTokenPorSolicitud": 0.02
+    },
+    {
+      "escenario": "Lectura · GET /api/mediciones/historial?limite=20",
+      "usuarios": 10,
+      "solicitudes": 328,
+      "exitosas": 328,
+      "errores": 0,
+      "errorPct": 0,
+      "codigos": {
+        "200": 328
+      },
+      "rps": 16.1,
+      "prom": 617.1,
+      "min": 267.1,
+      "p50": 587.5,
+      "p90": 907.1,
+      "p95": 1081,
+      "p99": 1426.8,
+      "max": 2108.1,
+      "mbps": 0.57,
+      "cpuProm": null,
+      "cpuMax": null,
+      "ramMinMB": null,
+      "ramMaxMB": null,
+      "lecturasFirestorePorSolicitud": 1.04,
+      "verificacionesTokenPorSolicitud": 0.02
+    },
+    {
+      "escenario": "Lectura · GET /api/mediciones/historial?limite=20",
+      "usuarios": 20,
+      "solicitudes": 552,
+      "exitosas": 552,
+      "errores": 0,
+      "errorPct": 0,
+      "codigos": {
+        "200": 552
+      },
+      "rps": 27,
+      "prom": 733.9,
+      "min": 288.4,
+      "p50": 605.5,
+      "p90": 1208.2,
+      "p95": 1503.2,
+      "p99": 2014.8,
+      "max": 2597.6,
+      "mbps": 0.89,
+      "cpuProm": null,
+      "cpuMax": null,
+      "ramMinMB": null,
+      "ramMaxMB": null,
+      "lecturasFirestorePorSolicitud": 1.03,
+      "verificacionesTokenPorSolicitud": 0.03
+    }
+  ]
+}

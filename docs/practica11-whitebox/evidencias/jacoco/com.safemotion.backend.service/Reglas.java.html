@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Reglas.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">com.safemotion.backend.service</a> &gt; <span class="el_source">Reglas.java</span></div><h1>Reglas.java</h1><pre class="source lang-java linenums">package com.safemotion.backend.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Reglas de negocio puras (sin Firebase), para poder probarlas con pruebas unitarias.
+ * Roles: &quot;usuario&quot; (paciente), &quot;recepcionista&quot;, &quot;doctor&quot;, &quot;admin&quot; — los mismos de firestore.rules.
+ */
+public final class Reglas {
+
+    private Reglas() { }
+
+    public static final String PACIENTE = &quot;usuario&quot;;
+    public static final String RECEPCION = &quot;recepcionista&quot;;
+    public static final String DOCTOR = &quot;doctor&quot;;
+    public static final String ADMIN = &quot;admin&quot;;
+
+    public static final String ABIERTA = &quot;ABIERTA&quot;;
+    public static final String CANALIZADA = &quot;CANALIZADA&quot;;
+    public static final String ATENDIDA = &quot;ATENDIDA&quot;;
+
+    // Mismos umbrales que src/models/alerts.js de la PWA
+    public static final int FC_MAX = 110;
+    public static final int FC_MIN = 45;
+    public static final double TEMP_MAX = 37.8;
+    public static final int SPO2_MIN = 92;
+
+    /** Datos clínicos y chat: doctor y admin. */
+    public static boolean esClinico(String rol) {
+<span class="fc bfc" id="L31" title="All 4 branches covered.">        return DOCTOR.equals(rol) || ADMIN.equals(rol);</span>
+    }
+
+    /** Ve las emergencias: clínicos y recepción. */
+    public static boolean esPersonal(String rol) {
+<span class="fc bfc" id="L36" title="All 4 branches covered.">        return esClinico(rol) || RECEPCION.equals(rol);</span>
+    }
+
+    /** El paciente solo su conversación; doctor y admin cualquiera. */
+    public static boolean puedeVerChat(Sesion s, String pacienteId) {
+<span class="fc bfc" id="L41" title="All 6 branches covered.">        return esClinico(s.rol()) || (PACIENTE.equals(s.rol()) &amp;&amp; s.uid().equals(pacienteId));</span>
+    }
+
+    public static boolean activa(String estado) {
+<span class="fc bfc" id="L45" title="All 4 branches covered.">        return ABIERTA.equals(estado) || CANALIZADA.equals(estado);</span>
+    }
+
+    /** Alertas de una lectura. Un valor ausente (null) nunca genera alerta. */
+    public static List&lt;String&gt; alertas(Integer fc, Double temperatura, Integer spo2) {
+<span class="fc" id="L50">        List&lt;String&gt; a = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L51" title="All 4 branches covered.">        if (fc != null &amp;&amp; fc &gt; FC_MAX) a.add(&quot;Frecuencia cardiaca alta&quot;);</span>
+<span class="fc bfc" id="L52" title="All 4 branches covered.">        else if (fc != null &amp;&amp; fc &lt; FC_MIN) a.add(&quot;Frecuencia cardiaca baja&quot;);</span>
+<span class="fc bfc" id="L53" title="All 4 branches covered.">        if (temperatura != null &amp;&amp; temperatura &gt; TEMP_MAX) a.add(&quot;Temperatura elevada&quot;);</span>
+<span class="fc bfc" id="L54" title="All 4 branches covered.">        if (spo2 != null &amp;&amp; spo2 &lt; SPO2_MIN) a.add(&quot;Saturación de oxígeno baja&quot;);</span>
+<span class="fc" id="L55">        return a;</span>
+    }
+
+    /** Límite del historial: entre 1 y 500. */
+    public static boolean limiteValido(int limite) {
+<span class="fc bfc" id="L60" title="All 4 branches covered.">        return limite &gt;= 1 &amp;&amp; limite &lt;= 500;</span>
+    }
+
+    public static String mensajeCanalizada(String doctor) {
+<span class="fc" id="L64">        return &quot;Recepción canalizó tu solicitud de ayuda con &quot; + doctor + &quot;. En un momento te atiende.&quot;;</span>
+    }
+
+    public static String mensajeAtendida(String doctor) {
+<span class="fc" id="L68">        return &quot;Tu solicitud de ayuda fue atendida por &quot; + doctor + &quot;. Mantente en este chat.&quot;;</span>
+    }
+
+    public static String mensajeSos(Integer fc, Integer spo2, Double temp) {
+<span class="fc" id="L72">        StringBuilder t = new StringBuilder(&quot;SOS: solicito ayuda de emergencia.&quot;);</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        if (fc != null) t.append(&quot; FC &quot;).append(fc).append(&quot; bpm.&quot;);</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (spo2 != null) t.append(&quot; SpO2 &quot;).append(spo2).append(&quot; %.&quot;);</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        if (temp != null) t.append(&quot; Temp. &quot;).append(temp).append(&quot; °C.&quot;);</span>
+<span class="fc" id="L76">        return t.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

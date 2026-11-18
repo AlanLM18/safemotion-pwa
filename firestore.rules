@@ -1,0 +1,151 @@
+rules_version = '2';
+// Reglas del proyecto mesaayuda-a631d.
+// · /reportes: copia sin cambios de MesaAyuda/firestore.rules (app Android de las prácticas anteriores).
+// · SafeMotion AI (Prácticas 9 y 10): cada rol solo hace lo que le toca.
+//     usuario (paciente): sus mediciones, su chat y sus SOS.
+//     recepcionista: recibe los SOS y los canaliza a un doctor; no ve mediciones ni chat.
+//     doctor: ve pacientes, mediciones y chat; atiende los SOS que le canalizaron.
+//     admin: supervisa. Los roles los asigna el administrador del proyecto, no la app.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /reportes/{reporteId} {
+
+      // Estructura y valores permitidos de un reporte
+      function datosValidos(d) {
+        return d.keys().hasAll(['id', 'equipo', 'descripcion', 'prioridad', 'estado'])
+          && d.keys().hasOnly(['id', 'equipo', 'descripcion', 'prioridad', 'estado',
+                               'fechaRegistro', 'fechaActualizacion'])
+          && d.id == reporteId
+          && d.equipo is string && d.equipo.size() > 0 && d.equipo.size() <= 100
+          && d.descripcion is string && d.descripcion.size() > 0 && d.descripcion.size() <= 500
+          && d.prioridad in ['Baja', 'Media', 'Alta']
+          && d.estado in ['Abierto', 'En proceso', 'Cerrado'];
+      }
+
+      // Solo usuarios autenticados (la app inicia sesión anónima)
+      allow read: if request.auth != null;
+
+      // Alta: datos completos y válidos
+      allow create: if request.auth != null && datosValidos(request.resource.data);
+
+      // Actualización: solo prioridad / estado; evita sobrescribir equipo y descripción
+      allow update: if request.auth != null
+        && datosValidos(request.resource.data)
+        && request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['prioridad', 'estado', 'fechaActualizacion']);
+
+      allow delete: if request.auth != null;
+    }
+
+    // ---------- SafeMotion AI ----------
+
+    function autenticado() {
+      return request.auth != null;
+    }
+    // Rol de quien hace la petición; una cuenta deshabilitada por el admin no tiene ningún rol (no puede hacer nada).
+    function rol() {
+      return autenticado() && exists(/databases/$(database)/documents/usuarios/$(request.auth.uid))
+          && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.get('habilitado', true) != false
+        ? get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.rol : '';
+    }
+    function esPaciente() { return rol() == 'usuario'; }
+    function esRecepcion() { return rol() == 'recepcionista'; }
+    function esDoctor() { return rol() == 'doctor'; }
+    function esAdmin() { return rol() == 'admin'; }
+    function esClinico() { return esDoctor() || esAdmin(); }            // datos clínicos y chat
+    function esPersonal() { return esClinico() || esRecepcion(); }
+    function rolDe(uid) {
+      return exists(/databases/$(database)/documents/usuarios/$(uid))
+        ? get(/databases/$(database)/documents/usuarios/$(uid)).data.rol : '';
+    }
+    function entero(v, min, max) { return v is int && v >= min && v <= max; }
+
+    match /usuarios/{uid} {
+      allow get: if autenticado() && (request.auth.uid == uid || esPersonal());
+      allow list: if esPersonal();
+      // Las cuentas y su rol las crea el administrador del proyecto (se entra con PIN; no hay registro en la app).
+      allow create: if false;
+      // Cada quien solo registra su último inicio de sesión; el admin habilita o deshabilita cuentas (dashboard).
+      // Nadie cambia su propio rol.
+      allow update: if autenticado() && request.resource.data.rol == resource.data.rol && (
+        (request.auth.uid == uid && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['nombre', 'ultimoInicioSesion']))
+        || (esAdmin() && request.auth.uid != uid && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['habilitado'])
+            && request.resource.data.habilitado is bool));
+      allow delete: if false;
+
+      // Lecturas del wearable: las escribe el paciente; las leen él, los doctores y el admin (recepción no)
+      match /mediciones/{medicionId} {
+        // Mismos límites que MedicionRequest.java y src/models/measurement.js
+        function medicionValida(d) {
+          return d.keys().hasOnly(['frecuenciaCardiaca', 'temperatura', 'spo2', 'pasos', 'calorias', 'actividad', 'bateria',
+                                   'giroscopioX', 'giroscopioY', 'giroscopioZ', 'fuente', 'fechaCaptura', 'idLocal',
+                                   'pacienteId', 'alertas', 'fecha'])
+            && entero(d.frecuenciaCardiaca, 30, 220)
+            && d.temperatura is number && d.temperatura >= 30 && d.temperatura <= 43
+            && (d.spo2 == null || entero(d.spo2, 0, 100))      // SpO2 opcional: un wearable BLE estándar no lo mide
+            && entero(d.bateria, 0, 100)
+            && d.pasos is int && d.pasos >= 0 && d.calorias is int && d.calorias >= 0
+            && d.actividad is string && d.actividad.size() > 0;
+        }
+        allow read: if autenticado() && (request.auth.uid == uid || esClinico());
+        allow create: if autenticado() && request.auth.uid == uid && (esPaciente() || esAdmin())
+          && medicionId == request.resource.data.idLocal
+          && request.resource.data.pacienteId == uid
+          && medicionValida(request.resource.data);
+        allow update, delete: if false;     // una lectura confirmada no se cambia
+      }
+    }
+
+    // Chat del paciente con el personal médico. Recepción solo deja avisos (al canalizar un SOS), sin leer el chat.
+    match /conversaciones/{pacienteId}/mensajes/{mensajeId} {
+      allow read: if autenticado() && (request.auth.uid == pacienteId || esClinico());
+      allow create: if autenticado()
+        && request.resource.data.keys().hasOnly(['autorId', 'autor', 'rol', 'texto', 'fecha'])
+        && request.resource.data.autorId == request.auth.uid
+        && request.resource.data.rol == rol()
+        && request.resource.data.texto is string && request.resource.data.texto.size() > 0 && request.resource.data.texto.size() <= 500
+        && ((request.auth.uid == pacienteId && esPaciente()) || esClinico() || esRecepcion());
+      allow update: if false;
+      allow delete: if autenticado() && (request.auth.uid == pacienteId || esClinico());
+    }
+
+    // SOS: ABIERTA (lo crea el paciente) -> CANALIZADA (recepción, a un doctor) -> ATENDIDA (ese doctor)
+    match /emergencias/{emergenciaId} {
+      function cambia() { return request.resource.data.diff(resource.data).affectedKeys(); }
+      function sigueVersion() { return request.resource.data.version == resource.data.version + 1; }
+
+      allow get: if autenticado() && (resource == null || resource.data.pacienteId == request.auth.uid || esPersonal());
+      allow list: if autenticado() && (resource.data.pacienteId == request.auth.uid || esPersonal());
+
+      allow create: if esPaciente()
+        && request.resource.data.keys().hasOnly(['pacienteId', 'paciente', 'fecha', 'latitud', 'longitud',
+                                                 'frecuenciaCardiaca', 'spo2', 'temperatura', 'estado', 'version'])
+        && request.resource.data.pacienteId == request.auth.uid
+        && request.resource.data.estado == 'ABIERTA'
+        && request.resource.data.version == 0;
+
+      allow update: if sigueVersion() && (
+        // Recepción canaliza un SOS que sigue ABIERTO, a alguien que de verdad es doctor
+        ((esRecepcion() || esAdmin())
+          && resource.data.estado == 'ABIERTA' && request.resource.data.estado == 'CANALIZADA'
+          && request.resource.data.canalizadaPor == request.auth.uid
+          && rolDe(request.resource.data.canalizadaA) == 'doctor'
+          && cambia().hasOnly(['estado', 'canalizadaA', 'canalizadaANombre', 'canalizadaPor', 'canalizadaPorNombre', 'fechaCanalizacion', 'version']))
+        ||
+        // El doctor al que se le canalizó lo marca como atendido (el admin puede cerrar cualquiera)
+        ((esDoctor() || esAdmin())
+          && resource.data.estado == 'CANALIZADA' && request.resource.data.estado == 'ATENDIDA'
+          && (esAdmin() || resource.data.canalizadaA == request.auth.uid)
+          && request.resource.data.atendidaPorUid == request.auth.uid
+          && cambia().hasOnly(['estado', 'atendidaPor', 'atendidaPorUid', 'fechaAtencion', 'version']))
+      );
+      allow delete: if false;
+    }
+
+    // Todo lo demás está cerrado
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

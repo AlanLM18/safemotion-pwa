@@ -1,0 +1,80 @@
+npm warn deprecated eslint@9.17.0: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\models\alerts.js
+  5:8  warning  Function 'evaluarAlertas' has a complexity of 10. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\models\chat.js
+  30:8  warning  Function 'datosEmergencia' has a complexity of 11. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\models\measurement.js
+   3:8  warning  Function 'createMeasurement' has a complexity of 20. Maximum allowed is 8        complexity
+  46:8  warning  Function 'toMedicionRequest' has a complexity of 16. Maximum allowed is 8        complexity
+  70:8  warning  Function 'validateMedicionRequest' has a complexity of 15. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\router.js
+  37:14  warning  Arrow function has a complexity of 16. Maximum allowed is 8  complexity
+  47:28  error    'URLSearchParams' is not defined                             no-undef
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\screens\consultas.js
+  58:22  warning  Async arrow function has a complexity of 12. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\screens\dispositivo.js
+  14:8   warning  Function 'mount' has too many lines (85). Maximum allowed is 80  max-lines-per-function
+  52:17  warning  Arrow function has a complexity of 18. Maximum allowed is 8      complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\screens\historial.js
+  8:17  warning  Arrow function has a complexity of 9. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\screens\inicio.js
+  35:17  warning  Arrow function has a complexity of 9. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\screens\recepcion.js
+  22:19  warning  Arrow function has a complexity of 10. Maximum allowed is 8        complexity
+  57:32  warning  Async arrow function has a complexity of 12. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\services\api.js
+   15:42  warning  Return values from promise executor functions cannot be read              no-promise-executor-return
+   20:3   warning  Async function 'request' has a complexity of 11. Maximum allowed is 8     complexity
+   73:1   warning  Function 'createMockApi' has too many lines (151). Maximum allowed is 80  max-lines-per-function
+  127:5   warning  Async method 'logout' has no 'await' expression                           require-await
+  137:5   warning  Async method 'historial' has no 'await' expression                        require-await
+  142:5   warning  Async method 'ultimaMedicion' has no 'await' expression                   require-await
+  146:5   warning  Async method 'conversaciones' has no 'await' expression                   require-await
+  155:5   warning  Async method 'mensajes' has no 'await' expression                         require-await
+  172:5   warning  Async method 'limpiarChat' has no 'await' expression                      require-await
+  194:5   warning  Async method 'emergencias' has no 'await' expression                      require-await
+  198:5   warning  Async method 'doctores' has no 'await' expression                         require-await
+  215:5   warning  Async method 'atenderEmergencia' has no 'await' expression                require-await
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\services\apiFirebase.js
+   25:8   warning  Function 'errorDeFirebase' has a complexity of 13. Maximum allowed is 8       complexity
+   38:66  warning  Return values from promise executor functions cannot be read                  no-promise-executor-return
+   43:8   warning  Function 'createFirebaseApi' has too many lines (185). Maximum allowed is 80  max-lines-per-function
+   60:3   warning  Async function 'cambiarSos' has a complexity of 9. Maximum allowed is 8       complexity
+   64:16  warning  Unexpected `await` inside a loop                                              no-await-in-loop
+   67:25  warning  Unexpected `await` inside a loop                                              no-await-in-loop
+   68:11  warning  Blocks are nested too deeply (4). Maximum allowed is 3                        max-depth
+  177:65  warning  Unexpected `await` inside a loop                                              no-await-in-loop
+  235:44  warning  Async arrow function has no 'await' expression                                require-await
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\services\gyro.js
+  24:13  warning  Arrow function has a complexity of 10. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\services\monitor.js
+  12:8  warning  Function 'capturar' has a complexity of 11. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\services\sos.js
+  10:33  warning  Return values from promise executor functions cannot be read  no-promise-executor-return
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\services\sync.js
+  15:1   warning  Async function 'sincronizar' has a complexity of 9. Maximum allowed is 8  complexity
+  26:7   warning  Unexpected `await` inside a loop                                          no-await-in-loop
+  31:24  warning  Unexpected `await` inside a loop                                          no-await-in-loop
+  32:7   warning  Unexpected `await` inside a loop                                          no-await-in-loop
+  36:31  warning  Unexpected `await` inside a loop                                          no-await-in-loop
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\services\toast.js
+  5:8  warning  Function 'toast' has a complexity of 9. Maximum allowed is 8  complexity
+
+✖ 44 problems (1 error, 43 warnings)
+

@@ -1,0 +1,1 @@
+App (Firebase directo): 10/10 rondas con 2 SOS activos de la misma paciente (dos teléfonos a la vez)

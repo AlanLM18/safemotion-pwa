@@ -1,0 +1,126 @@
+{
+  "fuente": "Firebase (Authentication + Cloud Firestore)",
+  "proyecto": "mesaayuda-a631d",
+  "modo": "proyecto real",
+  "fecha": "2026-11-05T12:36:15.879Z",
+  "dispositivos": {
+    "A": "Pixel 5 · paciente",
+    "B": "Galaxy S9+ · recepción",
+    "B2": "Galaxy S8 · recepción",
+    "D": "Pixel 4 · doctora"
+  },
+  "registro": [
+    "Juan crea un SOS con pacienteId de María → permission-denied",
+    "Juan escribe una medición en usuarios/{María}/mediciones → permission-denied",
+    "Juan lee las mediciones de María → permission-denied",
+    "Juan lee el chat de María → permission-denied",
+    "Juan lee el SOS de María → permission-denied",
+    "Recepción lee las mediciones de Juan → permission-denied",
+    "Recepción lee el chat de Juan → permission-denied",
+    "Juan cambia el SOS de María → permission-denied",
+    "Recepción marca el SOS como ATENDIDO → permission-denied",
+    "La doctora atiende un SOS que recepción no le canalizó → permission-denied",
+    "Juan elimina el SOS de María → permission-denied",
+    "Juan elimina un mensaje del chat de María → permission-denied",
+    "Juan se asigna el rol de doctor → permission-denied",
+    "María pasa su SOS a nombre de Juan → permission-denied",
+    "Leer los SOS sin sesión → permission-denied",
+    "Crear un SOS sin sesión → permission-denied",
+    "Leer el perfil de Juan sin sesión → permission-denied"
+  ],
+  "matriz": [
+    {
+      "id": "SEG-01",
+      "nombre": "Inicio de sesión válido",
+      "esperado": "Autenticación exitosa.",
+      "resultado": "Aprobado",
+      "observacion": "Paciente: María López, UID CSbWfRncGnOHHvlNs1a6nisaRZC3. Recepción: Laura Gómez, UID rvKk2Xwrt6R4syoxBx6gxKLZbtv2. Cada dispositivo muestra en Cuenta el UID y el rol de su usuario.",
+      "evidencias": [
+        "SEG-01-uid-A.png",
+        "SEG-01-uid-B.png"
+      ]
+    },
+    {
+      "id": "SEG-02",
+      "nombre": "Inicio de sesión inválido",
+      "esperado": "Acceso rechazado.",
+      "resultado": "Aprobado",
+      "observacion": "Con un PIN que no es de ninguna cuenta, Firebase Authentication rechazó el acceso y la app mostró el mensaje genérico \"Datos de acceso no válidos.\" sin abrir sesión.",
+      "evidencias": [
+        "SEG-02-pin-incorrecto-A.png"
+      ]
+    },
+    {
+      "id": "SEG-03",
+      "nombre": "Creación propia",
+      "esperado": "Documento creado con propietario A.",
+      "resultado": "Aprobado",
+      "observacion": "El SOS jsVVt3MIBJBwz0rL2GRq quedó con pacienteId = CSbWfRncGnOHHvlNs1a6nisaRZC3 (el UID de la sesión), y las mediciones de cada paciente viven en usuarios/{su UID}/mediciones.",
+      "evidencias": [
+        "SEG-03-sos-propio-A.png"
+      ]
+    },
+    {
+      "id": "SEG-04",
+      "nombre": "Suplantación de propietario",
+      "esperado": "Firestore rechaza la escritura.",
+      "resultado": "Aprobado",
+      "observacion": "Firestore respondió permission-denied a las dos escrituras: el SOS exige pacienteId == request.auth.uid y la medición solo se escribe en la carpeta del propio usuario.",
+      "evidencias": []
+    },
+    {
+      "id": "SEG-05",
+      "nombre": "Lectura de datos ajenos",
+      "esperado": "Lectura denegada.",
+      "resultado": "Aprobado",
+      "observacion": "Recepción no tiene la pantalla Consultas (la app la regresa a Recepción) y Firestore le niega las mediciones y el chat de los pacientes. Un paciente no puede leer las mediciones, el chat ni el SOS de otro: permission-denied en las 5 lecturas.",
+      "evidencias": [
+        "SEG-05-recepcion-sin-consultas-B.png"
+      ]
+    },
+    {
+      "id": "SEG-06",
+      "nombre": "Actualización de datos ajenos",
+      "esperado": "Actualización denegada.",
+      "resultado": "Aprobado",
+      "observacion": "Firestore negó las 3 actualizaciones: otro paciente, recepción intentando cerrar el SOS y la doctora atendiéndolo antes de que recepción se lo canalizara. El SOS de María sigue ABIERTO, versión 0.",
+      "evidencias": []
+    },
+    {
+      "id": "SEG-07",
+      "nombre": "Eliminación de datos ajenos",
+      "esperado": "Eliminación denegada.",
+      "resultado": "Aprobado",
+      "observacion": "permission-denied: un SOS no lo borra nadie (queda como historial clínico) y el chat de un paciente no lo puede borrar otro.",
+      "evidencias": []
+    },
+    {
+      "id": "SEG-08",
+      "nombre": "Actualización propia",
+      "esperado": "Actualización permitida.",
+      "resultado": "Aprobado",
+      "observacion": "María escribió en su propio chat y el mensaje quedó guardado con su UID como autor.",
+      "evidencias": [
+        "SEG-08-mensaje-propio-A.png"
+      ]
+    },
+    {
+      "id": "SEG-09",
+      "nombre": "Cambio de propietario",
+      "esperado": "Cambio de propietario rechazado.",
+      "resultado": "Aprobado",
+      "observacion": "permission-denied: nadie cambia su propio rol (el rol lo asigna el administrador del proyecto) ni el paciente dueño de un SOS.",
+      "evidencias": []
+    },
+    {
+      "id": "SEG-10",
+      "nombre": "Acceso sin autenticación",
+      "esperado": "Operación rechazada.",
+      "resultado": "Aprobado",
+      "observacion": "Al cerrar sesión la app regresa a Login. Sin sesión, Firestore rechazó leer y escribir (permission-denied, permission-denied, permission-denied).",
+      "evidencias": [
+        "SEG-10-peticiones-directas-A.png"
+      ]
+    }
+  ]
+}

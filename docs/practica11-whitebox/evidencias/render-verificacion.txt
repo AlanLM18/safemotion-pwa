@@ -1,0 +1,10 @@
+Verificación del backend desplegado · 2026-11-10 · https://safemotion-backend.onrender.com (Render, conectado a Cloud Firestore mesaayuda-a631d)
+GET /api/sistema/estado x3 -> 200 (305/189/197 ms) {"servicio":"safemotion-backend","baseDatos":"Cloud Firestore · proyecto mesaayuda-a631d","emulador":false,"firestore":"disponible","latenciaFirestoreMs":84.7-96.7}
+POST /api/auth/login PIN 0000 -> 200 (3194 ms, primera petición) usuario {"rol":"usuario","nombre":"Juan Pérez"}
+GET /api/auth/me -> 200
+GET /api/mediciones/historial?limite=5 -> 200, 5 lecturas
+API-14b JWT con UID alterado -> 401 {"status":401,"error":"Sesión inválida o expirada"}
+POST /api/auth/login PIN 9999 -> 401 {"status":401,"error":"PIN incorrecto"}
+POST /api/mediciones FC 300 -> 400 {"status":400,"error":"frecuenciaCardiaca: debe ser menor que o igual a 220"}
+OPTIONS desde https://sitio-malicioso.example -> 403 sin Access-Control-Allow-Origin
+Latencia (10 solicitudes c/u, ver render-latencia.json): estado prom 204,0 ms · auth/me prom 354,3 ms · historial?limite=20 prom 498,9 ms (9 227 B)

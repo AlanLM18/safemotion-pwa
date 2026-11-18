@@ -1,0 +1,752 @@
+{
+  "fecha": "2026-11-11T05:28:18.285Z",
+  "base": "https://safemotion-pwa.vercel.app",
+  "casos": [
+    {
+      "id": "PROD-01",
+      "descripcion": "Estado del servicio por el dominio de Vercel",
+      "esperado": "200, Firestore real disponible, sin datos de usuarios",
+      "observado": "HTTP 200, Cloud Firestore · proyecto mesaayuda-a631d, latencia interna a Firestore 134 ms",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-02",
+      "descripcion": "Login con PIN y sesión",
+      "esperado": "200 con JWT de Firebase y usuario {id,nombre,rol}; /me 200",
+      "observado": "HTTP 200 y 200; Juan Pérez (usuario), UID de Firebase",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-03",
+      "descripcion": "PIN incorrecto y PIN mal formado",
+      "esperado": "401 y 400",
+      "observado": "HTTP 401 \"PIN incorrecto\" · HTTP 400 \"pin: El PIN debe tener exactamente 4 dígitos\"",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-04",
+      "descripcion": "Sin token, token inventado y JWT con el UID cambiado por el del admin",
+      "esperado": "401 en los tres (firma RS256 verificada)",
+      "observado": "HTTP 401 / 401 / 401",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-05",
+      "descripcion": "Permisos por rol (autenticado sin permiso)",
+      "esperado": "403: paciente→bandeja, recepción→bandeja, paciente→usuarios, doctora→pedir SOS",
+      "observado": "HTTP 403 / 403 / 403 / 403",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-06",
+      "descripcion": "Juan intenta leer el chat de María (por la API y directo en Firestore)",
+      "esperado": "403 en ambos caminos",
+      "observado": "API HTTP 403 · Firestore (reglas) HTTP 403",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-07",
+      "descripcion": "Validaciones (se rechazan antes de escribir)",
+      "esperado": "400: FC 300, temperatura ausente, JSON mal formado, limite=0, mensaje vacío",
+      "observado": "HTTP 400 / 400 / 400 / 400 / 400; p. ej. \"frecuenciaCardiaca: debe ser menor que o igual a 220\"",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-08",
+      "descripcion": "Recursos inexistentes y método no permitido",
+      "esperado": "404, 404, 404 y 405 con formato JSON",
+      "observado": "HTTP 404 / 404 / 404 / 405",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-09",
+      "descripcion": "Lecturas por rol",
+      "esperado": "200: admin→usuarios, doctora→bandeja, recepción→doctores y SOS, paciente→historial y alertas",
+      "observado": "0/0/0/0/0/0",
+      "estado": "Fallido"
+    },
+    {
+      "id": "PROD-10",
+      "descripcion": "Mismos datos por la API y directo en Firestore (token de Juan, reglas activas)",
+      "esperado": "Las 5 lecturas más recientes coinciden",
+      "observado": "Cannot read properties of null (reading 'map')",
+      "estado": "Fallido"
+    },
+    {
+      "id": "PROD-11",
+      "descripcion": "Datos sensibles en las respuestas",
+      "esperado": "Sin PIN, contraseña, refresh token ni llaves",
+      "observado": "Ningún cuerpo contiene PIN, contraseña, refresh token ni private_key",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "PROD-12",
+      "descripcion": "CORS en producción",
+      "esperado": "Origen ajeno sin Allow-Origin; la PWA y el dashboard permitidos",
+      "observado": "fetch failed",
+      "estado": "Fallido"
+    }
+  ],
+  "series": {
+    "historial20_vercel": {
+      "filas": [
+        {
+          "solicitud": 1,
+          "codigo": 0,
+          "ms": 8.1,
+          "bytes": 0
+        },
+        {
+          "solicitud": 2,
+          "codigo": 0,
+          "ms": 5.9,
+          "bytes": 0
+        },
+        {
+          "solicitud": 3,
+          "codigo": 0,
+          "ms": 62.5,
+          "bytes": 0
+        },
+        {
+          "solicitud": 4,
+          "codigo": 0,
+          "ms": 34.4,
+          "bytes": 0
+        },
+        {
+          "solicitud": 5,
+          "codigo": 0,
+          "ms": 32.9,
+          "bytes": 0
+        },
+        {
+          "solicitud": 6,
+          "codigo": 0,
+          "ms": 13.9,
+          "bytes": 0
+        },
+        {
+          "solicitud": 7,
+          "codigo": 0,
+          "ms": 4,
+          "bytes": 0
+        },
+        {
+          "solicitud": 8,
+          "codigo": 0,
+          "ms": 4.4,
+          "bytes": 0
+        },
+        {
+          "solicitud": 9,
+          "codigo": 0,
+          "ms": 6.5,
+          "bytes": 0
+        },
+        {
+          "solicitud": 10,
+          "codigo": 0,
+          "ms": 43.6,
+          "bytes": 0
+        }
+      ],
+      "tiempo": {
+        "n": 10,
+        "min": 4,
+        "prom": 21.6,
+        "max": 62.5,
+        "de": 19.4,
+        "p95": 62.5
+      }
+    },
+    "historial20_render": {
+      "filas": [
+        {
+          "solicitud": 1,
+          "codigo": 0,
+          "ms": 4,
+          "bytes": 0
+        },
+        {
+          "solicitud": 2,
+          "codigo": 0,
+          "ms": 5.4,
+          "bytes": 0
+        },
+        {
+          "solicitud": 3,
+          "codigo": 0,
+          "ms": 6.8,
+          "bytes": 0
+        },
+        {
+          "solicitud": 4,
+          "codigo": 0,
+          "ms": 8.2,
+          "bytes": 0
+        },
+        {
+          "solicitud": 5,
+          "codigo": 0,
+          "ms": 4.6,
+          "bytes": 0
+        },
+        {
+          "solicitud": 6,
+          "codigo": 0,
+          "ms": 27.7,
+          "bytes": 0
+        },
+        {
+          "solicitud": 7,
+          "codigo": 0,
+          "ms": 6.2,
+          "bytes": 0
+        },
+        {
+          "solicitud": 8,
+          "codigo": 0,
+          "ms": 24.4,
+          "bytes": 0
+        },
+        {
+          "solicitud": 9,
+          "codigo": 0,
+          "ms": 36.1,
+          "bytes": 0
+        },
+        {
+          "solicitud": 10,
+          "codigo": 0,
+          "ms": 26.1,
+          "bytes": 0
+        }
+      ],
+      "tiempo": {
+        "n": 10,
+        "min": 4,
+        "prom": 14.9,
+        "max": 36.1,
+        "de": 11.5,
+        "p95": 36.1
+      }
+    },
+    "historial20_firestore_directo": {
+      "filas": [
+        {
+          "solicitud": 1,
+          "codigo": 0,
+          "ms": 16,
+          "bytes": 0
+        },
+        {
+          "solicitud": 2,
+          "codigo": 0,
+          "ms": 10.6,
+          "bytes": 0
+        },
+        {
+          "solicitud": 3,
+          "codigo": 0,
+          "ms": 8,
+          "bytes": 0
+        },
+        {
+          "solicitud": 4,
+          "codigo": 0,
+          "ms": 7.1,
+          "bytes": 0
+        },
+        {
+          "solicitud": 5,
+          "codigo": 0,
+          "ms": 10.3,
+          "bytes": 0
+        },
+        {
+          "solicitud": 6,
+          "codigo": 0,
+          "ms": 11.8,
+          "bytes": 0
+        },
+        {
+          "solicitud": 7,
+          "codigo": 0,
+          "ms": 11.1,
+          "bytes": 0
+        },
+        {
+          "solicitud": 8,
+          "codigo": 0,
+          "ms": 15.8,
+          "bytes": 0
+        },
+        {
+          "solicitud": 9,
+          "codigo": 0,
+          "ms": 12.2,
+          "bytes": 0
+        },
+        {
+          "solicitud": 10,
+          "codigo": 0,
+          "ms": 10.8,
+          "bytes": 0
+        }
+      ],
+      "tiempo": {
+        "n": 10,
+        "min": 7.1,
+        "prom": 11.4,
+        "max": 16,
+        "de": 2.7,
+        "p95": 16
+      }
+    },
+    "estado_vercel": {
+      "filas": [
+        {
+          "solicitud": 1,
+          "codigo": 0,
+          "ms": 16.8,
+          "bytes": 0
+        },
+        {
+          "solicitud": 2,
+          "codigo": 0,
+          "ms": 8.1,
+          "bytes": 0
+        },
+        {
+          "solicitud": 3,
+          "codigo": 0,
+          "ms": 5.1,
+          "bytes": 0
+        },
+        {
+          "solicitud": 4,
+          "codigo": 0,
+          "ms": 7.6,
+          "bytes": 0
+        },
+        {
+          "solicitud": 5,
+          "codigo": 0,
+          "ms": 5,
+          "bytes": 0
+        },
+        {
+          "solicitud": 6,
+          "codigo": 0,
+          "ms": 3.4,
+          "bytes": 0
+        },
+        {
+          "solicitud": 7,
+          "codigo": 0,
+          "ms": 4.8,
+          "bytes": 0
+        },
+        {
+          "solicitud": 8,
+          "codigo": 0,
+          "ms": 8.5,
+          "bytes": 0
+        },
+        {
+          "solicitud": 9,
+          "codigo": 0,
+          "ms": 5.2,
+          "bytes": 0
+        },
+        {
+          "solicitud": 10,
+          "codigo": 0,
+          "ms": 10.9,
+          "bytes": 0
+        }
+      ],
+      "tiempo": {
+        "n": 10,
+        "min": 3.4,
+        "prom": 7.5,
+        "max": 16.8,
+        "de": 3.8,
+        "p95": 16.8
+      }
+    },
+    "me_vercel": {
+      "filas": [
+        {
+          "solicitud": 1,
+          "codigo": 0,
+          "ms": 42.9,
+          "bytes": 0
+        },
+        {
+          "solicitud": 2,
+          "codigo": 0,
+          "ms": 24.1,
+          "bytes": 0
+        },
+        {
+          "solicitud": 3,
+          "codigo": 0,
+          "ms": 5.4,
+          "bytes": 0
+        },
+        {
+          "solicitud": 4,
+          "codigo": 0,
+          "ms": 12,
+          "bytes": 0
+        },
+        {
+          "solicitud": 5,
+          "codigo": 0,
+          "ms": 10.8,
+          "bytes": 0
+        },
+        {
+          "solicitud": 6,
+          "codigo": 0,
+          "ms": 6.3,
+          "bytes": 0
+        },
+        {
+          "solicitud": 7,
+          "codigo": 0,
+          "ms": 8.2,
+          "bytes": 0
+        },
+        {
+          "solicitud": 8,
+          "codigo": 0,
+          "ms": 4.5,
+          "bytes": 0
+        },
+        {
+          "solicitud": 9,
+          "codigo": 0,
+          "ms": 6.1,
+          "bytes": 0
+        },
+        {
+          "solicitud": 10,
+          "codigo": 0,
+          "ms": 4.4,
+          "bytes": 0
+        }
+      ],
+      "tiempo": {
+        "n": 10,
+        "min": 4.4,
+        "prom": 12.5,
+        "max": 42.9,
+        "de": 11.6,
+        "p95": 42.9
+      }
+    },
+    "perfil_firestore_directo": {
+      "filas": [
+        {
+          "solicitud": 1,
+          "codigo": 0,
+          "ms": 4.6,
+          "bytes": 0
+        },
+        {
+          "solicitud": 2,
+          "codigo": 0,
+          "ms": 3.9,
+          "bytes": 0
+        },
+        {
+          "solicitud": 3,
+          "codigo": 0,
+          "ms": 4.7,
+          "bytes": 0
+        },
+        {
+          "solicitud": 4,
+          "codigo": 0,
+          "ms": 3.7,
+          "bytes": 0
+        },
+        {
+          "solicitud": 5,
+          "codigo": 0,
+          "ms": 4.1,
+          "bytes": 0
+        },
+        {
+          "solicitud": 6,
+          "codigo": 0,
+          "ms": 5.7,
+          "bytes": 0
+        },
+        {
+          "solicitud": 7,
+          "codigo": 0,
+          "ms": 5.6,
+          "bytes": 0
+        },
+        {
+          "solicitud": 8,
+          "codigo": 0,
+          "ms": 4.6,
+          "bytes": 0
+        },
+        {
+          "solicitud": 9,
+          "codigo": 0,
+          "ms": 4.7,
+          "bytes": 0
+        },
+        {
+          "solicitud": 10,
+          "codigo": 0,
+          "ms": 4.6,
+          "bytes": 0
+        }
+      ],
+      "tiempo": {
+        "n": 10,
+        "min": 3.7,
+        "prom": 4.6,
+        "max": 5.7,
+        "de": 0.6,
+        "p95": 5.7
+      }
+    },
+    "emergencias_vercel": {
+      "filas": [
+        {
+          "solicitud": 1,
+          "codigo": 0,
+          "ms": 5.8,
+          "bytes": 0
+        },
+        {
+          "solicitud": 2,
+          "codigo": 0,
+          "ms": 4.2,
+          "bytes": 0
+        },
+        {
+          "solicitud": 3,
+          "codigo": 0,
+          "ms": 4.6,
+          "bytes": 0
+        },
+        {
+          "solicitud": 4,
+          "codigo": 0,
+          "ms": 9.9,
+          "bytes": 0
+        },
+        {
+          "solicitud": 5,
+          "codigo": 0,
+          "ms": 5.2,
+          "bytes": 0
+        },
+        {
+          "solicitud": 6,
+          "codigo": 0,
+          "ms": 8.2,
+          "bytes": 0
+        },
+        {
+          "solicitud": 7,
+          "codigo": 0,
+          "ms": 8.1,
+          "bytes": 0
+        },
+        {
+          "solicitud": 8,
+          "codigo": 0,
+          "ms": 7.2,
+          "bytes": 0
+        },
+        {
+          "solicitud": 9,
+          "codigo": 0,
+          "ms": 6.5,
+          "bytes": 0
+        },
+        {
+          "solicitud": 10,
+          "codigo": 0,
+          "ms": 6.8,
+          "bytes": 0
+        }
+      ],
+      "tiempo": {
+        "n": 10,
+        "min": 4.2,
+        "prom": 6.7,
+        "max": 9.9,
+        "de": 1.7,
+        "p95": 9.9
+      }
+    }
+  },
+  "transferencia": {
+    "descargas": [
+      {
+        "codigo": 0,
+        "bytes": 0,
+        "ms": 14.2,
+        "mbps": 0
+      },
+      {
+        "codigo": 0,
+        "bytes": 0,
+        "ms": 4.6,
+        "mbps": 0
+      },
+      {
+        "codigo": 0,
+        "bytes": 0,
+        "ms": 17.7,
+        "mbps": 0
+      }
+    ],
+    "subidas": [
+      {
+        "codigo": 0,
+        "bytes": 1048691,
+        "ms": 15.9,
+        "mbps": 526.84
+      },
+      {
+        "codigo": 0,
+        "bytes": 1048691,
+        "ms": 14.2,
+        "mbps": 589.43
+      },
+      {
+        "codigo": 0,
+        "bytes": 1048691,
+        "ms": 22.4,
+        "mbps": 374.4
+      }
+    ]
+  },
+  "carga": [
+    {
+      "escenario": "Lectura GET /api/mediciones/historial?limite=20",
+      "usuarios": 1,
+      "solicitudes": 40,
+      "exitosas": 0,
+      "fallidas": 40,
+      "codigos": {
+        "0": 40
+      },
+      "n": 40,
+      "min": 3.5,
+      "prom": 6.4,
+      "max": 18.2,
+      "de": 3.3,
+      "p95": 14.3,
+      "rps": 155.9,
+      "mbps": 0
+    },
+    {
+      "escenario": "Lectura GET /api/mediciones/historial?limite=20",
+      "usuarios": 5,
+      "solicitudes": 40,
+      "exitosas": 0,
+      "fallidas": 40,
+      "codigos": {
+        "0": 40
+      },
+      "n": 40,
+      "min": 7.9,
+      "prom": 28.3,
+      "max": 102.4,
+      "de": 25.9,
+      "p95": 99.9,
+      "rps": 171.2,
+      "mbps": 0
+    },
+    {
+      "escenario": "Lectura GET /api/mediciones/historial?limite=20",
+      "usuarios": 10,
+      "solicitudes": 40,
+      "exitosas": 0,
+      "fallidas": 40,
+      "codigos": {
+        "0": 40
+      },
+      "n": 40,
+      "min": 8.7,
+      "prom": 37.2,
+      "max": 64.5,
+      "de": 16.3,
+      "p95": 63.9,
+      "rps": 243.4,
+      "mbps": 0
+    },
+    {
+      "escenario": "Lectura GET /api/sistema/estado",
+      "usuarios": 1,
+      "solicitudes": 40,
+      "exitosas": 0,
+      "fallidas": 40,
+      "codigos": {
+        "0": 40
+      },
+      "n": 40,
+      "min": 3.8,
+      "prom": 14.9,
+      "max": 55.8,
+      "de": 11.9,
+      "p95": 38.4,
+      "rps": 66.7,
+      "mbps": 0
+    },
+    {
+      "escenario": "Lectura GET /api/sistema/estado",
+      "usuarios": 5,
+      "solicitudes": 40,
+      "exitosas": 0,
+      "fallidas": 40,
+      "codigos": {
+        "0": 40
+      },
+      "n": 40,
+      "min": 5.2,
+      "prom": 22.3,
+      "max": 33.2,
+      "de": 6.4,
+      "p95": 32.3,
+      "rps": 208,
+      "mbps": 0
+    },
+    {
+      "escenario": "Lectura GET /api/sistema/estado",
+      "usuarios": 10,
+      "solicitudes": 40,
+      "exitosas": 0,
+      "fallidas": 40,
+      "codigos": {
+        "0": 40
+      },
+      "n": 40,
+      "min": 9.7,
+      "prom": 32,
+      "max": 51.3,
+      "de": 9.9,
+      "p95": 48.7,
+      "rps": 285.3,
+      "mbps": 0
+    }
+  ],
+  "arranque": {
+    "status": 200,
+    "ms": 623
+  }
+}

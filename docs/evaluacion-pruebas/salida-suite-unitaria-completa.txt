@@ -1,0 +1,72 @@
+
+> safemotion-pwa@0.3.0 test
+> node --test tests/unit.test.js tests/chat.unit.test.js tests/sync.unit.test.js
+
+✔ Chat: mensaje vacío o solo con espacios se rechaza (1.3365ms)
+✔ Chat: se recortan espacios y se respeta el límite de 500 caracteres (0.9131ms)
+✔ Chat: contador de mensajes por emisor (0.2959ms)
+✔ Chat: el mensaje desde una alerta incluye qué está fuera de rango y los signos (0.4286ms)
+✔ SOS: los datos van vacíos si no hay wearable ni ubicación (0.2625ms)
+✔ Asistente: nunca indica medicamentos (0.6014ms)
+✔ Asistente: ante señales de urgencia deriva a SOS o 911 (0.1942ms)
+✔ Asistente: da una medida general según la alerta (0.5345ms)
+✔ API simulada: permisos del chat por rol (1390.465ms)
+✔ API simulada: el asistente contesta al paciente y el doctor ve la conversación (2282.8113ms)
+✔ API simulada: SOS no se duplica y el doctor lo atiende (2468.1547ms)
+✔ API simulada: la sesión sobrevive a recargar la página, pero no al logout (404.3398ms)
+✔ U-01 válido: dos lecturas pendientes se envían con el token de la sesión y se marcan Enviadas (8.615ms)
+✔ U-02 límite: con la cola vacía no se llama al servidor ni se modifica la base local (1.6544ms)
+✔ U-03 límite: FC 30 y 220 se envían; FC 221 se rechaza localmente sin llamar al servidor (1.1677ms)
+✔ U-04 inválido: sin sesión activa la sincronización se rechaza y no consulta la cola (1.1413ms)
+✔ U-05 error: un 400 del servidor marca esa lectura como Rechazada y continúa con las demás (1.0622ms)
+✔ U-06 error: sin conexión a mitad de la cola se detiene y lo no enviado queda Pendiente (0.8784ms)
+✔ U-07 error: un 401 cierra la sesión local, redirige a Login y no marca ninguna lectura (0.5796ms)
+✔ U-08 concurrencia: dos llamadas simultáneas comparten la misma sincronización (sin envíos dobles) (0.4244ms)
+⚠ U-09 [D-01] una lectura de otro usuario en la cola no debe enviarse con el token de la sesión actual (2.1251ms) # Defecto D-01 abierto: sync.js no filtra por userId
+✔ BLE: frecuencia cardiaca en uint8 (2.2259ms)
+✔ BLE: frecuencia cardiaca en uint16 con contacto detectado (0.1976ms)
+✔ BLE: nivel de batería (0.2288ms)
+✔ BLE: temperatura IEEE-11073 en °C (365 x 10^-1) (0.2265ms)
+✔ BLE: temperatura en °F se convierte a °C (986 x 10^-1 °F) (0.2245ms)
+✔ BLE: valor NaN de temperatura devuelve null (0.1926ms)
+✔ Actividad: teléfono quieto = reposo (2.2647ms)
+✔ Actividad: oscilación moderada = caminando (0.7317ms)
+✔ Actividad: oscilación fuerte = corriendo (0.7758ms)
+✔ Pasos: 10 picos separados cuentan 10 pasos (0.6043ms)
+✔ Simulador: los valores se acercan al escenario y quedan en rango (0.6061ms)
+✔ Alertas: escenario fuera de rango genera las 3 alertas del backend (0.2579ms)
+✔ Modelo: medición unificada se convierte en MedicionRequest válido (4.6015ms)
+✔ Modelo: lectura solo del teléfono no se envía (faltan signos vitales) (0.1941ms)
+✔ Modelo: fuera de los rangos de MedicionRequest.java (0.2362ms)
+✔ API simulada: mismo contrato que Spring Boot (1284.5522ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 1
+ℹ duration_ms 7482.65
+
+✖ failing tests:
+
+test at tests\sync.unit.test.js:112:1
+⚠ U-09 [D-01] una lectura de otro usuario en la cola no debe enviarse con el token de la sesión actual (2.1251ms) # Defecto D-01 abierto: sync.js no filtra por userId
+  AssertionError [ERR_ASSERTION]: se enviaron con el token de Juan las FC 80, 85
+  + actual - expected
+  
+    [
+      80,
+  +   85
+    ]
+  
+      at TestContext.<anonymous> (file:///C:/Users/ASUS/Downloads/safemotion-pwa/tests/sync.unit.test.js:116:10)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 80, 85 ],
+    expected: [ 80 ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

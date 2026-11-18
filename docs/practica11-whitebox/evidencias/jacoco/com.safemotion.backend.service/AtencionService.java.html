@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AtencionService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">com.safemotion.backend.service</a> &gt; <span class="el_source">AtencionService.java</span></div><h1>AtencionService.java</h1><pre class="source lang-java linenums">package com.safemotion.backend.service;
+
+import com.google.cloud.firestore.*;
+import com.safemotion.backend.dto.Solicitudes;
+import com.safemotion.backend.error.ApiException;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.*;
+
+import static com.safemotion.backend.service.FirestoreUtil.*;
+
+/**
+ * Chat paciente-médico (conversaciones/{pacienteUid}/mensajes) y SOS (emergencias/{id}), con las mismas colecciones,
+ * campos y estados que usa la PWA: ABIERTA (recepción) -&gt; CANALIZADA (doctor) -&gt; ATENDIDA.
+ * Toda escritura que depende de lo que ya existe va en una transacción de Firestore, así dos peticiones simultáneas
+ * no pueden crear dos SOS abiertos ni atender dos veces la misma emergencia.
+ */
+@Service
+public class AtencionService {
+
+    private final Firestore db;
+
+<span class="fc" id="L25">    public AtencionService(Firestore db) {</span>
+<span class="fc" id="L26">        this.db = db;</span>
+<span class="fc" id="L27">    }</span>
+
+    // ------------------------------------------------------------------ chat
+    private CollectionReference mensajes(String pacienteId) {
+<span class="fc" id="L31">        return db.collection(&quot;conversaciones&quot;).document(pacienteId).collection(&quot;mensajes&quot;);</span>
+    }
+
+    private Map&lt;String, Object&gt; mensaje(Sesion autor, String texto) {
+<span class="fc" id="L35">        Map&lt;String, Object&gt; m = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L36">        m.put(&quot;autorId&quot;, autor.uid());</span>
+<span class="fc" id="L37">        m.put(&quot;autor&quot;, autor.nombre());</span>
+<span class="fc" id="L38">        m.put(&quot;rol&quot;, autor.rol());</span>
+<span class="fc" id="L39">        m.put(&quot;texto&quot;, texto);</span>
+<span class="fc" id="L40">        m.put(&quot;fecha&quot;, FieldValue.serverTimestamp());</span>
+<span class="fc" id="L41">        return m;</span>
+    }
+
+    static Map&lt;String, Object&gt; dtoMensaje(DocumentSnapshot d, String pacienteId) {
+<span class="fc" id="L45">        Map&lt;String, Object&gt; m = json(d);</span>
+<span class="fc" id="L46">        m.put(&quot;pacienteId&quot;, pacienteId);</span>
+<span class="fc" id="L47">        return m;</span>
+    }
+
+    private DocumentSnapshot pacienteExistente(String pacienteId) {
+<span class="fc" id="L51">        DocumentSnapshot p = get(db.collection(&quot;usuarios&quot;).document(pacienteId));</span>
+<span class="pc bpc" id="L52" title="1 of 4 branches missed.">        if (!p.exists() || !Reglas.PACIENTE.equals(p.getString(&quot;rol&quot;))) throw ApiException.noExiste(&quot;El paciente&quot;);</span>
+<span class="fc" id="L53">        return p;</span>
+    }
+
+    public List&lt;Map&lt;String, Object&gt;&gt; mensajes(Sesion s, String pacienteId) {
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        if (!Reglas.puedeVerChat(s, pacienteId)) throw ApiException.sinPermiso();</span>
+<span class="fc" id="L58">        pacienteExistente(pacienteId);</span>
+<span class="fc" id="L59">        return get(mensajes(pacienteId).orderBy(&quot;fecha&quot;)).getDocuments().stream().map(d -&gt; dtoMensaje(d, pacienteId)).toList();</span>
+    }
+
+    public Map&lt;String, Object&gt; enviar(Sesion s, String pacienteId, String texto) {
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        if (!Reglas.puedeVerChat(s, pacienteId)) throw ApiException.sinPermiso();</span>
+<span class="fc" id="L64">        pacienteExistente(pacienteId);</span>
+<span class="fc" id="L65">        DocumentReference ref = mensajes(pacienteId).document();</span>
+<span class="fc" id="L66">        Map&lt;String, Object&gt; m = mensaje(s, texto.trim());</span>
+<span class="fc" id="L67">        esperar(ref.set(m));</span>
+<span class="fc" id="L68">        Map&lt;String, Object&gt; out = new LinkedHashMap&lt;&gt;(m);</span>
+<span class="fc" id="L69">        out.put(&quot;id&quot;, ref.getId());</span>
+<span class="fc" id="L70">        out.put(&quot;pacienteId&quot;, pacienteId);</span>
+<span class="fc" id="L71">        out.put(&quot;fecha&quot;, Instant.now().toString());</span>
+<span class="fc" id="L72">        return out;</span>
+    }
+
+    /** Borra la conversación en lotes (WriteBatch admite hasta 500 operaciones). */
+    public void limpiar(Sesion s, String pacienteId) {
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if (!Reglas.puedeVerChat(s, pacienteId)) throw ApiException.sinPermiso();</span>
+<span class="fc" id="L78">        pacienteExistente(pacienteId);</span>
+<span class="fc" id="L79">        List&lt;QueryDocumentSnapshot&gt; docs = get(mensajes(pacienteId)).getDocuments();</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        for (int i = 0; i &lt; docs.size(); i += 400) {</span>
+<span class="fc" id="L81">            WriteBatch b = db.batch();</span>
+<span class="fc" id="L82">            docs.subList(i, Math.min(i + 400, docs.size())).forEach(d -&gt; b.delete(d.getReference()));</span>
+<span class="fc" id="L83">            esperar(b.commit());</span>
+        }
+<span class="fc" id="L85">    }</span>
+
+    /** Bandeja del doctor/admin: un renglón por paciente; primero quien tiene SOS activo, luego por actividad reciente. */
+    public List&lt;Map&lt;String, Object&gt;&gt; conversaciones(Sesion s) {
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        if (!Reglas.esClinico(s.rol())) throw ApiException.sinPermiso();</span>
+<span class="fc" id="L90">        List&lt;QueryDocumentSnapshot&gt; pacientes = get(db.collection(&quot;usuarios&quot;).whereEqualTo(&quot;rol&quot;, Reglas.PACIENTE)).getDocuments();</span>
+<span class="fc" id="L91">        List&lt;Map&lt;String, Object&gt;&gt; activas = get(db.collection(&quot;emergencias&quot;).whereIn(&quot;estado&quot;, List.of(Reglas.ABIERTA, Reglas.CANALIZADA)))</span>
+<span class="fc" id="L92">                .getDocuments().stream().map(FirestoreUtil::json).toList();</span>
+<span class="fc" id="L93">        List&lt;Map&lt;String, Object&gt;&gt; lista = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        for (QueryDocumentSnapshot p : pacientes) {</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">            if (Boolean.FALSE.equals(p.getBoolean(&quot;habilitado&quot;))) continue;</span>
+<span class="fc" id="L96">            List&lt;QueryDocumentSnapshot&gt; ultimo = get(mensajes(p.getId()).orderBy(&quot;fecha&quot;, Query.Direction.DESCENDING).limit(1)).getDocuments();</span>
+<span class="fc" id="L97">            long total = esperar(mensajes(p.getId()).count().get()).getCount();   // agregación: no descarga los mensajes</span>
+<span class="fc" id="L98">            Map&lt;String, Object&gt; c = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L99">            c.put(&quot;pacienteId&quot;, p.getId());</span>
+<span class="fc" id="L100">            c.put(&quot;paciente&quot;, p.getString(&quot;nombre&quot;));</span>
+<span class="fc" id="L101">            c.put(&quot;mensajes&quot;, total);</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">            c.put(&quot;ultimoMensaje&quot;, ultimo.isEmpty() ? null : ultimo.get(0).getString(&quot;texto&quot;));</span>
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">            c.put(&quot;fecha&quot;, ultimo.isEmpty() ? null : iso(ultimo.get(0).get(&quot;fecha&quot;)));</span>
+<span class="fc" id="L104">            c.put(&quot;emergenciaAbierta&quot;, activas.stream().filter(e -&gt; p.getId().equals(e.get(&quot;pacienteId&quot;))).findFirst().orElse(null));</span>
+<span class="fc" id="L105">            lista.add(c);</span>
+<span class="fc" id="L106">        }</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        lista.sort(Comparator.comparing((Map&lt;String, Object&gt; c) -&gt; c.get(&quot;emergenciaAbierta&quot;) == null)</span>
+<span class="fc" id="L108">                .thenComparing(c -&gt; (String) c.get(&quot;fecha&quot;), Comparator.nullsLast(Comparator.reverseOrder())));</span>
+<span class="fc" id="L109">        return lista;</span>
+    }
+
+    // ------------------------------------------------------------------ SOS
+<span class="fc" id="L113">    public record ResultadoSos(Map&lt;String, Object&gt; emergencia, boolean duplicada) { }</span>
+
+    /** El paciente pide ayuda. Si ya tiene un SOS activo se devuelve ese (no se duplica, ni con peticiones simultáneas). */
+    public ResultadoSos crearEmergencia(Sesion s, Solicitudes.Emergencia r) {
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        if (!Reglas.PACIENTE.equals(s.rol())) throw new ApiException(HttpStatus.FORBIDDEN, &quot;Solo los pacientes piden SOS&quot;);</span>
+<span class="fc" id="L118">        Query propias = db.collection(&quot;emergencias&quot;).whereEqualTo(&quot;pacienteId&quot;, s.uid());</span>
+<span class="fc" id="L119">        DocumentReference ref = db.collection(&quot;emergencias&quot;).document();</span>
+<span class="fc" id="L120">        return esperar(db.runTransaction(tx -&gt; {</span>
+            // La consulta dentro de la transacción bloquea el resultado: otra transacción que intente lo mismo se reintenta
+<span class="fc bfc" id="L122" title="All 2 branches covered.">            for (QueryDocumentSnapshot d : tx.get(propias).get().getDocuments()) {</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">                if (Reglas.activa(d.getString(&quot;estado&quot;))) return new ResultadoSos(json(d), true);</span>
+<span class="fc" id="L124">            }</span>
+<span class="fc" id="L125">            Map&lt;String, Object&gt; e = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L126">            e.put(&quot;pacienteId&quot;, s.uid());</span>
+<span class="fc" id="L127">            e.put(&quot;paciente&quot;, s.nombre());</span>
+<span class="fc" id="L128">            e.put(&quot;fecha&quot;, FieldValue.serverTimestamp());</span>
+<span class="fc" id="L129">            e.put(&quot;latitud&quot;, r.latitud());</span>
+<span class="fc" id="L130">            e.put(&quot;longitud&quot;, r.longitud());</span>
+<span class="fc" id="L131">            e.put(&quot;frecuenciaCardiaca&quot;, r.frecuenciaCardiaca());</span>
+<span class="fc" id="L132">            e.put(&quot;spo2&quot;, r.spo2());</span>
+<span class="fc" id="L133">            e.put(&quot;temperatura&quot;, r.temperatura());</span>
+<span class="fc" id="L134">            e.put(&quot;estado&quot;, Reglas.ABIERTA);</span>
+<span class="fc" id="L135">            e.put(&quot;version&quot;, 0);</span>
+<span class="fc" id="L136">            tx.set(ref, e);</span>
+<span class="fc" id="L137">            tx.set(mensajes(s.uid()).document(), mensaje(s, Reglas.mensajeSos(r.frecuenciaCardiaca(), r.spo2(), r.temperatura())));</span>
+<span class="fc" id="L138">            Map&lt;String, Object&gt; out = new LinkedHashMap&lt;&gt;(e);</span>
+<span class="fc" id="L139">            out.put(&quot;id&quot;, ref.getId());</span>
+<span class="fc" id="L140">            out.put(&quot;fecha&quot;, Instant.now().toString());</span>
+<span class="fc" id="L141">            return new ResultadoSos(out, false);</span>
+        }));
+    }
+
+    /** Paciente: las suyas. Recepción, doctor y admin: todas. Lo más reciente primero. */
+    public List&lt;Map&lt;String, Object&gt;&gt; emergencias(Sesion s) {
+<span class="fc bfc" id="L147" title="All 2 branches covered.">        Query q = Reglas.esPersonal(s.rol())</span>
+<span class="fc" id="L148">                ? db.collection(&quot;emergencias&quot;)</span>
+<span class="fc" id="L149">                : db.collection(&quot;emergencias&quot;).whereEqualTo(&quot;pacienteId&quot;, s.uid());</span>
+<span class="fc" id="L150">        List&lt;Map&lt;String, Object&gt;&gt; l = new ArrayList&lt;&gt;(get(q).getDocuments().stream().map(FirestoreUtil::json).toList());</span>
+<span class="fc" id="L151">        l.sort(Comparator.comparing((Map&lt;String, Object&gt; e) -&gt; String.valueOf(e.get(&quot;fecha&quot;))).reversed());</span>
+<span class="fc" id="L152">        return l;</span>
+    }
+
+    public List&lt;Map&lt;String, Object&gt;&gt; doctores(Sesion s) {
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">        if (!Reglas.esPersonal(s.rol())) throw ApiException.sinPermiso();</span>
+<span class="fc" id="L157">        return get(db.collection(&quot;usuarios&quot;).whereEqualTo(&quot;rol&quot;, Reglas.DOCTOR)).getDocuments().stream()</span>
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">                .filter(d -&gt; !Boolean.FALSE.equals(d.getBoolean(&quot;habilitado&quot;)))</span>
+<span class="fc" id="L159">                .map(d -&gt; Map.&lt;String, Object&gt;of(&quot;id&quot;, d.getId(), &quot;nombre&quot;, Objects.toString(d.getString(&quot;nombre&quot;), &quot;&quot;)))</span>
+<span class="fc" id="L160">                .toList();</span>
+    }
+
+    private static long version(DocumentSnapshot d) {
+<span class="fc" id="L164">        Long v = d.getLong(&quot;version&quot;);</span>
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">        return v == null ? 0 : v;</span>
+    }
+
+    /** Recepción canaliza un SOS ABIERTO a un doctor. Si otra recepcionista ganó, 409 con cómo quedó. */
+    public Map&lt;String, Object&gt; canalizar(Sesion s, String id, String doctorId) {
+<span class="pc bpc" id="L170" title="1 of 4 branches missed.">        if (!Reglas.RECEPCION.equals(s.rol()) &amp;&amp; !Reglas.ADMIN.equals(s.rol())) throw ApiException.sinPermiso();</span>
+<span class="fc" id="L171">        DocumentReference ref = db.collection(&quot;emergencias&quot;).document(id);</span>
+<span class="fc" id="L172">        DocumentReference refDoctor = db.collection(&quot;usuarios&quot;).document(doctorId);</span>
+<span class="fc" id="L173">        return esperar(db.runTransaction(tx -&gt; {</span>
+<span class="fc" id="L174">            DocumentSnapshot e = tx.get(ref).get();</span>
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">            if (!e.exists()) throw ApiException.noExiste(&quot;La emergencia&quot;);</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">            if (!Reglas.ABIERTA.equals(e.getString(&quot;estado&quot;))) throw new ApiException(HttpStatus.CONFLICT, &quot;La emergencia ya no está abierta&quot;, json(e));</span>
+<span class="fc" id="L177">            DocumentSnapshot d = tx.get(refDoctor).get();</span>
+<span class="pc bpc" id="L178" title="2 of 6 branches missed.">            if (!d.exists() || !Reglas.DOCTOR.equals(d.getString(&quot;rol&quot;)) || Boolean.FALSE.equals(d.getBoolean(&quot;habilitado&quot;)))</span>
+<span class="fc" id="L179">                throw new ApiException(HttpStatus.BAD_REQUEST, &quot;Elige un doctor válido&quot;);</span>
+<span class="fc" id="L180">            Map&lt;String, Object&gt; cambio = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L181">            cambio.put(&quot;estado&quot;, Reglas.CANALIZADA);</span>
+<span class="fc" id="L182">            cambio.put(&quot;canalizadaA&quot;, d.getId());</span>
+<span class="fc" id="L183">            cambio.put(&quot;canalizadaANombre&quot;, d.getString(&quot;nombre&quot;));</span>
+<span class="fc" id="L184">            cambio.put(&quot;canalizadaPor&quot;, s.uid());</span>
+<span class="fc" id="L185">            cambio.put(&quot;canalizadaPorNombre&quot;, s.nombre());</span>
+<span class="fc" id="L186">            cambio.put(&quot;fechaCanalizacion&quot;, FieldValue.serverTimestamp());</span>
+<span class="fc" id="L187">            cambio.put(&quot;version&quot;, version(e) + 1);</span>
+<span class="fc" id="L188">            tx.update(ref, cambio);</span>
+<span class="fc" id="L189">            tx.set(mensajes(e.getString(&quot;pacienteId&quot;)).document(), mensaje(s, Reglas.mensajeCanalizada(d.getString(&quot;nombre&quot;))));</span>
+<span class="fc" id="L190">            Map&lt;String, Object&gt; out = json(e);</span>
+<span class="fc" id="L191">            out.putAll(cambio);</span>
+<span class="fc" id="L192">            out.put(&quot;fechaCanalizacion&quot;, Instant.now().toString());</span>
+<span class="fc" id="L193">            return out;</span>
+        }));
+    }
+
+    /** El doctor al que se canalizó (o el admin) marca el SOS como atendido. Repetirlo no cambia nada ni avisa dos veces. */
+    public Map&lt;String, Object&gt; atender(Sesion s, String id) {
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">        if (!Reglas.esClinico(s.rol())) throw ApiException.sinPermiso();</span>
+<span class="fc" id="L200">        DocumentReference ref = db.collection(&quot;emergencias&quot;).document(id);</span>
+<span class="fc" id="L201">        return esperar(db.runTransaction(tx -&gt; {</span>
+<span class="fc" id="L202">            DocumentSnapshot e = tx.get(ref).get();</span>
+<span class="fc bfc" id="L203" title="All 2 branches covered.">            if (!e.exists()) throw ApiException.noExiste(&quot;La emergencia&quot;);</span>
+<span class="fc" id="L204">            String estado = e.getString(&quot;estado&quot;);</span>
+<span class="fc bfc" id="L205" title="All 2 branches covered.">            if (Reglas.ATENDIDA.equals(estado)) return json(e);</span>
+<span class="fc bfc" id="L206" title="All 2 branches covered.">            if (!Reglas.CANALIZADA.equals(estado)) throw new ApiException(HttpStatus.CONFLICT, &quot;Recepción aún no canaliza esta emergencia&quot;, json(e));</span>
+<span class="fc bfc" id="L207" title="All 4 branches covered.">            if (!Reglas.ADMIN.equals(s.rol()) &amp;&amp; !s.uid().equals(e.getString(&quot;canalizadaA&quot;)))</span>
+<span class="fc" id="L208">                throw new ApiException(HttpStatus.FORBIDDEN, &quot;Esta emergencia está asignada a otro doctor&quot;);</span>
+<span class="fc" id="L209">            Map&lt;String, Object&gt; cambio = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L210">            cambio.put(&quot;estado&quot;, Reglas.ATENDIDA);</span>
+<span class="fc" id="L211">            cambio.put(&quot;atendidaPor&quot;, s.nombre());</span>
+<span class="fc" id="L212">            cambio.put(&quot;atendidaPorUid&quot;, s.uid());</span>
+<span class="fc" id="L213">            cambio.put(&quot;fechaAtencion&quot;, FieldValue.serverTimestamp());</span>
+<span class="fc" id="L214">            cambio.put(&quot;version&quot;, version(e) + 1);</span>
+<span class="fc" id="L215">            tx.update(ref, cambio);</span>
+<span class="fc" id="L216">            tx.set(mensajes(e.getString(&quot;pacienteId&quot;)).document(), mensaje(s, Reglas.mensajeAtendida(s.nombre())));</span>
+<span class="fc" id="L217">            Map&lt;String, Object&gt; out = json(e);</span>
+<span class="fc" id="L218">            out.putAll(cambio);</span>
+<span class="fc" id="L219">            out.put(&quot;fechaAtencion&quot;, Instant.now().toString());</span>
+<span class="fc" id="L220">            return out;</span>
+        }));
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

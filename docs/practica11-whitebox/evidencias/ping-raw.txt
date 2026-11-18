@@ -1,0 +1,116 @@
+=== safemotion-pwa.vercel.app
+
+Haciendo ping a safemotion-pwa.vercel.app [216.198.79.67] con 32 bytes de datos:
+Respuesta desde 216.198.79.67: bytes=32 tiempo=110ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=71ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=146ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=169ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=66ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=136ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=100ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=120ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=178ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=90ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=137ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=110ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=128ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=86ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=135ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=92ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=104ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=175ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=265ms TTL=238
+Respuesta desde 216.198.79.67: bytes=32 tiempo=159ms TTL=238
+
+Estad¡sticas de ping para 216.198.79.67:
+    Paquetes: enviados = 20, recibidos = 20, perdidos = 0
+    (0% perdidos),
+Tiempos aproximados de ida y vuelta en milisegundos:
+    M¡nimo = 66ms, M ximo = 265ms, Media = 128ms
+=== firestore.googleapis.com
+
+Haciendo ping a firestore.googleapis.com [192.178.56.74] con 32 bytes de datos:
+Respuesta desde 192.178.56.74: bytes=32 tiempo=89ms TTL=115
+Respuesta desde 192.178.56.74: bytes=32 tiempo=52ms TTL=115
+Respuesta desde 192.178.56.74: bytes=32 tiempo=62ms TTL=115
+Respuesta desde 192.178.56.74: bytes=32 tiempo=102ms TTL=115
+Respuesta desde 192.178.56.74: bytes=32 tiempo=192ms TTL=115
+Respuesta desde 192.178.56.74: bytes=32 tiempo=75ms TTL=115
+Respuesta desde 192.178.56.74: bytes=32 tiempo=107ms TTL=115
+Respuesta desde 192.178.56.74: bytes=32 tiempo=71ms TTL=115
+Respuesta desde 192.178.56.74: bytes=32 tiempo=31ms TTL=115
+Respuesta desde 192.178.56.74: bytes=32 tiempo=14ms TTL=115
+Respuesta desde 192.178.56.74: bytes=32 tiempo=55ms TTL=115
+Respuesta desde 192.178.56.74: bytes=32 tiempo=73ms TTL=115
+Respuesta desde 192.178.56.74: bytes=32 tiempo=39ms TTL=115
+Respuesta desde 192.178.56.74: bytes=32 tiempo=40ms TTL=115
+Respuesta desde 192.178.56.74: bytes=32 tiempo=10ms TTL=115
+Respuesta desde 192.178.56.74: bytes=32 tiempo=92ms TTL=115
+Tiempo de espera agotado para esta solicitud.
+Respuesta desde 192.178.56.74: bytes=32 tiempo=71ms TTL=115
+Respuesta desde 192.178.56.74: bytes=32 tiempo=154ms TTL=115
+Respuesta desde 192.178.56.74: bytes=32 tiempo=71ms TTL=115
+
+Estad¡sticas de ping para 192.178.56.74:
+    Paquetes: enviados = 20, recibidos = 19, perdidos = 1
+    (5% perdidos),
+Tiempos aproximados de ida y vuelta en milisegundos:
+    M¡nimo = 10ms, M ximo = 192ms, Media = 73ms
+=== 127.0.0.1
+
+Haciendo ping a 127.0.0.1 con 32 bytes de datos:
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+Respuesta desde 127.0.0.1: bytes=32 tiempo<1m TTL=128
+
+Estad¡sticas de ping para 127.0.0.1:
+    Paquetes: enviados = 20, recibidos = 20, perdidos = 0
+    (0% perdidos),
+Tiempos aproximados de ida y vuelta en milisegundos:
+    M¡nimo = 0ms, M ximo = 0ms, Media = 0ms
+=== 10.13.63.250 (puerta de enlace Wi-Fi)
+
+Haciendo ping a 10.13.63.250 con 32 bytes de datos:
+Respuesta desde 10.13.63.250: bytes=32 tiempo=13ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=10ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=3ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=222ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=29ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=500ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=177ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=221ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=1351ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=257ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=170ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=169ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=6ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=17ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=14ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=7ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=23ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=10ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=4ms TTL=64
+Respuesta desde 10.13.63.250: bytes=32 tiempo=4ms TTL=64
+
+Estad¡sticas de ping para 10.13.63.250:
+    Paquetes: enviados = 20, recibidos = 20, perdidos = 0
+    (0% perdidos),
+Tiempos aproximados de ida y vuelta en milisegundos:
+    M¡nimo = 3ms, M ximo = 1351ms, Media = 160ms

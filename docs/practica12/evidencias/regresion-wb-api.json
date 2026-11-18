@@ -1,0 +1,302 @@
+{
+  "fecha": "2026-11-13T00:08:56.336Z",
+  "api": "http://localhost:8080",
+  "resultados": [
+    {
+      "id": "API-01",
+      "componente": "AuthController.login → AuthService.login (Identity Toolkit)",
+      "descripcion": "POST /api/auth/login con PIN válido",
+      "esperado": "200 {token, expiraEnSegundos, usuario{id,nombre,rol}}; sin PIN ni contraseña",
+      "observado": "HTTP 200, 648 B, 17.5 ms, JWT de Firebase (3600 s), usuario.id = UID",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-02",
+      "componente": "MedicionController.registrar → MedicionService (transacción)",
+      "descripcion": "POST /api/mediciones válida",
+      "esperado": "201 Created + Location; id = idLocal",
+      "observado": "HTTP 201, Location /api/mediciones/wb2024eed16c174498b98e25c90e446e49, claves: actividad,alertas,bateria,calorias,fecha,frecuenciaCardiaca,id,idLocal,pacienteId,pasos,spo2,temperatura",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-03",
+      "componente": "MedicionService.registrar (idempotencia)",
+      "descripcion": "Reenviar la misma lectura (mismo idLocal)",
+      "esperado": "200 con la lectura ya guardada; no crea otra",
+      "observado": "HTTP 200, mismo id wb2024eed16c174498b98e25c90e446e49",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-04",
+      "componente": "EmergenciaController.crear → AtencionService (transacción)",
+      "descripcion": "POST /api/emergencias (paciente sin SOS activo)",
+      "esperado": "201 y duplicada=false",
+      "observado": "HTTP 201, id=BewyURwf4kWyYlOhGBRP, estado=ABIERTA, version=0",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-05",
+      "componente": "AtencionService.crearEmergencia",
+      "descripcion": "POST /api/emergencias repetido",
+      "esperado": "200 y duplicada=true (mismo id)",
+      "observado": "HTTP 200, mismo id",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-06",
+      "componente": "ChatController.limpiar → AtencionService.limpiar (WriteBatch)",
+      "descripcion": "DELETE /api/chat/{uid}/mensajes como doctora",
+      "esperado": "204 sin cuerpo",
+      "observado": "HTTP 204, 0 B",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-07",
+      "componente": "ChatController.enviar",
+      "descripcion": "POST mensaje del paciente a su chat",
+      "esperado": "201 Created con el mensaje",
+      "observado": "HTTP 201, texto recortado \"Hola doctora\"",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-08",
+      "componente": "ManejadorErrores (HttpMessageNotReadable)",
+      "descripcion": "POST /api/mediciones con JSON mal formado",
+      "esperado": "400 {status,error} sin traza",
+      "observado": "HTTP 400, cuerpo: {\"status\":400,\"error\":\"El cuerpo no es un JSON válido\"}",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-09",
+      "componente": "Solicitudes.Medicion (@Max 220, @NotNull)",
+      "descripcion": "FC = 300 y temperatura omitida",
+      "esperado": "400 con el campo que falló",
+      "observado": "HTTP 400 \"frecuenciaCardiaca: debe ser menor que o igual a 220\" · HTTP 400 \"temperatura: no debe ser nulo\"",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-10",
+      "componente": "Solicitudes.Login (@Pattern \\d{4})",
+      "descripcion": "PIN \"12\" y \"' OR '1'='1\"",
+      "esperado": "400 (no llega a Firebase)",
+      "observado": "HTTP 400 y 400",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-11",
+      "componente": "Solicitudes.Mensaje (@NotBlank @Size 500)",
+      "descripcion": "Mensaje vacío y de 501 caracteres",
+      "esperado": "400",
+      "observado": "HTTP 400 y 400",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-12",
+      "componente": "MedicionService.historial (Reglas.limiteValido)",
+      "descripcion": "limite=abc, 0, −5 y 1000; limite=1 y 500 válidos",
+      "esperado": "400 fuera de 1..500; 200 en los límites",
+      "observado": "abc/0/−5/1000/501 → 400/400/400/400/400 · 1/500 → 200/200",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-13",
+      "componente": "EmergenciaController.canalizar",
+      "descripcion": "Canalizar a alguien que no es doctor (a un paciente)",
+      "esperado": "400",
+      "observado": "HTTP 400 \"Elige un doctor válido\"",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-14",
+      "componente": "AuthService.autenticar (verifyIdToken)",
+      "descripcion": "Sin token y token inventado",
+      "esperado": "401 en ambos",
+      "observado": "HTTP 401 / 401",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-14b",
+      "componente": "AuthService.autenticar (firma del JWT)",
+      "descripcion": "JWT con el UID cambiado por el del admin",
+      "esperado": "401 (firma inválida)",
+      "observado": "No aplica en emulador: los tokens del emulador no tienen firma (alg \"none\") y el SDK la omite; observado HTTP 200. Se verifica contra el Firebase real.",
+      "estado": "No aplica"
+    },
+    {
+      "id": "API-14c",
+      "componente": "AuthService.autenticar (formato del header)",
+      "descripcion": "Token tal cual (como la PWA) y con prefijo \"Bearer \"",
+      "esperado": "200 en ambos",
+      "observado": "HTTP 200 y 200",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-15",
+      "componente": "AtencionService.conversaciones (Reglas.esClinico)",
+      "descripcion": "Paciente y recepcionista piden la bandeja de conversaciones",
+      "esperado": "403 (autenticados sin permiso)",
+      "observado": "HTTP 403 y 403",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-16",
+      "componente": "Reglas.puedeVerChat",
+      "descripcion": "Juan lee el chat de María",
+      "esperado": "403",
+      "observado": "HTTP 403",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-17",
+      "componente": "AtencionService.crearEmergencia",
+      "descripcion": "La doctora intenta pedir un SOS",
+      "esperado": "403",
+      "observado": "HTTP 403",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-18",
+      "componente": "UsuarioController → UsuarioService.listar",
+      "descripcion": "GET /api/usuarios sin token, como paciente y como admin",
+      "esperado": "401 / 403 / 200",
+      "observado": "HTTP 401 / 403 / 200 (6 cuentas)",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-19",
+      "componente": "UsuarioService.cambiarEstado",
+      "descripcion": "PATCH /api/usuarios/{uid}/estado sin token y como recepción",
+      "esperado": "401 y 403; la cuenta no cambia",
+      "observado": "HTTP 401 y 403; la doctora sigue activa",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-20",
+      "componente": "AuthService.login / perfil",
+      "descripcion": "PIN incorrecto vs. cuenta deshabilitada",
+      "esperado": "401 (autenticación) vs. 403 (autorización)",
+      "observado": "HTTP 401 \"PIN incorrecto\" · HTTP 403 \"Esta cuenta está deshabilitada\"",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-21",
+      "componente": "UsuarioService.cambiarEstado → AuthService.revocar",
+      "descripcion": "Token de una cuenta que el admin deshabilita después del login",
+      "esperado": "401/403: el token deja de servir de inmediato",
+      "observado": "HTTP 403",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-22",
+      "componente": "AuthController.logout → revokeRefreshTokens",
+      "descripcion": "Usar el token después de cerrar sesión",
+      "esperado": "204 en logout y 401 después",
+      "observado": "HTTP 204 y luego 401; la otra sesión de la misma cuenta también quedó en 401 (revokeRefreshTokens cierra todas)",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-23",
+      "componente": "AtencionService (noExiste)",
+      "descripcion": "Atender una emergencia y leer un chat que no existen",
+      "esperado": "404 con cuerpo JSON",
+      "observado": "HTTP 404 \"La emergencia no existe\" y 404",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-24",
+      "componente": "ManejadorErrores",
+      "descripcion": "Ruta inexistente y método no permitido",
+      "esperado": "404 y 405 en el mismo formato JSON",
+      "observado": "HTTP 404 y 405",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-25",
+      "componente": "AtencionService.atender",
+      "descripcion": "El doctor intenta atender un SOS que recepción no ha canalizado",
+      "esperado": "409 con la emergencia actual",
+      "observado": "HTTP 409, actual.estado = ABIERTA",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-26",
+      "componente": "AtencionService.canalizar (transacción + version)",
+      "descripcion": "Recepción canaliza a la Dra. Ana; luego otra canalización",
+      "esperado": "200 (version 1) y después 409 con cómo quedó",
+      "observado": "HTTP 200 (version 1) y 409 (actual: Dra. Ana Torres)",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-27",
+      "componente": "AtencionService.atender",
+      "descripcion": "Doctor no asignado, doctor asignado y repetir",
+      "esperado": "403, 200 (version 2) y 200 idempotente",
+      "observado": "HTTP 403 / 200 (version 2) / 200 (version 2)",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-28",
+      "componente": "Solicitudes.Medicion (Integer spo2) + Reglas.alertas",
+      "descripcion": "Lectura sin SpO₂ (spo2 = null)",
+      "esperado": "Se guarda spo2 = null y sin alerta de saturación",
+      "observado": "HTTP 201, spo2 = null, alertas = []",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-29",
+      "componente": "Reglas.alertas",
+      "descripcion": "FC 130, temp 38.5 y SpO₂ 88",
+      "esperado": "3 alertas",
+      "observado": "alertas = Frecuencia cardiaca alta, Temperatura elevada, Saturación de oxígeno baja",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-30",
+      "componente": "Exposición de datos",
+      "descripcion": "Cuerpos de login, mediciones, alertas, emergencias, usuarios y estado",
+      "esperado": "Sin PIN, contraseña ni refresh token",
+      "observado": "Ningún cuerpo contiene PIN, contraseña ni refresh token",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-31",
+      "componente": "CorsConfig (app.cors.origins)",
+      "descripcion": "Preflight desde un origen ajeno y desde la PWA",
+      "esperado": "Ajeno sin Allow-Origin; PWA permitido",
+      "observado": "ajeno HTTP 403 sin Allow-Origin · PWA HTTP 200 permitido",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-32",
+      "componente": "SistemaController.estado",
+      "descripcion": "GET /api/sistema/estado sin sesión",
+      "esperado": "200 con el estado de Firestore, sin datos de usuarios",
+      "observado": "HTTP 200: {\"servicio\":\"safemotion-backend\",\"baseDatos\":\"Cloud Firestore · proyecto demo-safemotion\",\"emulador\":true,\"firestore\":\"disponible\",\"latenciaFirestoreMs\":5.1,\"operaciones\":{\"lecturasFirestore\":51,\"lecturasPerfil\":23,\"verificacionesToken\":13,\"aciertosCache\":37}}",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-33",
+      "componente": "AtencionService.conversaciones (consulta + count() por paciente)",
+      "descripcion": "Bandeja de la doctora con un SOS activo de María",
+      "esperado": "200; el paciente con SOS activo va primero",
+      "observado": "HTTP 200, 2 pacientes; primero María López (SOS ABIERTA), 4 mensajes contados con count()",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-34",
+      "componente": "MedicionController.actual",
+      "descripcion": "Lectura actual de quien no tiene lecturas (recepción) y de Juan",
+      "esperado": "204 sin cuerpo y 200 con la más reciente",
+      "observado": "HTTP 204 (0 B) y 200",
+      "estado": "Aprobado"
+    },
+    {
+      "id": "API-35",
+      "componente": "MedicionService.ultimaDePaciente (Reglas.esClinico)",
+      "descripcion": "Última lectura de Juan pedida por la doctora, por recepción y de un paciente sin lecturas",
+      "esperado": "200 / 403 / 204",
+      "observado": "HTTP 200 / 403 / 204",
+      "estado": "Aprobado"
+    }
+  ]
+}
