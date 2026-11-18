@@ -1,5 +1,7 @@
 # SafeMotion AI – PWA
 
+[![CI SafeMotion PWA](https://github.com/AlanLM18/safemotion-pwa/actions/workflows/ci.yml/badge.svg)](https://github.com/AlanLM18/safemotion-pwa/actions/workflows/ci.yml)
+
 PWA (Node + Vite) que reemplaza la app Flutter de la propuesta: se instala desde el navegador, sin APK.
 Publicada en https://safemotion-pwa.vercel.app
 
@@ -53,6 +55,20 @@ API_URL=http://localhost:8080 npm run test:wb:api   # 37 casos de endpoints · t
 El emulador de Firebase necesita Java 11 o superior antes que Java 8 en el `PATH`.
 `.env.pruebas` (contraseñas de las cuentas de prueba) no se sube a git ni a Vercel.
 
+## Pruebas automatizadas e integración continua (Prácticas 13 y 14)
+GitHub Actions (`.github/workflows/ci.yml`) corre en cada `push` y en cada `pull_request`:
+
+1. **Lint + pruebas unitarias + build**: `npm run lint` (ESLint, los errores detienen el pipeline), 126 pruebas unitarias
+   (incluye `tests/aut/unitarias.test.js`: login con PIN, bloqueo, excepciones y regresiones WB-D10/WB-D11) y `npm run build`.
+2. **Integración** (solo si el paso 1 pasa): compila el backend Spring desde
+   [Backend-Spring-sobre-Firebase](https://github.com/AlanLM18/Backend-Spring-sobre-Firebase), levanta el emulador de Firebase
+   y corre `tests/aut/integracion.test.js` (app ↔ API ↔ Firestore, servidor que no responde y persistencia).
+
+Cada prueba fallida aparece como anotación del run (archivo, línea y mensaje) y los resultados JUnit quedan como artefactos.
+```bash
+npm run lint && npm run test:ci                  # lo mismo que el primer job
+BACKEND_JAR=../safemotion-ai/backend/target/safemotion-backend.jar npm run test:aut:int:emulador   # el segundo job
+```
 ## Estructura
 - `src/models` medición unificada (+ conversión a `MedicionRequest`), usuario, alertas, chat, emergencia (estados del SOS)
 - `src/services` api (Spring Boot / simulado) y apiFirebase, auth, sync, monitor, db (IndexedDB), ble + gattParser, gyro + steps + activity, wearableSim, store
