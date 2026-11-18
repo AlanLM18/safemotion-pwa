@@ -38,9 +38,9 @@ describe('M1 validateMedicionRequest (validación)', () => {
   test('C3 campo obligatorio ausente: FC null -> D2 = F por C2 = F, D3 = V por C3 (no es number)', () => {
     assert.deepEqual(validateMedicionRequest({ ...base(), frecuenciaCardiaca: null }), ['frecuenciaCardiaca requerido']);
   });
-  test('C4 FC = NaN -> D3 = V por C4. DEFECTO WB-D03: también entra a D6 y duplica el error del mismo campo', () => {
-    // Esperado: ['frecuenciaCardiaca requerido']. Observado en la 1.a corrida: dos mensajes para el mismo campo.
-    assert.deepEqual(validateMedicionRequest({ ...base(), frecuenciaCardiaca: NaN }), ['frecuenciaCardiaca requerido', 'frecuenciaCardiaca debe ser entero']);
+  test('C4 FC = NaN -> D3 = V por C4. WB-D03 (corregido en P13-14): un solo error para el campo', () => {
+    // En P11 se observaban dos mensajes para el mismo campo; la corrección se protege con tests/aut/unitarias.test.js U8.
+    assert.deepEqual(validateMedicionRequest({ ...base(), frecuenciaCardiaca: NaN }), ['frecuenciaCardiaca requerido']);
   });
   test('C5 FC en texto ("80") -> requerido (no se acepta conversión implícita)', () => {
     assert.deepEqual(validateMedicionRequest({ ...base(), frecuenciaCardiaca: '80' }), ['frecuenciaCardiaca requerido']);
@@ -189,9 +189,9 @@ describe('M3 createApi().request y login (comunicación con el servicio)', () =>
     await assert.rejects(cliente(50).estado(), (e) => e.status === 0);
     assert.ok(Date.now() - t0 < 1000);
   });
-  test('C8 DEFECTO: 200 con cuerpo que no es JSON se reporta como "Sin conexión" (oculta el error real)', async () => {
+  test('C8 WB-D10 (corregido en P13-14): 200 con cuerpo que no es JSON se reporta como respuesta inválida', async () => {
     responder(200, 'OK');
-    await assert.rejects(cliente().estado(), (e) => e.message === 'Sin conexión con el servidor' && e.status === 0);
+    await assert.rejects(cliente().estado(), (e) => e.message === 'Respuesta inválida del servidor' && e.status === 200);
   });
   test('C9 login: 401 y 400 se traducen a "Credenciales inválidas" (decisión con 2 condiciones)', async () => {
     responder(401, '{"mensaje":"PIN incorrecto"}');

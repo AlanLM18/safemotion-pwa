@@ -36,7 +36,9 @@ export function createApi({ baseUrl = API_BASE_URL, timeoutMs = API_TIMEOUT_MS }
         throw new ApiError(`HTTP ${res.status}`, res.status, datos);
       }
       const text = await res.text();
-      return text ? JSON.parse(text) : null;          // 204 => null; resto en formato JSON
+      if (!text) return null;                          // 204 => null
+      try { return JSON.parse(text); }                 // WB-D10 (P13-14): un 200 que no es JSON no es "sin conexión"
+      catch { throw new ApiError('Respuesta inválida del servidor', res.status); }
     } catch (e) {
       throw e instanceof ApiError ? e : new ApiError('Sin conexión con el servidor');
     } finally {

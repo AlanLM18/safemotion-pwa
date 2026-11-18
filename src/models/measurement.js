@@ -76,7 +76,8 @@ export function validateMedicionRequest(r) {
     else if (v < min || v > max) errors.push(`${campo} fuera de rango (${min}-${max})`);
   }
   for (const campo of ['frecuenciaCardiaca', 'spo2', 'bateria', 'pasos', 'calorias']) {
-    if (typeof r[campo] === 'number' && !Number.isInteger(r[campo])) errors.push(`${campo} debe ser entero`);
+    // WB-D11 (P13-14): NaN/Infinity ya se reportan como requerido/inválido; aquí solo los decimales finitos
+    if (Number.isFinite(r[campo]) && !Number.isInteger(r[campo])) errors.push(`${campo} debe ser entero`);
   }
   if (!(r.pasos >= 0)) errors.push('pasos inválido');
   if (!(r.calorias >= 0)) errors.push('calorias inválido');
