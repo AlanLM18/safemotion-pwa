@@ -32,6 +32,7 @@ jobs:
           node --test
           --test-reporter=spec --test-reporter-destination=stdout
           --test-reporter=junit --test-reporter-destination=resultados-unitarias.xml
+          --test-reporter=./tests/aut/reporte-github.mjs --test-reporter-destination=stdout
           tests/aut/unitarias.test.js tests/unit.test.js tests/chat.unit.test.js tests/sync.unit.test.js
           tests/blackbox.test.js tests/whitebox/wb.app.unit.test.js tests/p12.unit.test.js
       - name: Compilación de la PWA

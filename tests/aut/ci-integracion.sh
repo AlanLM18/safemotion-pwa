@@ -13,4 +13,4 @@ for i in $(seq 1 90); do
   sleep 1
 done
 curl -fs "$API_URL/api/sistema/estado" > /dev/null || { echo "El backend no respondió en 90 s"; tail -50 backend-ci.log; exit 1; }
-node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=resultados-integracion.xml tests/aut/integracion.test.js
+node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=resultados-integracion.xml --test-reporter=./tests/aut/reporte-github.mjs --test-reporter-destination=stdout tests/aut/integracion.test.js

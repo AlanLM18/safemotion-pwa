@@ -29,5 +29,5 @@ const REGLAS = {
 export default [
   { ignores: ['dist/**', 'dev-dist/**', 'node_modules/**', 'docs/**', 'public/**'] },
   { files: ['src/**/*.js'], languageOptions: { ecmaVersion: 2024, sourceType: 'module', globals: g(NAVEGADOR) }, rules: REGLAS },
-  { files: ['tests/aut/**/*.js', 'eslint.config.mjs', 'vite.config.js'], languageOptions: { ecmaVersion: 2024, sourceType: 'module', globals: g([...NAVEGADOR, 'process']) }, rules: REGLAS }
+  { files: ['tests/aut/**/*.{js,mjs}', 'eslint.config.mjs', 'vite.config.js'], languageOptions: { ecmaVersion: 2024, sourceType: 'module', globals: g([...NAVEGADOR, 'process']) }, rules: REGLAS }
 ];
