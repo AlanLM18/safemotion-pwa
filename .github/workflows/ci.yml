@@ -1,0 +1,80 @@
+# Prácticas 13 y 14 · Integración continua de SafeMotion PWA.
+# Se ejecuta en cada push y en cada pull request: análisis estático, pruebas unitarias, compilación y
+# pruebas de integración contra el backend Spring real (repositorio público) y el emulador de Firebase.
+name: CI SafeMotion PWA
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unitarias:
+    name: Lint + pruebas unitarias + build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Análisis estático (ESLint)
+        run: npm run lint
+      - name: Pruebas unitarias (AUT-01..03 y suites previas)
+        run: >
+          node --test
+          --test-reporter=spec --test-reporter-destination=stdout
+          --test-reporter=junit --test-reporter-destination=resultados-unitarias.xml
+          tests/aut/unitarias.test.js tests/unit.test.js tests/chat.unit.test.js tests/sync.unit.test.js
+          tests/blackbox.test.js tests/whitebox/wb.app.unit.test.js tests/p12.unit.test.js
+      - name: Compilación de la PWA
+        run: npm run build
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: resultados-unitarias
+          path: resultados-unitarias.xml
+
+  integracion:
+    name: Pruebas de integración (app + Spring + Firestore)
+    needs: unitarias
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Código del backend Spring
+        uses: actions/checkout@v4
+        with:
+          repository: AlanLM18/Backend-Spring-sobre-Firebase
+          path: backend
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+          cache-dependency-path: backend/pom.xml
+      - run: npm ci
+      - name: Compilar el backend
+        run: mvn -B -q -f backend/pom.xml package -DskipTests
+      - name: Emulador de Firebase + backend + pruebas (AUT-04..06)
+        env:
+          BACKEND_JAR: ${{ github.workspace }}/backend/target/safemotion-backend.jar
+        run: npx -y firebase-tools@14 emulators:exec --only auth,firestore --project demo-safemotion "bash tests/aut/ci-integracion.sh"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: resultados-integracion
+          path: |
+            resultados-integracion.xml
+            backend-ci.log
