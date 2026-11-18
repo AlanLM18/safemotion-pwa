@@ -1,0 +1,476 @@
+[
+ {
+  "n": 1,
+  "id": 44207321829,
+  "sha": "aa5c7b3",
+  "rama": "main",
+  "evento": "push",
+  "resultado": "failure",
+  "inicio": "2026-11-18T00:22:44Z",
+  "fin": "2026-11-18T00:23:22Z",
+  "seg": 38,
+  "url": "https://github.com/AlanLM18/safemotion-pwa/actions/runs/44207321829",
+  "commit": "P13-14: pruebas automatizadas (AUT-01..06), ESLint y pipeline de GitHub Actions",
+  "jobs": [
+   {
+    "nombre": "Lint + pruebas unitarias + build",
+    "resultado": "failure",
+    "seg": 34,
+    "pasos": [
+     {
+      "n": "Set up job",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Run actions/checkout@v4",
+      "r": "success",
+      "seg": 2
+     },
+     {
+      "n": "Run actions/setup-node@v4",
+      "r": "success",
+      "seg": 2
+     },
+     {
+      "n": "Run npm ci",
+      "r": "success",
+      "seg": 17
+     },
+     {
+      "n": "Análisis estático (ESLint)",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Pruebas unitarias (AUT-01..03 y suites previas)",
+      "r": "failure",
+      "seg": 9
+     },
+     {
+      "n": "Compilación de la PWA",
+      "r": "skipped",
+      "seg": 0
+     },
+     {
+      "n": "Run actions/upload-artifact@v4",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Post Run actions/setup-node@v4",
+      "r": "skipped",
+      "seg": 0
+     },
+     {
+      "n": "Post Run actions/checkout@v4",
+      "r": "success",
+      "seg": 0
+     },
+     {
+      "n": "Complete job",
+      "r": "success",
+      "seg": 0
+     }
+    ]
+   },
+   {
+    "nombre": "Pruebas de integración (app + Spring + Firestore)",
+    "resultado": "skipped",
+    "seg": 0,
+    "pasos": []
+   }
+  ]
+ },
+ {
+  "n": 2,
+  "id": 44207613169,
+  "sha": "82fe85d",
+  "rama": "main",
+  "evento": "push",
+  "resultado": "failure",
+  "inicio": "2026-11-18T00:24:54Z",
+  "fin": "2026-11-18T00:25:32Z",
+  "seg": 38,
+  "url": "https://github.com/AlanLM18/safemotion-pwa/actions/runs/44207613169",
+  "commit": "CI: las pruebas fallidas se publican como anotaciones de GitHub (archivo, línea y mensaje)",
+  "jobs": [
+   {
+    "nombre": "Lint + pruebas unitarias + build",
+    "resultado": "failure",
+    "seg": 36,
+    "pasos": [
+     {
+      "n": "Set up job",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Run actions/checkout@v4",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Run actions/setup-node@v4",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Run npm ci",
+      "r": "success",
+      "seg": 19
+     },
+     {
+      "n": "Análisis estático (ESLint)",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Pruebas unitarias (AUT-01..03 y suites previas)",
+      "r": "failure",
+      "seg": 9
+     },
+     {
+      "n": "Compilación de la PWA",
+      "r": "skipped",
+      "seg": 0
+     },
+     {
+      "n": "Run actions/upload-artifact@v4",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Post Run actions/setup-node@v4",
+      "r": "skipped",
+      "seg": 0
+     },
+     {
+      "n": "Post Run actions/checkout@v4",
+      "r": "success",
+      "seg": 0
+     },
+     {
+      "n": "Complete job",
+      "r": "success",
+      "seg": 0
+     }
+    ]
+   },
+   {
+    "nombre": "Pruebas de integración (app + Spring + Firestore)",
+    "resultado": "skipped",
+    "seg": 0,
+    "pasos": []
+   }
+  ]
+ },
+ {
+  "n": 3,
+  "id": 44207917163,
+  "sha": "6b6c3f4",
+  "rama": "main",
+  "evento": "push",
+  "resultado": "success",
+  "inicio": "2026-11-18T00:27:07Z",
+  "fin": "2026-11-18T00:29:30Z",
+  "seg": 143,
+  "url": "https://github.com/AlanLM18/safemotion-pwa/actions/runs/44207917163",
+  "commit": "Corrige WB-D10 y WB-D11 detectados por las pruebas de regresión del pipeline",
+  "jobs": [
+   {
+    "nombre": "Lint + pruebas unitarias + build",
+    "resultado": "success",
+    "seg": 43,
+    "pasos": [
+     {
+      "n": "Set up job",
+      "r": "success",
+      "seg": 0
+     },
+     {
+      "n": "Run actions/checkout@v4",
+      "r": "success",
+      "seg": 2
+     },
+     {
+      "n": "Run actions/setup-node@v4",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Run npm ci",
+      "r": "success",
+      "seg": 19
+     },
+     {
+      "n": "Análisis estático (ESLint)",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Pruebas unitarias (AUT-01..03 y suites previas)",
+      "r": "success",
+      "seg": 10
+     },
+     {
+      "n": "Compilación de la PWA",
+      "r": "success",
+      "seg": 3
+     },
+     {
+      "n": "Run actions/upload-artifact@v4",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Post Run actions/setup-node@v4",
+      "r": "success",
+      "seg": 3
+     },
+     {
+      "n": "Post Run actions/checkout@v4",
+      "r": "success",
+      "seg": 0
+     },
+     {
+      "n": "Complete job",
+      "r": "success",
+      "seg": 0
+     }
+    ]
+   },
+   {
+    "nombre": "Pruebas de integración (app + Spring + Firestore)",
+    "resultado": "success",
+    "seg": 94,
+    "pasos": [
+     {
+      "n": "Set up job",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Run actions/checkout@v4",
+      "r": "success",
+      "seg": 2
+     },
+     {
+      "n": "Código del backend Spring",
+      "r": "success",
+      "seg": 0
+     },
+     {
+      "n": "Run actions/setup-node@v4",
+      "r": "success",
+      "seg": 2
+     },
+     {
+      "n": "Run actions/setup-java@v4",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Run npm ci",
+      "r": "success",
+      "seg": 6
+     },
+     {
+      "n": "Compilar el backend",
+      "r": "success",
+      "seg": 36
+     },
+     {
+      "n": "Emulador de Firebase + backend + pruebas (AUT-04..06)",
+      "r": "success",
+      "seg": 36
+     },
+     {
+      "n": "Run actions/upload-artifact@v4",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Post Run actions/setup-java@v4",
+      "r": "success",
+      "seg": 4
+     },
+     {
+      "n": "Post Run actions/setup-node@v4",
+      "r": "success",
+      "seg": 0
+     },
+     {
+      "n": "Post Código del backend Spring",
+      "r": "success",
+      "seg": 0
+     },
+     {
+      "n": "Post Run actions/checkout@v4",
+      "r": "success",
+      "seg": 0
+     },
+     {
+      "n": "Complete job",
+      "r": "success",
+      "seg": 0
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "n": 4,
+  "id": 44208569513,
+  "sha": "2172785",
+  "rama": "docs/ci-readme",
+  "evento": "push",
+  "resultado": "success",
+  "inicio": "2026-11-18T00:31:52Z",
+  "fin": "2026-11-18T00:33:42Z",
+  "seg": 110,
+  "url": "https://github.com/AlanLM18/safemotion-pwa/actions/runs/44208569513",
+  "commit": "README: sección de pruebas automatizadas y CI con insignia del pipeline",
+  "jobs": [
+   {
+    "nombre": "Lint + pruebas unitarias + build",
+    "resultado": "success",
+    "seg": 29,
+    "pasos": [
+     {
+      "n": "Set up job",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Run actions/checkout@v4",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Run actions/setup-node@v4",
+      "r": "success",
+      "seg": 2
+     },
+     {
+      "n": "Run npm ci",
+      "r": "success",
+      "seg": 8
+     },
+     {
+      "n": "Análisis estático (ESLint)",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Pruebas unitarias (AUT-01..03 y suites previas)",
+      "r": "success",
+      "seg": 10
+     },
+     {
+      "n": "Compilación de la PWA",
+      "r": "success",
+      "seg": 3
+     },
+     {
+      "n": "Run actions/upload-artifact@v4",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Post Run actions/setup-node@v4",
+      "r": "success",
+      "seg": 0
+     },
+     {
+      "n": "Post Run actions/checkout@v4",
+      "r": "success",
+      "seg": 0
+     },
+     {
+      "n": "Complete job",
+      "r": "success",
+      "seg": 0
+     }
+    ]
+   },
+   {
+    "nombre": "Pruebas de integración (app + Spring + Firestore)",
+    "resultado": "success",
+    "seg": 77,
+    "pasos": [
+     {
+      "n": "Set up job",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Run actions/checkout@v4",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Código del backend Spring",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Run actions/setup-node@v4",
+      "r": "success",
+      "seg": 3
+     },
+     {
+      "n": "Run actions/setup-java@v4",
+      "r": "success",
+      "seg": 3
+     },
+     {
+      "n": "Run npm ci",
+      "r": "success",
+      "seg": 7
+     },
+     {
+      "n": "Compilar el backend",
+      "r": "success",
+      "seg": 12
+     },
+     {
+      "n": "Emulador de Firebase + backend + pruebas (AUT-04..06)",
+      "r": "success",
+      "seg": 42
+     },
+     {
+      "n": "Run actions/upload-artifact@v4",
+      "r": "success",
+      "seg": 2
+     },
+     {
+      "n": "Post Run actions/setup-java@v4",
+      "r": "success",
+      "seg": 0
+     },
+     {
+      "n": "Post Run actions/setup-node@v4",
+      "r": "success",
+      "seg": 1
+     },
+     {
+      "n": "Post Código del backend Spring",
+      "r": "success",
+      "seg": 0
+     },
+     {
+      "n": "Post Run actions/checkout@v4",
+      "r": "success",
+      "seg": 0
+     },
+     {
+      "n": "Complete job",
+      "r": "success",
+      "seg": 0
+     }
+    ]
+   }
+  ]
+ }
+]

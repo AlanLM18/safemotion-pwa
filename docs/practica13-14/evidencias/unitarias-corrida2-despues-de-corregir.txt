@@ -1,0 +1,25 @@
+▶ AUT-01 · Validación del PIN e inicio de sesión
+  ✔ U1 entrada válida: PIN de 4 dígitos inicia sesión y guarda la sesión con caducidad (2.013ms)
+  ✔ U2 entrada vacía o nula: no llega al servidor y responde "Credenciales inválidas" (1.2735ms)
+  ✔ U3 valores fuera de rango o de formato: 3 o 5 dígitos, letras, espacios y número en lugar de texto (0.4636ms)
+✔ AUT-01 · Validación del PIN e inicio de sesión (4.83ms)
+▶ AUT-02 · Bloqueo por intentos y manejo de excepciones
+  ✔ U4 resultado esperado: tras 5 PIN incorrectos se bloquea 30 s y ni el PIN correcto entra (1.9754ms)
+  ✔ U5 el bloqueo sobrevive a recargar la página (se guarda en el teléfono, defecto D-04) (0.7303ms)
+  ✔ U6 excepción de red: se propaga como "Sin conexión" y NO cuenta como intento fallido (0.4816ms)
+  ✔ U7 un inicio de sesión correcto reinicia el contador de intentos (0.8788ms)
+✔ AUT-02 · Bloqueo por intentos y manejo de excepciones (4.3985ms)
+▶ AUT-03 · Regresiones de defectos de la Práctica 11
+  ✔ U8 WB-D11: un campo NaN produce un solo error, no dos (0.4116ms)
+  ✔ U9 WB-D11: valores fuera de rango en los límites siguen rechazándose (0.458ms)
+  ✔ U10 WB-D10: una respuesta 200 que no es JSON se reporta como respuesta inválida, no como "Sin conexión" (26.1394ms)
+  ✔ U11 WB-D10: la caída de red real sigue reportándose como "Sin conexión" (status 0) (0.4169ms)
+✔ AUT-03 · Regresiones de defectos de la Práctica 11 (27.7229ms)
+ℹ tests 11
+ℹ suites 3
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 154.6019

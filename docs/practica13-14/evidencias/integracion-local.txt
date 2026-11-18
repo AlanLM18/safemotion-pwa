@@ -1,0 +1,24 @@
+▶ AUT-04 · App ↔ API Spring: envío y recepción de datos
+  ✔ I1 login con PIN real devuelve token y el perfil desde Firestore (200) (404.5402ms)
+  ✔ I2 PIN inexistente → 401 traducido a "Credenciales inválidas" y no crea sesión (26.9481ms)
+  ✔ I3 lectura válida → 201 y el mismo dato vuelve en GET /api/mediciones/historial (550.1269ms)
+  ✔ I4 el backend rechaza lo que la app no debe mandar: FC 300 → 400 y sin token → 401 (92.1972ms)
+✔ AUT-04 · App ↔ API Spring: envío y recepción de datos (1282.9154ms)
+▶ AUT-05 · Servidor que no responde o falla
+  ✔ I5 sin respuesta: el cliente corta en el tiempo límite y responde "Sin conexión" (status 0) (506.4919ms)
+  ✔ I6 con el servidor colgado la cola local se conserva: las lecturas siguen pendientes y luego se envían (633.6722ms)
+  ✔ I7 token revocado/inválido → 401: la app cierra la sesión y conserva las lecturas (9.3721ms)
+✔ AUT-05 · Servidor que no responde o falla (1154.1639ms)
+▶ AUT-06 · Persistencia: el registro guarda los datos (IndexedDB → Spring → Firestore)
+  ✔ I8 la lectura guardada en el teléfono llega a usuarios/{uid}/mediciones/{idLocal} con sus valores (78.5975ms)
+  ✔ I9 idempotencia: reenviar la misma lectura (reintento tras corte) no crea un duplicado (2902.1781ms)
+  ✔ I10 la lectura rechazada por validación queda marcada en el teléfono y NO llega a Firestore (45.6408ms)
+✔ AUT-06 · Persistencia: el registro guarda los datos (IndexedDB → Spring → Firestore) (3027.0468ms)
+ℹ tests 10
+ℹ suites 3
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5896.4527

@@ -1,0 +1,74 @@
+▶ AUT-01 · Validación del PIN e inicio de sesión
+  ✔ U1 entrada válida: PIN de 4 dígitos inicia sesión y guarda la sesión con caducidad (2.6964ms)
+  ✔ U2 entrada vacía o nula: no llega al servidor y responde "Credenciales inválidas" (1.3926ms)
+  ✔ U3 valores fuera de rango o de formato: 3 o 5 dígitos, letras, espacios y número en lugar de texto (0.5139ms)
+✔ AUT-01 · Validación del PIN e inicio de sesión (5.9387ms)
+▶ AUT-02 · Bloqueo por intentos y manejo de excepciones
+  ✔ U4 resultado esperado: tras 5 PIN incorrectos se bloquea 30 s y ni el PIN correcto entra (2.4217ms)
+  ✔ U5 el bloqueo sobrevive a recargar la página (se guarda en el teléfono, defecto D-04) (1.2005ms)
+  ✔ U6 excepción de red: se propaga como "Sin conexión" y NO cuenta como intento fallido (0.7417ms)
+  ✔ U7 un inicio de sesión correcto reinicia el contador de intentos (0.9976ms)
+✔ AUT-02 · Bloqueo por intentos y manejo de excepciones (5.7153ms)
+▶ AUT-03 · Regresiones de defectos de la Práctica 11
+  ✖ U8 WB-D11: un campo NaN produce un solo error, no dos (1.9029ms)
+  ✔ U9 WB-D11: valores fuera de rango en los límites siguen rechazándose (0.4772ms)
+  ✖ U10 WB-D10: una respuesta 200 que no es JSON se reporta como respuesta inválida, no como "Sin conexión" (33.6299ms)
+  ✔ U11 WB-D10: la caída de red real sigue reportándose como "Sin conexión" (status 0) (0.4609ms)
+✖ AUT-03 · Regresiones de defectos de la Práctica 11 (36.8487ms)
+ℹ tests 11
+ℹ suites 3
+ℹ pass 9
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 209.9931
+
+✖ failing tests:
+
+test at tests\aut\unitarias.test.js:77:3
+✖ U8 WB-D11: un campo NaN produce un solo error, no dos (1.9029ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      'frecuenciaCardiaca requerido',
+  +   'frecuenciaCardiaca debe ser entero'
+    ]
+  
+      at TestContext.<anonymous> (file:///C:/Users/ASUS/Downloads/safemotion-pwa/tests/aut/unitarias.test.js:78:12)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1533:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'frecuenciaCardiaca requerido', 'frecuenciaCardiaca debe ser entero' ],
+    expected: [ 'frecuenciaCardiaca requerido' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\aut\unitarias.test.js:86:3
+✖ U10 WB-D10: una respuesta 200 que no es JSON se reporta como respuesta inválida, no como "Sin conexión" (33.6299ms)
+  AssertionError [ERR_ASSERTION]: The validation function is expected to return "true". Received false
+  
+  Caught error:
+  
+  Error: Sin conexión con el servidor
+      at async TestContext.<anonymous> (file:///C:/Users/ASUS/Downloads/safemotion-pwa/tests/aut/unitarias.test.js:90:7)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: Sin conexión con el servidor
+        at request (file:///C:/Users/ASUS/Downloads/safemotion-pwa/src/services/api.js:41:41)
+        at async waitForActual (node:assert:646:5)
+        at async strict.rejects (node:assert:769:25)
+        at async TestContext.<anonymous> (file:///C:/Users/ASUS/Downloads/safemotion-pwa/tests/aut/unitarias.test.js:90:7)
+        at async Test.run (node:internal/test_runner/test:1125:7)
+        at async Suite.processPendingSubtests (node:internal/test_runner/test:787:7),
+    operator: 'rejects',
+    diff: 'simple'
+  }

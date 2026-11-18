@@ -1,0 +1,44 @@
+
+> safemotion-pwa@0.3.0 test:aut:int:emulador
+> npx -y firebase-tools@14 emulators:exec --only auth,firestore --project demo-safemotion "bash tests/aut/ci-integracion.sh"
+
+[36m[1mi  emulators:[22m[39m Starting emulators: auth, firestore
+[36m[1mi  emulators:[22m[39m Detected demo project ID "demo-safemotion", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+[33m[1m!  emulators:[22m[39m It seems that you are running multiple instances of the emulator suite for project demo-safemotion. This may result in unexpected behavior.
+[36m[1mi  firestore:[22m[39m Firestore Emulator logging to [1mfirestore-debug.log[22m
+[32m[1m+  firestore:[22m[39m Firestore Emulator UI websocket is running on 9150.
+(node:19716) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[36m[1mi [22m[39m Running script: [1mbash tests/aut/ci-integracion.sh[22m
+Backend listo en 2s
+▶ AUT-04 · App ↔ API Spring: envío y recepción de datos
+  ✔ I1 login con PIN real devuelve token y el perfil desde Firestore (200) (305.589ms)
+  ✔ I2 PIN inexistente → 401 traducido a "Credenciales inválidas" y no crea sesión (37.3819ms)
+  ✔ I3 lectura válida → 201 y el mismo dato vuelve en GET /api/mediciones/historial (396.3328ms)
+  ✔ I4 el backend rechaza lo que la app no debe mandar: FC 300 → 400 y sin token → 401 (64.6344ms)
+✔ AUT-04 · App ↔ API Spring: envío y recepción de datos (1421.2009ms)
+▶ AUT-05 · Servidor que no responde o falla
+  ✔ I5 sin respuesta: el cliente corta en el tiempo límite y responde "Sin conexión" (status 0) (504.7295ms)
+  ✔ I6 con el servidor colgado la cola local se conserva: las lecturas siguen pendientes y luego se envían (646.7546ms)
+  ✔ I7 token revocado/inválido → 401: la app cierra la sesión y conserva las lecturas (9.3351ms)
+✔ AUT-05 · Servidor que no responde o falla (1165.4772ms)
+▶ AUT-06 · Persistencia: el registro guarda los datos (IndexedDB → Spring → Firestore)
+  ✔ I8 la lectura guardada en el teléfono llega a usuarios/{uid}/mediciones/{idLocal} con sus valores (86.7699ms)
+  ✔ I9 idempotencia: reenviar la misma lectura (reintento tras corte) no crea un duplicado (2547.5342ms)
+  ✔ I10 la lectura rechazada por validación queda marcada en el teléfono y NO llega a Firestore (26.6254ms)
+✔ AUT-06 · Persistencia: el registro guarda los datos (IndexedDB → Spring → Firestore) (2661.4046ms)
+ℹ tests 10
+ℹ suites 3
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5498.6293
+[32m[1m+ [22m[39m Script exited successfully (code 0)
+[36m[1mi  emulators:[22m[39m Shutting down emulators.
+[36m[1mi  firestore:[22m[39m Stopping Firestore Emulator
+[33m[1m! [22m[39m Firestore Emulator has exited upon receiving signal: SIGINT
+[36m[1mi  auth:[22m[39m Stopping Authentication Emulator
+[36m[1mi  hub:[22m[39m Stopping emulator hub
+[36m[1mi  logging:[22m[39m Stopping Logging Emulator

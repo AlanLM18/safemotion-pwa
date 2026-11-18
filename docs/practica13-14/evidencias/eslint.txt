@@ -1,0 +1,70 @@
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\models\alerts.js
+  5:8  warning  Function 'evaluarAlertas' has a complexity of 10. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\models\chat.js
+  30:8  warning  Function 'datosEmergencia' has a complexity of 11. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\models\measurement.js
+   3:8  warning  Function 'createMeasurement' has a complexity of 20. Maximum allowed is 8        complexity
+  46:8  warning  Function 'toMedicionRequest' has a complexity of 16. Maximum allowed is 8        complexity
+  70:8  warning  Function 'validateMedicionRequest' has a complexity of 15. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\router.js
+  37:14  warning  Arrow function has a complexity of 16. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\screens\consultas.js
+  58:22  warning  Async arrow function has a complexity of 12. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\screens\dispositivo.js
+  52:17  warning  Arrow function has a complexity of 18. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\screens\historial.js
+  8:17  warning  Arrow function has a complexity of 9. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\screens\inicio.js
+  35:17  warning  Arrow function has a complexity of 9. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\screens\recepcion.js
+  22:19  warning  Arrow function has a complexity of 10. Maximum allowed is 8        complexity
+  57:32  warning  Async arrow function has a complexity of 12. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\services\api.js
+   20:3  warning  Async function 'request' has a complexity of 12. Maximum allowed is 8  complexity
+  135:5  warning  Async method 'logout' has no 'await' expression                        require-await
+  145:5  warning  Async method 'historial' has no 'await' expression                     require-await
+  150:5  warning  Async method 'ultimaMedicion' has no 'await' expression                require-await
+  154:5  warning  Async method 'conversaciones' has no 'await' expression                require-await
+  163:5  warning  Async method 'mensajes' has no 'await' expression                      require-await
+  180:5  warning  Async method 'limpiarChat' has no 'await' expression                   require-await
+  202:5  warning  Async method 'emergencias' has no 'await' expression                   require-await
+  206:5  warning  Async method 'doctores' has no 'await' expression                      require-await
+  223:5  warning  Async method 'atenderEmergencia' has no 'await' expression             require-await
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\services\apiFirebase.js
+   25:8   warning  Function 'errorDeFirebase' has a complexity of 13. Maximum allowed is 8  complexity
+   60:3   warning  Async function 'cambiarSos' has a complexity of 9. Maximum allowed is 8  complexity
+   68:11  warning  Blocks are nested too deeply (4). Maximum allowed is 3                   max-depth
+  235:44  warning  Async arrow function has no 'await' expression                           require-await
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\services\gyro.js
+  24:13  warning  Arrow function has a complexity of 10. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\services\monitor.js
+  18:8  warning  Function 'capturar' has a complexity of 11. Maximum allowed is 8   complexity
+  33:1  warning  Async function 'tick' has a complexity of 9. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\src\services\toast.js
+  5:8  warning  Function 'toast' has a complexity of 9. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\tests\aut\reporte-github.mjs
+  5:16  warning  Async generator function 'reporteGithub' has a complexity of 13. Maximum allowed is 8  complexity
+
+C:\Users\ASUS\Downloads\safemotion-pwa\tests\aut\unitarias.test.js
+  21:52  warning  Async arrow function has no 'await' expression  require-await
+  64:47  warning  Async arrow function has no 'await' expression  require-await
+  88:33  warning  Async arrow function has no 'await' expression  require-await
+  95:33  warning  Async arrow function has no 'await' expression  require-await
+
+✖ 35 problems (0 errors, 35 warnings)
+
